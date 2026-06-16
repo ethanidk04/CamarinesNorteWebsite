@@ -18,12 +18,13 @@ const DESTINATIONS = [
 
 const FOODS = [
   {img:'Asset/Angko.jpg',name:'Angko',loc:'Vinzons',desc:'Traditional glutinous rice cake filled with a sweet peanut mixture — chewy exterior, rich nutty filling inside.'},
-  {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Pandecillos',loc:'Vinzons',desc:'Soft baked pastry filled with crushed pili nuts or sweet creamy mixture — fluffy, nutty-sweet, and utterly delicious.'},
-  {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Sinantol',loc:'Camarines Norte',desc:'Santol fruit cooked in coconut milk with shrimp or pork — a rich balance of sour, creamy, and savory Bicolano flavors.'},
-  {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Tinumok',loc:'Camarines Norte',desc:'Taro-leaf wraps filled with coconut meat, shrimp or pork, simmered in rich coconut milk — creamy, savory, and aromatic.'},
-  {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Kinunot',loc:'Camarines Norte',desc:'Flaked shark or stingray in coconut milk with malunggay and spices — mildly spicy, creamy, a prized coastal heritage dish.'},
-  {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Tinapa of Mercedes',loc:'Mercedes',desc:'Freshly caught fish precisely smoked in local smoking houses — glistening golden skin with a deeply aromatic, savory taste.'},
-  {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Pili Tart & Roll',loc:'Daet',desc:'Crisp pastry tart and chewy cake roll filled with caramelized yema and premium native pili nuts — the perfect pasalubong.'},
+  {img:'Asset/Pandecillos.png',name:'Pandecillos',loc:'Vinzons',desc:'Soft baked pastry filled with crushed pili nuts or sweet creamy mixture — fluffy, nutty-sweet, and utterly delicious.'},
+  {img:'Asset/Sinantol.jpg',name:'Sinantol',loc:'Camarines Norte',desc:'Santol fruit cooked in coconut milk with shrimp or pork — a rich balance of sour, creamy, and savory Bicolano flavors.'},
+  {img:'Asset/Tinumok.jpg',name:'Tinumok',loc:'Camarines Norte',desc:'Taro-leaf wraps filled with coconut meat, shrimp or pork, simmered in rich coconut milk — creamy, savory, and aromatic.'},
+  {img:'Asset/Kinunot.jpg',name:'Kinunot',loc:'Camarines Norte',desc:'Flaked shark or stingray in coconut milk with malunggay and spices — mildly spicy, creamy, a prized coastal heritage dish.'},
+  {img:'Asset/Mercedes-Tinapa.jpg',name:'Tinapa of Mercedes',loc:'Mercedes',desc:'Freshly caught fish precisely smoked in local smoking houses — glistening golden skin with a deeply aromatic, savory taste.'},
+  {img:'Asset/Pili-Rolls.jpg',name:'Pili Roll',loc:'Daet',desc:'Chewy cake roll filled with caramelized yema and premium native pili nuts — the perfect pasalubong.'},
+  {img:'Asset/Pili-Tarts.jpg',name:'Pili Tarts',loc:'Daet',desc:'Crispy tarts filled with caramelized yema and premium native pili nuts — another perfect pasalubong.'},
 ];
 
 const RESTOS = [
