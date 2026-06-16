@@ -18,12 +18,13 @@ const DESTINATIONS = [
 
 const FOODS = [
   {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Angko',loc:'Vinzons',desc:'Traditional glutinous rice cake filled with a sweet peanut mixture — chewy exterior, rich nutty filling inside.'},
-  {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Pandecillos',loc:'Vinzons',desc:'Soft baked pastry filled with crushed pili nuts or sweet creamy mixture — fluffy, nutty-sweet, and utterly delicious.'},
-  {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Sinantol',loc:'Camarines Norte',desc:'Santol fruit cooked in coconut milk with shrimp or pork — a rich balance of sour, creamy, and savory Bicolano flavors.'},
-  {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Tinumok',loc:'Camarines Norte',desc:'Taro-leaf wraps filled with coconut meat, shrimp or pork, simmered in rich coconut milk — creamy, savory, and aromatic.'},
-  {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Kinunot',loc:'Camarines Norte',desc:'Flaked shark or stingray in coconut milk with malunggay and spices — mildly spicy, creamy, a prized coastal heritage dish.'},
-  {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Tinapa of Mercedes',loc:'Mercedes',desc:'Freshly caught fish precisely smoked in local smoking houses — glistening golden skin with a deeply aromatic, savory taste.'},
-  {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Pili Tart & Roll',loc:'Daet',desc:'Crisp pastry tart and chewy cake roll filled with caramelized yema and premium native pili nuts — the perfect pasalubong.'},
+  {img:'Asset/foods/Pandecillos.jpeg',name:'Pandecillos',loc:'Vinzons',desc:'Soft baked pastry filled with crushed pili nuts or sweet creamy mixture — fluffy, nutty-sweet, and utterly delicious.'},
+  {img:'Asset/foods/Sinantol.jpg',name:'Sinantol',loc:'Camarines Norte',desc:'Santol fruit cooked in coconut milk with shrimp or pork — a rich balance of sour, creamy, and savory Bicolano flavors.'},
+  {img:'Asset/foods/Tinumok.jpg',name:'Tinumok',loc:'Camarines Norte',desc:'Taro-leaf wraps filled with coconut meat, shrimp or pork, simmered in rich coconut milk — creamy, savory, and aromatic.'},
+  {img:'Asset/foods/Kinunot.jpg',name:'Kinunot',loc:'Camarines Norte',desc:'Flaked shark or stingray in coconut milk with malunggay and spices — mildly spicy, creamy, a prized coastal heritage dish.'},
+  {img:'Asset/foods/Mercedes-Tinapa.jpg',name:'Tinapa of Mercedes',loc:'Mercedes',desc:'Freshly caught fish precisely smoked in local smoking houses — glistening golden skin with a deeply aromatic, savory taste.'},
+  {img:'Asset/foods/Pili-Rolls.jpg',name:'Pili Roll',loc:'Daet',desc:'Chewy cake roll filled with caramelized yema and premium native pili nuts — the perfect pasalubong.'},
+  {img:'Asset/foods/Pili-Tarts.jpg',name:'Pili Tarts',loc:'Daet',desc:'Crispy tarts filled with caramelized yema and premium native pili nuts — another perfect pasalubong.'},
 ];
 
 const RESTOS = [
@@ -48,18 +49,18 @@ const RESTOS = [
 ];
 
 const FESTIVALS = [
-  {month:'June',name:'Pinyasan Festival',town:'Daet',desc:'Colorful celebration of the famous sweet Formosa Pineapple of Daet, one of the most famous festivals in the province.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'June',name:'Mambulawan Festival',town:'Jose Panganiban',desc:'"Mambulawan" means gold — showcasing the rich gold mining heritage of Jose Panganiban since the Spanish era.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'August 1–8',name:'Kadagatan Festival',town:'Mercedes',desc:'"Kadagatan" means ocean — celebrating the fish industry and the people\'s deep connection to the sea.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'October 18–24',name:'Rahugan Festival',town:'Basud',desc:'Honoring St. Raphael the Archangel — "Rahugan" means group of coconuts, symbolizing unity and prosperity since 2008.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'September (1st week)',name:'Busig-on Festival',town:'Labo',desc:'Celebrating heroism, unity, peace, and Bicolano values. "Busig" means water, representing abundance in Labo.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
+  {month:'June',name:'Pinyasan Festival',town:'Daet',desc:'Colorful celebration of the famous sweet Formosa Pineapple of Daet, one of the most famous festivals in the province.',img:'Asset/festival/pinyasanfestival.jpg'},
+  {month:'June',name:'Mambulawan Festival',town:'Jose Panganiban',desc:'"Mambulawan" means gold — showcasing the rich gold mining heritage of Jose Panganiban since the Spanish era.',img:'Asset/festival/mambulawanfestival-josepanganiban.jpg'},
+  {month:'August 1–8',name:'Kadagatan Festival',town:'Mercedes',desc:'"Kadagatan" means ocean — celebrating the fish industry and the people\'s deep connection to the sea.',img:'Asset/festival/kadagatanfestival.jpg'},
+  {month:'October 18–24',name:'Rahugan Festival',town:'Basud',desc:'Honoring St. Raphael the Archangel — "Rahugan" means group of coconuts, symbolizing unity and prosperity since 2008.',img:'Asset/festival/rahuganfestival-basud.jpg'},
+  {month:'September (1st week)',name:'Busig-on Festival',town:'Labo',desc:'Celebrating heroism, unity, peace, and Bicolano values. "Busig" means water, representing abundance in Labo.',img:'Asset/festival/busig-on-labo.jpg'},
   {month:'June 24–29',name:'Babakasin Festival',town:'Vinzons',desc:'Promoting local delicacies. Coincides with the feast of St. Peter the Apostle.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Summer Season',name:'Mananap Festival',town:'San Vicente',desc:'Showcasing Mananap Falls and promoting eco-tourism, environmental awareness, and conservation in San Vicente.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Pabirik Festival',town:'Paracale',desc:'Celebrating gold mining heritage and honoring Our Lady of Candelaria. "Pabirik" is the traditional gold ore processing method.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Paruyan Festival',town:'Talisay',desc:'"Paruy" means rice — honoring the agricultural heritage and hard-working farmers of Talisay.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Boyoboy Festival',town:'San Lorenzo Ruiz',desc:'Promoting the pineapple industry and the role of agriculture in the community development of San Lorenzo Ruiz.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Palong Festival',town:'Capalonga',desc:'Agricultural thanksgiving combined with deep religious devotion to the Black Nazarene, the municipality\'s patron.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Padayog Festival',town:'Santa Elena',desc:'Combines palay (rice) and niyog (coconut) — honoring farmers and coconut growers with street dancing, cultural presentations, and agricultural fairs.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
+  {month:'Summer Season',name:'Mananap Festival',town:'San Vicente',desc:'Showcasing Mananap Falls and promoting eco-tourism, environmental awareness, and conservation in San Vicente.',img:'Asset/festival/mananapfestival.jpg'},
+  {month:'Annual',name:'Pabirik Festival',town:'Paracale',desc:'Celebrating gold mining heritage and honoring Our Lady of Candelaria. "Pabirik" is the traditional gold ore processing method.',img:'Asset/festival/pabirikfestival.jpg'},
+  {month:'Annual',name:'Paruyan Festival',town:'Talisay',desc:'"Paruy" means rice — honoring the agricultural heritage and hard-working farmers of Talisay.',img:'Asset/festival/paruyanfestival.jpg'},
+  {month:'Annual',name:'Boyoboy Festival',town:'San Lorenzo Ruiz',desc:'Promoting the pineapple industry and the role of agriculture in the community development of San Lorenzo Ruiz.',img:'Asset/festival/boyuboyfestival.jpg'},
+  {month:'Annual',name:'Palong Festival',town:'Capalonga',desc:'Agricultural thanksgiving combined with deep religious devotion to the Black Nazarene, the municipality\'s patron.',img:'Asset/festival/palongfestival.jpg'},
+  {month:'Annual',name:'Padayog Festival',town:'Santa Elena',desc:'Combines palay (rice) and niyog (coconut) — honoring farmers and coconut growers with street dancing, cultural presentations, and agricultural fairs.',img:'Asset/festival/padayogfestival.jpeg'},
 ];
 
 const MUNIS = [
