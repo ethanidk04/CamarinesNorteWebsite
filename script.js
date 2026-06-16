@@ -17,7 +17,7 @@ const DESTINATIONS = [
 ];
 
 const FOODS = [
-  {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Angko',loc:'Vinzons',desc:'Traditional glutinous rice cake filled with a sweet peanut mixture — chewy exterior, rich nutty filling inside.'},
+  {img:'Asset/Angko.jpg',name:'Angko',loc:'Vinzons',desc:'Traditional glutinous rice cake filled with a sweet peanut mixture — chewy exterior, rich nutty filling inside.'},
   {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Pandecillos',loc:'Vinzons',desc:'Soft baked pastry filled with crushed pili nuts or sweet creamy mixture — fluffy, nutty-sweet, and utterly delicious.'},
   {img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',name:'Sinantol',loc:'Camarines Norte',desc:'Santol fruit cooked in coconut milk with shrimp or pork — a rich balance of sour, creamy, and savory Bicolano flavors.'},
   {img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',name:'Tinumok',loc:'Camarines Norte',desc:'Taro-leaf wraps filled with coconut meat, shrimp or pork, simmered in rich coconut milk — creamy, savory, and aromatic.'},
