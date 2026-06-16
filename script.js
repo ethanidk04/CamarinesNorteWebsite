@@ -101,6 +101,12 @@ function ajaxPost(endpoint,data,cb){
   xhr.send();
 }
 
+// ======================= ESCAPE HELPER =======================
+function escapeQuote(str) {
+  if (!str) return '';
+  return str.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+}
+
 // ======================= RENDER FUNCTIONS =======================
 function renderDestCard(d,idx,showBtn=true){
   return `<div class="dest-card fade-in" data-cat="${d.cat}">
@@ -120,7 +126,7 @@ function renderDestCard(d,idx,showBtn=true){
 }
 
 function renderFoodCard(f){
-  return `<div class="food-card fade-in" onclick="openGenericModal('${f.name}', '${f.loc}', 'Local Delicacy', '${f.desc}', '${f.img}')">
+  return `<div class="food-card fade-in" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.loc)}', 'Local Delicacy', '${escapeQuote(f.desc)}', '${f.img}')">
     <img src="${f.img}" class="card-img" alt="${f.name}">
     <div class="card-body">
       <div class="food-name">${f.name}</div>
@@ -130,7 +136,7 @@ function renderFoodCard(f){
 }
 
 function renderFestCard(f){
-  return `<div class="fest-card fade-in" onclick="openGenericModal('${f.name}', '${f.town}', '${f.month}', '${f.desc}', '${f.img}')">
+  return `<div class="fest-card fade-in" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.town)}', '${escapeQuote(f.month)}', '${escapeQuote(f.desc)}', '${f.img}')">
     <img src="${f.img}" class="card-img" alt="${f.name}">
     <div class="card-body">
       <div class="fest-month">${f.month}</div>
@@ -141,7 +147,7 @@ function renderFestCard(f){
 }
 
 function renderRestoCard(r){
-  return `<div class="resto-card fade-in" onclick="openGenericModal('${r.name}', '${r.loc}', 'Restaurant', '${r.desc.replace(/'/g, "\\'")}', '${r.img}')">
+  return `<div class="resto-card fade-in" onclick="openGenericModal('${escapeQuote(r.name)}', '${escapeQuote(r.loc)}', 'Restaurant', '${escapeQuote(r.desc)}', '${r.img}')">
     <img src="${r.img}" class="card-img" alt="${r.name}">
     <div class="card-body">
       <div class="resto-name">${r.name}</div>
@@ -164,7 +170,7 @@ function initRender(){
   const ad=document.getElementById('all-dest-grid');
   if(ad) ad.innerHTML=DESTINATIONS.map((d,i)=>renderDestCard(d,i,true)).join('');
   const mg=document.getElementById('muni-grid');
-  if(mg) mg.innerHTML=MUNIS.map(m=>`<div class="muni-card fade-in" onclick="openGenericModal('${m.name}', 'Camarines Norte', '${m.badge}', '${m.desc}', '${m.img}')">
+  if(mg) mg.innerHTML=MUNIS.map(m=>`<div class="muni-card fade-in" onclick="openGenericModal('${escapeQuote(m.name)}', 'Camarines Norte', '${escapeQuote(m.badge)}', '${escapeQuote(m.desc)}', '${m.img}')">
     <img src="${m.img}" class="card-img" alt="${m.name}">
     <div class="card-body">
       <div class="muni-name">${m.name}</div>
