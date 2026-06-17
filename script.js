@@ -1,19 +1,19 @@
 // ======================= DATA =======================
 const DESTINATIONS = [
-  {id:1,name:'Bagasbas Beach',loc:'Daet',cat:'beach',badge:'Beach',rating:'4.9',visitors:'15K+',best:'Oct–Mar',img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',desc:'The Surfing Capital of Bicol! Powerful Pacific waves stretch along golden sands. Perfect for beginners and seasoned surfers alike. One of the Philippines\' premier surfing destinations featuring consistent surf year-round.'},
-  {id:2,name:'Calaguas Island',loc:'Vinzons',cat:'beach',badge:'Island',rating:'4.9',visitors:'20K+',best:'Nov–May',img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',desc:'Home of the world-class Mahabang Buhangin — a pristine white-sand beach considered one of the most beautiful in the Philippines. Accessible only by boat, this untouched paradise is a bucket-list destination.'},
-  {id:3,name:'Mercedes Siete Pecados',loc:'Mercedes',cat:'beach',badge:'Island Hopping',rating:'4.8',visitors:'10K+',best:'Jan–May',img:'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600&q=80',desc:'The Island-Hopping Capital of CamNorte! Seven stunning islands: Apuao Grande, Caringo, Quinapaguian, Malasugui, Apuao Pequeña, Canton, and Canimog — each with unique beaches, coral reefs, and marine life.'},
-  {id:4,name:'Parola Island',loc:'Jose Panganiban',cat:'beach',badge:'Pink Sand',rating:'4.7',visitors:'5K+',best:'Nov–Apr',img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80',desc:'Camarines Norte\'s unique pink sand beach! A rare natural phenomenon where the sand has a rosy hue, making it one of the most Instagram-worthy and unique coastal destinations in the entire Philippines.'},
-  {id:5,name:'Mt. Labo',loc:'Labo',cat:'mountain',badge:'Mountain',rating:'4.7',visitors:'6K+',best:'Dec–Apr',img:'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80',desc:'The highest peak in Camarines Norte. Trek through dense rainforests to reach stunning viewpoints, encounter hidden waterfalls, and experience rich biodiversity. A challenge for trekkers of all skill levels.'},
-  {id:6,name:'Chai Falls',loc:'Mercedes',cat:'falls',badge:'Waterfall',rating:'4.6',visitors:'4K+',best:'All year',img:'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=600&q=80',desc:'A multi-tiered forest waterfall adventure in the heart of Mercedes. Crystal-clear waters cascade through lush greenery creating one of the most scenic and refreshing natural attractions in the province.'},
-  {id:7,name:'Nacali Falls',loc:'San Lorenzo Ruiz',cat:'falls',badge:'Waterfall',rating:'4.7',visitors:'3K+',best:'All year',img:'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&q=80',desc:'The majestic cascades of San Lorenzo — a breathtaking multi-tiered waterfall surrounded by towering trees and lush vegetation in one of the province\'s most pristine and untouched forested areas.'},
-  {id:8,name:'Bantayog ni Rizal',loc:'Daet',cat:'heritage',badge:'Heritage',rating:'4.8',visitors:'12K+',best:'All year',img:'https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80',desc:'The FIRST José Rizal Monument in the Philippines — a historic landmark that predates even the Luneta monument in Manila. A proud symbol of Camarines Norte\'s deep love and reverence for the national hero.'},
-  {id:9,name:'Black Nazarene Shrine',loc:'Capalonga',cat:'heritage',badge:'Religious Site',rating:'4.8',visitors:'18K+',best:'All year',img:'https://images.unsplash.com/photo-1543332164-6e82f355badc?w=600&q=80',desc:'A major pilgrimage destination and one of the most important religious sites in the entire Bicol Region. Thousands of faithful devotees travel from across the Philippines to venerate the miraculous Black Nazarene.'},
-  {id:10,name:'Maculabo Island',loc:'Paracale',cat:'beach',badge:'Island',rating:'4.6',visitors:'8K+',best:'Feb–May',img:'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=80',desc:'A pristine island in Paracale known for its powdery white sand and crystal-clear turquoise waters. Perfect for swimming and snorkeling.'},
-  {id:11,name:'Mananap Falls',loc:'San Vicente',cat:'falls',badge:'Waterfall',rating:'4.5',visitors:'5K+',best:'All year',img:'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=600&q=80',desc:'A stunning 60-foot waterfall tucked inside the lush forests of San Vicente. It requires a scenic hike, rewarding visitors with a refreshing icy plunge.'},
-  {id:12,name:'Mt. Cadig',loc:'Labo',cat:'mountain',badge:'Mountain',rating:'4.6',visitors:'4K+',best:'Dec–May',img:'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80',desc:'Known for its challenging trails and the nearby Cadig Cave. It offers a rewarding trek with panoramic views of the province and rich biodiversity.'},
-  {id:13,name:'San Jose Beach',loc:'Talisay',cat:'beach',badge:'Beach',rating:'4.3',visitors:'6K+',best:'Mar–Jun',img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80',desc:'A tranquil coastal stretch in Talisay, perfect for family picnics, sunset viewing, and experiencing the local fishing culture of Camarines Norte.'},
-  {id:14,name:'Colasi Falls',loc:'Mercedes',cat:'falls',badge:'Waterfall',rating:'4.7',visitors:'3K+',best:'All year',img:'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&q=80',desc:'A towering 70-foot waterfall surrounded by massive rock formations. The water cascades into a deep, cool basin ideal for swimming.'}
+  {id:1,name:'Bagasbas Beach',loc:'Daet',cat:'beach',badge:'Beach',rating:'4.9',visitors:'15K+',best:'Oct–Mar',img:'Asset/Beaches/Bagasbas Beach.jpg',desc:'The Surfing Capital of Bicol! Powerful Pacific waves stretch along golden sands. Perfect for beginners and seasoned surfers alike. One of the Philippines\' premier surfing destinations featuring consistent surf year-round.'},
+  {id:2,name:'Calaguas Island',loc:'Vinzons',cat:'beach',badge:'Island',rating:'4.9',visitors:'20K+',best:'Nov–May',img:'Asset/Beaches/Calaguas Island.jpg',desc:'Home of the world-class Mahabang Buhangin — a pristine white-sand beach considered one of the most beautiful in the Philippines. Accessible only by boat, this untouched paradise is a bucket-list destination.'},
+  {id:3,name:'Mercedes Siete Pecados',loc:'Mercedes',cat:'beach',badge:'Island Hopping',rating:'4.8',visitors:'10K+',best:'Jan–May',img:'Asset/Beaches/Mercedes Group of Islands.jpg',desc:'The Island-Hopping Capital of CamNorte! Seven stunning islands: Apuao Grande, Caringo, Quinapaguian, Malasugui, Apuao Pequeña, Canton, and Canimog — each with unique beaches, coral reefs, and marine life.'},
+  {id:4,name:'Parola Island',loc:'Jose Panganiban',cat:'beach',badge:'Pink Sand',rating:'4.7',visitors:'5K+',best:'Nov–Apr',img:'Asset/Beaches/Parola Island.jpg',desc:'Camarines Norte\'s unique pink sand beach! A rare natural phenomenon where the sand has a rosy hue, making it one of the most Instagram-worthy and unique coastal destinations in the entire Philippines.'},
+  {id:5,name:'Mt. Labo',loc:'Labo',cat:'mountain',badge:'Mountain',rating:'4.7',visitors:'6K+',best:'Dec–Apr',img:'https://i.redd.it/sea-of-clouds-in-mt-labo-camarines-nortes-highest-mountain-v0-fqksoi5o6w9d1.jpg?width=4032&format=pjpg&auto=webp&s=fea8670bf7f2a37b8dbad76a5b4d695652ca2967',desc:'The highest peak in Camarines Norte. Trek through dense rainforests to reach stunning viewpoints, encounter hidden waterfalls, and experience rich biodiversity. A challenge for trekkers of all skill levels.'},
+  {id:6,name:'Chai Falls',loc:'Mercedes',cat:'falls',badge:'Waterfall',rating:'4.6',visitors:'4K+',best:'All year',img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJ9-D7rpUS6QKsVXbiElhdyNZa9LCWBPmoAMDSYJGQKDM9ITlyOh8vzyAI&s=10',desc:'A multi-tiered forest waterfall adventure in the heart of Mercedes. Crystal-clear waters cascade through lush greenery creating one of the most scenic and refreshing natural attractions in the province.'},
+  {id:7,name:'Nacali Falls',loc:'San Lorenzo Ruiz',cat:'falls',badge:'Waterfall',rating:'4.7',visitors:'3K+',best:'All year',img:'https://bicoltravelguides.com/wp-content/uploads/2025/10/Bicol-Travel-Guides-Blog-Images-32.jpg',desc:'The majestic cascades of San Lorenzo — a breathtaking multi-tiered waterfall surrounded by towering trees and lush vegetation in one of the province\'s most pristine and untouched forested areas.'},
+  {id:8,name:'Bantayog ni Rizal',loc:'Daet',cat:'heritage',badge:'Heritage',rating:'4.8',visitors:'12K+',best:'All year',img:'https://virmuze-bucket.s3.amazonaws.com/gallery_slideshow0/exhibit_gallery_image/2022/05/27/2944e68_exhibit_gallery_image.jpg',desc:'The FIRST José Rizal Monument in the Philippines — a historic landmark that predates even the Luneta monument in Manila. A proud symbol of Camarines Norte\'s deep love and reverence for the national hero.'},
+  {id:9,name:'Black Nazarene Shrine',loc:'Capalonga',cat:'heritage',badge:'Religious Site',rating:'4.8',visitors:'18K+',best:'All year',img:'https://live.staticflickr.com/2685/4448802947_c7bf23ea92_o.jpg',desc:'A major pilgrimage destination and one of the most important religious sites in the entire Bicol Region. Thousands of faithful devotees travel from across the Philippines to venerate the miraculous Black Nazarene.'},
+  {id:10,name:'Maculabo Island',loc:'Paracale',cat:'beach',badge:'Island',rating:'4.6',visitors:'8K+',best:'Feb–May',img:'https://www.hotelbeachside.com/top-10-most-beautiful-beaches-in-philippines/images/maculaboislandbeach1.jpg',desc:'A pristine island in Paracale known for its powdery white sand and crystal-clear turquoise waters. Perfect for swimming and snorkeling.'},
+  {id:11,name:'Mananap Falls',loc:'San Vicente',cat:'falls',badge:'Waterfall',rating:'4.5',visitors:'5K+',best:'All year',img:'https://ik.imagekit.io/tvlk/blog/2023/08/shutterstock_1475837951-1.jpg?tr=q-70,c-at_max,w-1000,h-600',desc:'A stunning 60-foot waterfall tucked inside the lush forests of San Vicente. It requires a scenic hike, rewarding visitors with a refreshing icy plunge.'},
+  {id:12,name:'Mt. Cadig',loc:'Labo',cat:'mountain',badge:'Mountain',rating:'4.6',visitors:'4K+',best:'Dec–May',img:'https://d3fphkxyf5o5bm.cloudfront.net/image-resize/format=webp,w=720/QwRY54Li1HMwD7oNfoi6o7gsWMzbmmiFPmD97EnduW',desc:'Known for its challenging trails and the nearby Cadig Cave. It offers a rewarding trek with panoramic views of the province and rich biodiversity.'},
+  {id:13,name:'San Jose Beach',loc:'Talisay',cat:'beach',badge:'Beach',rating:'4.3',visitors:'6K+',best:'Mar–Jun',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Sabang_Beach%2C_San_Jose%2C_Camarines_Sur_%282022%29.jpg/1280px-Sabang_Beach%2C_San_Jose%2C_Camarines_Sur_%282022%29.jpg',desc:'A tranquil coastal stretch in Talisay, perfect for family picnics, sunset viewing, and experiencing the local fishing culture of Camarines Norte.'},
+  {id:14,name:'Colasi Falls',loc:'Mercedes',cat:'falls',badge:'Waterfall',rating:'4.7',visitors:'3K+',best:'All year',img:'https://bicoltravelguides.com/wp-content/uploads/2025/09/Bicol-Travel-Guides-Blog-Images-2025-09-02T163144.595.png',desc:'A towering 70-foot waterfall surrounded by massive rock formations. The water cascades into a deep, cool basin ideal for swimming.'}
 ];
 
 const FOODS = [
@@ -49,18 +49,18 @@ const RESTOS = [
 ];
 
 const FESTIVALS = [
-  {month:'June',name:'Pinyasan Festival',town:'Daet',desc:'Colorful celebration of the famous sweet Formosa Pineapple of Daet, one of the most famous festivals in the province.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'June',name:'Mambulawan Festival',town:'Jose Panganiban',desc:'"Mambulawan" means gold — showcasing the rich gold mining heritage of Jose Panganiban since the Spanish era.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'August 1–8',name:'Kadagatan Festival',town:'Mercedes',desc:'"Kadagatan" means ocean — celebrating the fish industry and the people\'s deep connection to the sea.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'October 18–24',name:'Rahugan Festival',town:'Basud',desc:'Honoring St. Raphael the Archangel — "Rahugan" means group of coconuts, symbolizing unity and prosperity since 2008.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'September (1st week)',name:'Busig-on Festival',town:'Labo',desc:'Celebrating heroism, unity, peace, and Bicolano values. "Busig" means water, representing abundance in Labo.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
+  {month:'June',name:'Pinyasan Festival',town:'Daet',desc:'Colorful celebration of the famous sweet Formosa Pineapple of Daet, one of the most famous festivals in the province.',img:'Asset/festival/pinyasanfestival.jpg'},
+  {month:'June',name:'Mambulawan Festival',town:'Jose Panganiban',desc:'"Mambulawan" means gold — showcasing the rich gold mining heritage of Jose Panganiban since the Spanish era.',img:'Asset/festival/mambulawanfestival-josepanganiban.jpg'},
+  {month:'August 1–8',name:'Kadagatan Festival',town:'Mercedes',desc:'"Kadagatan" means ocean — celebrating the fish industry and the people\'s deep connection to the sea.',img:'Asset/festival/kadagatanfestival.jpg'},
+  {month:'October 18–24',name:'Rahugan Festival',town:'Basud',desc:'Honoring St. Raphael the Archangel — "Rahugan" means group of coconuts, symbolizing unity and prosperity since 2008.',img:'Asset/festival/rahuganfestival-basud.jpg'},
+  {month:'September (1st week)',name:'Busig-on Festival',town:'Labo',desc:'Celebrating heroism, unity, peace, and Bicolano values. "Busig" means water, representing abundance in Labo.',img:'Asset/festival/busig-on-labo.jpg'},
   {month:'June 24–29',name:'Babakasin Festival',town:'Vinzons',desc:'Promoting local delicacies. Coincides with the feast of St. Peter the Apostle.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Summer Season',name:'Mananap Festival',town:'San Vicente',desc:'Showcasing Mananap Falls and promoting eco-tourism, environmental awareness, and conservation in San Vicente.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Pabirik Festival',town:'Paracale',desc:'Celebrating gold mining heritage and honoring Our Lady of Candelaria. "Pabirik" is the traditional gold ore processing method.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Paruyan Festival',town:'Talisay',desc:'"Paruy" means rice — honoring the agricultural heritage and hard-working farmers of Talisay.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Boyoboy Festival',town:'San Lorenzo Ruiz',desc:'Promoting the pineapple industry and the role of agriculture in the community development of San Lorenzo Ruiz.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Palong Festival',town:'Capalonga',desc:'Agricultural thanksgiving combined with deep religious devotion to the Black Nazarene, the municipality\'s patron.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
-  {month:'Annual',name:'Padayog Festival',town:'Santa Elena',desc:'Combines palay (rice) and niyog (coconut) — honoring farmers and coconut growers with street dancing, cultural presentations, and agricultural fairs.',img:'https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80'},
+  {month:'Summer Season',name:'Mananap Festival',town:'San Vicente',desc:'Showcasing Mananap Falls and promoting eco-tourism, environmental awareness, and conservation in San Vicente.',img:'Asset/festival/mananapfestival.jpg'},
+  {month:'Annual',name:'Pabirik Festival',town:'Paracale',desc:'Celebrating gold mining heritage and honoring Our Lady of Candelaria. "Pabirik" is the traditional gold ore processing method.',img:'Asset/festival/pabirikfestival.jpg'},
+  {month:'Annual',name:'Paruyan Festival',town:'Talisay',desc:'"Paruy" means rice — honoring the agricultural heritage and hard-working farmers of Talisay.',img:'Asset/festival/paruyanfestival.jpg'},
+  {month:'Annual',name:'Boyoboy Festival',town:'San Lorenzo Ruiz',desc:'Promoting the pineapple industry and the role of agriculture in the community development of San Lorenzo Ruiz.',img:'Asset/festival/boyuboyfestival.jpg'},
+  {month:'Annual',name:'Palong Festival',town:'Capalonga',desc:'Agricultural thanksgiving combined with deep religious devotion to the Black Nazarene, the municipality\'s patron.',img:'Asset/festival/palongfestival.jpg'},
+  {month:'Annual',name:'Padayog Festival',town:'Santa Elena',desc:'Combines palay (rice) and niyog (coconut) — honoring farmers and coconut growers with street dancing, cultural presentations, and agricultural fairs.',img:'Asset/festival/padayogfestival.jpeg'},
 ];
 
 const MUNIS = [
@@ -102,6 +102,12 @@ function ajaxPost(endpoint,data,cb){
   xhr.send();
 }
 
+// ======================= ESCAPE HELPER =======================
+function escapeQuote(str) {
+  if (!str) return '';
+  return str.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+}
+
 // ======================= RENDER FUNCTIONS =======================
 function renderDestCard(d,idx,showBtn=true){
   return `<div class="dest-card fade-in" data-cat="${d.cat}">
@@ -121,7 +127,7 @@ function renderDestCard(d,idx,showBtn=true){
 }
 
 function renderFoodCard(f){
-  return `<div class="food-card fade-in" onclick="openGenericModal('${f.name}', '${f.loc}', 'Local Delicacy', '${f.desc}', '${f.img}')">
+  return `<div class="food-card fade-in" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.loc)}', 'Local Delicacy', '${escapeQuote(f.desc)}', '${f.img}')">
     <img src="${f.img}" class="card-img" alt="${f.name}">
     <div class="card-body">
       <div class="food-name">${f.name}</div>
@@ -131,7 +137,7 @@ function renderFoodCard(f){
 }
 
 function renderFestCard(f){
-  return `<div class="fest-card fade-in" onclick="openGenericModal('${f.name}', '${f.town}', '${f.month}', '${f.desc}', '${f.img}')">
+  return `<div class="fest-card fade-in" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.town)}', '${escapeQuote(f.month)}', '${escapeQuote(f.desc)}', '${f.img}')">
     <img src="${f.img}" class="card-img" alt="${f.name}">
     <div class="card-body">
       <div class="fest-month">${f.month}</div>
@@ -142,7 +148,7 @@ function renderFestCard(f){
 }
 
 function renderRestoCard(r){
-  return `<div class="resto-card fade-in" onclick="openGenericModal('${r.name}', '${r.loc}', 'Restaurant', '${r.desc.replace(/'/g, "\\'")}', '${r.img}')">
+  return `<div class="resto-card fade-in" onclick="openGenericModal('${escapeQuote(r.name)}', '${escapeQuote(r.loc)}', 'Restaurant', '${escapeQuote(r.desc)}', '${r.img}')">
     <img src="${r.img}" class="card-img" alt="${r.name}">
     <div class="card-body">
       <div class="resto-name">${r.name}</div>
@@ -165,7 +171,7 @@ function initRender(){
   const ad=document.getElementById('all-dest-grid');
   if(ad) ad.innerHTML=DESTINATIONS.map((d,i)=>renderDestCard(d,i,true)).join('');
   const mg=document.getElementById('muni-grid');
-  if(mg) mg.innerHTML=MUNIS.map(m=>`<div class="muni-card fade-in" onclick="openGenericModal('${m.name}', 'Camarines Norte', '${m.badge}', '${m.desc}', '${m.img}')">
+  if(mg) mg.innerHTML=MUNIS.map(m=>`<div class="muni-card fade-in" onclick="openGenericModal('${escapeQuote(m.name)}', 'Camarines Norte', '${escapeQuote(m.badge)}', '${escapeQuote(m.desc)}', '${m.img}')">
     <img src="${m.img}" class="card-img" alt="${m.name}">
     <div class="card-body">
       <div class="muni-name">${m.name}</div>

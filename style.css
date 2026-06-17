@@ -71,7 +71,7 @@ button{cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;}
 
 /* ===== HERO ===== */
 .hero{position:relative;height:100vh;min-height:600px;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1600&q=80');background-size:cover;background-position:center;animation:kenBurns 18s ease-in-out infinite alternate;}
+.hero-bg{position:absolute;inset:0;background-image:url('Asset/Beaches/Camarines\ Norte.jpg');background-size:cover;background-position:center;animation:kenBurns 18s ease-in-out infinite alternate;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,15,30,0.72) 0%,rgba(10,15,30,0.3) 60%,rgba(10,15,30,0.1) 100%);}
 @keyframes kenBurns{from{transform:scale(1)}to{transform:scale(1.08)}}
 .hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 48px;max-width:720px;}
