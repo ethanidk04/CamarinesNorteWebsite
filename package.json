@@ -1,0 +1,8 @@
+{
+  "name": "camarines-norte-tourism",
+  "version": "1.0.0",
+  "description": "Tourism website for Camarines Norte",
+  "scripts": {
+    "start": "npx live-server --port=8000"
+  }
+}
