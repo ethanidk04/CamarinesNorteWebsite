@@ -1,10 +1,10 @@
-// js/ui.js
 import { DESTINATIONS, FOODS, RESTOS, FESTIVALS, MUNIS } from './data.js';
 import { getDB, ajaxPost, escapeQuote } from './utils.js';
 
 // ======================= RENDER TEMPLATES =======================
 export function renderDestCard(d, idx, showBtn = true) {
-  return `<div class="dest-card fade-in" data-cat="${d.cat}">
+  const delay = (idx % 6) * 0.1; // Staggered cascading delay
+  return `<div class="dest-card fade-in" data-cat="${d.cat}" style="transition-delay: ${delay}s">
     <div class="dest-card-img">
       <img src="${d.img}" alt="${d.name}" loading="lazy">
       <div class="dest-card-num">${idx + 1}</div>
@@ -20,8 +20,9 @@ export function renderDestCard(d, idx, showBtn = true) {
   </div>`;
 }
 
-export function renderFoodCard(f) {
-  return `<div class="food-card fade-in" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.loc)}', 'Local Delicacy', '${escapeQuote(f.desc)}', '${f.img}')">
+export function renderFoodCard(f, idx) {
+  const delay = (idx % 4) * 0.1;
+  return `<div class="food-card fade-in" style="transition-delay: ${delay}s" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.loc)}', 'Local Delicacy', '${escapeQuote(f.desc)}', '${f.img}')">
     <img src="${f.img}" class="card-img" alt="${f.name}">
     <div class="card-body">
       <div class="food-name">${f.name}</div>
@@ -30,8 +31,9 @@ export function renderFoodCard(f) {
   </div>`;
 }
 
-export function renderFestCard(f) {
-  return `<div class="fest-card fade-in" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.town)}', '${escapeQuote(f.month)}', '${escapeQuote(f.desc)}', '${f.img}')">
+export function renderFestCard(f, idx) {
+  const delay = (idx % 3) * 0.1;
+  return `<div class="fest-card fade-in" style="transition-delay: ${delay}s" onclick="openGenericModal('${escapeQuote(f.name)}', '${escapeQuote(f.town)}', '${escapeQuote(f.month)}', '${escapeQuote(f.desc)}', '${f.img}')">
     <img src="${f.img}" class="card-img" alt="${f.name}">
     <div class="card-body">
       <div class="fest-month">${f.month}</div>
@@ -41,8 +43,9 @@ export function renderFestCard(f) {
   </div>`;
 }
 
-export function renderRestoCard(r) {
-  return `<div class="resto-card fade-in" onclick="openGenericModal('${escapeQuote(r.name)}', '${escapeQuote(r.loc)}', 'Restaurant', '${escapeQuote(r.desc)}', '${r.img}')">
+export function renderRestoCard(r, idx) {
+  const delay = (idx % 3) * 0.1;
+  return `<div class="resto-card fade-in" style="transition-delay: ${delay}s" onclick="openGenericModal('${escapeQuote(r.name)}', '${escapeQuote(r.loc)}', 'Restaurant', '${escapeQuote(r.desc)}', '${r.img}')">
     <img src="${r.img}" class="card-img" alt="${r.name}">
     <div class="card-body">
       <div class="resto-name">${r.name}</div>
@@ -63,7 +66,7 @@ export function initRender() {
   const ad = document.getElementById('all-dest-grid');
   if (ad) ad.innerHTML = DESTINATIONS.map((d, i) => renderDestCard(d, i, true)).join('');
   const mg = document.getElementById('muni-grid');
-  if (mg) mg.innerHTML = MUNIS.map(m => `<div class="muni-card fade-in" onclick="openGenericModal('${escapeQuote(m.name)}', 'Camarines Norte', '${escapeQuote(m.badge)}', '${escapeQuote(m.desc)}', '${m.img}')">
+  if (mg) mg.innerHTML = MUNIS.map((m, idx) => `<div class="muni-card fade-in" style="transition-delay: ${(idx%4)*0.1}s" onclick="openGenericModal('${escapeQuote(m.name)}', 'Camarines Norte', '${escapeQuote(m.badge)}', '${escapeQuote(m.desc)}', '${m.img}')">
     <img src="${m.img}" class="card-img" alt="${m.name}">
     <div class="card-body">
       <div class="muni-name">${m.name}</div>
@@ -87,7 +90,11 @@ export function filterDest(btn, cat) {
   document.querySelectorAll('#dest-filter-row .filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const cards = document.querySelectorAll('#all-dest-grid .dest-card');
-  cards.forEach(c => { c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none'; });
+  cards.forEach(c => { 
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none'; 
+    c.classList.remove('visible'); // Force re-animation when filtering!
+  });
+  setTimeout(() => observeFadeIns(), 50);
 }
 
 export function openDestModal(idx) {
@@ -145,8 +152,14 @@ export function showPage(id) {
   else nb.classList.remove('force-solid');
 
   if (id === 'bookings') loadBookings();
+
+  // FIX: Reset all animation classes so they run again when switching tabs!
+  document.querySelectorAll('.fade-in, .slide-left, .slide-right, .zoom-in').forEach(el => {
+    el.classList.remove('visible');
+  });
+
   initRender();
-  observeFadeIns();
+  setTimeout(() => observeFadeIns(), 50);
 }
 
 export function openDrawer() { document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
@@ -160,11 +173,17 @@ export function countUp() {
   });
 }
 
+// THIS OBSERVES ALL ANIMATION CLASSES
 export function observeFadeIns() {
   const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    entries.forEach(e => { 
+      if (e.isIntersecting) { 
+        e.target.classList.add('visible'); 
+        obs.unobserve(e.target); 
+      } 
+    });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in:not(.visible)').forEach(el => obs.observe(el));
+  document.querySelectorAll('.fade-in:not(.visible), .slide-left:not(.visible), .slide-right:not(.visible), .zoom-in:not(.visible)').forEach(el => obs.observe(el));
 }
 
 export function showMonthTip(btn, month, tip) {
