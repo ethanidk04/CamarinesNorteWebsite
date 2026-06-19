@@ -1,5 +1,5 @@
 import { DESTINATIONS, FOODS, RESTOS, FESTIVALS, MUNIS } from './data.js';
-import { getDB, ajaxPost, escapeQuote } from './utils.js';
+import { ajaxPost, ajaxGet, escapeQuote } from './utils.js';
 
 // ======================= RENDER TEMPLATES =======================
 export function renderDestCard(d, idx, showBtn = true) {
@@ -285,8 +285,25 @@ export function resetForm(formId, wrapId, successId) {
 }
 
 export function loadBookings() {
-  renderBookingsTable('hotels-table-wrap', getDB('cn_reservations'), 'reservation');
-  renderBookingsTable('trips-table-wrap', getDB('cn_tripplans'), 'trip');
+  const hotelsWrap = document.getElementById('hotels-table-wrap');
+  const tripsWrap = document.getElementById('trips-table-wrap');
+  
+  // Show a loading indicator while fetching from the database
+  if(hotelsWrap) hotelsWrap.innerHTML = '<div style="padding: 20px; text-align: center;"><span class="spinner"></span> Loading database records...</div>';
+  if(tripsWrap) tripsWrap.innerHTML = '<div style="padding: 20px; text-align: center;"><span class="spinner"></span> Loading database records...</div>';
+
+  // Fetch live data from the MySQL database via PHP
+  ajaxGet('api/get_bookings.php', (err, data) => {
+    if (err) {
+      console.error(err);
+      showToast('Error loading bookings from database.', 'error');
+      return;
+    }
+    
+    // Pass the retrieved MySQL arrays into the existing table renderer
+    renderBookingsTable('hotels-table-wrap', data.reservations, 'reservation');
+    renderBookingsTable('trips-table-wrap', data.tripplans, 'trip');
+  });
 }
 
 export function renderBookingsTable(containerId, records, type) {
