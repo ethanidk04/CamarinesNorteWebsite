@@ -209,17 +209,20 @@ export function submitReservation(e) {
   const form = e.target;
   const btn = document.getElementById('reserveBtn');
   const dests = [...form.querySelectorAll('input[name="dest"]:checked')].map(c => c.value).join(', ');
+  
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Processing...';
   
   const data = {
-    type: 'Hotel Reservation', transactionId: 'RES-' + Date.now(),
-    firstName: form.firstName.value, lastName: form.lastName.value,
-    email: form.email.value, phone: form.phone.value,
-    govId: form.govId.value, guests: form.guests.value, nationality: form.nationality.value,
-    hotel: form.hotel.value, roomType: form.roomType.value,
-    checkIn: form.checkIn.value, checkOut: form.checkOut.value,
-    destinations: dests, message: form.message.value,
+    transactionId: 'RES-' + Date.now(),
+    // REMOVED personal info (firstName, email, phone, etc.) - Backend handles via user_id
+    hotel: form.hotel.value, 
+    roomType: form.roomType.value,
+    checkIn: form.checkIn.value, 
+    checkOut: form.checkOut.value,
+    guests: form.guests.value, 
+    destinations: dests, 
+    message: form.message.value,
     bookedOn: new Date().toLocaleDateString('en-PH')
   };
   
@@ -239,16 +242,23 @@ export function submitTripPlan(e) {
   e.preventDefault();
   const form = e.target;
   const btn = document.getElementById('planBtn');
-  const pdests = [...form.querySelectorAll('input[name="pdest"]:checked')].map(c => c.value).join(', ');
+  // Grabbing checkboxes (assuming you update name="pdest" to name="touristSpots" in HTML, or keeping pdest)
+  const spots = [...form.querySelectorAll('input[name="touristSpots"]:checked')].map(c => c.value).join(', ');
+  
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Submitting...';
   
   const data = {
-    type: 'Trip Plan', transactionId: 'TRP-' + Date.now(),
-    name: form.name.value, email: form.email.value,
-    travelDate: form.travelDate.value, travelers: form.travelers.value,
-    duration: form.duration.value, budget: form.budget.value,
-    destinations: pdests, notes: form.notes.value,
+    transactionId: 'TRP-' + Date.now(),
+    tripName: form.tripName.value,           // NEW
+    startDate: form.startDate.value,         // NEW (split from travelDate)
+    endDate: form.endDate.value,             // NEW
+    travelers: form.travelers.value,
+    destination: form.destination.value,     // NEW (Base municipality)
+    touristSpots: spots,                     // NEW (Specific attractions)
+    transportMode: form.transportMode.value, // NEW
+    budget: form.budget.value,
+    notes: form.notes.value,
     submittedOn: new Date().toLocaleDateString('en-PH')
   };
   
@@ -328,6 +338,7 @@ export function renderBookingsTable(containerId, records, type) {
   }
   
   if (type === 'reservation') {
+    // Hotel Reservations table remains mostly the same, relying on the JOINed data from backend
     el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
       <thead><tr><th>Booking ID</th><th>Guest Name</th><th>Hotel</th><th>Check-In</th><th>Check-Out</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${records.map(r => `<tr>
@@ -342,14 +353,17 @@ export function renderBookingsTable(containerId, records, type) {
       </tr>`).join('')}</tbody>
     </table></div>`;
   } else {
+    // UPDATED Trip Plans table 
     el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
-      <thead><tr><th>Plan ID</th><th>Traveler</th><th>Travel Date</th><th>Duration</th><th>Status</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Plan ID</th><th>Trip Name</th><th>Dates</th><th>Travelers</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${records.map(r => `<tr>
         <td style="font-weight:700;color:var(--coral);">${r.transactionId}</td>
-        <td>${r.name}</td><td>${r.travelDate}</td><td>${r.duration}</td>
+        <td>${r.tripName}</td>
+        <td>${r.startDate} to ${r.endDate}</td>
+        <td>${r.travelers}</td>
         <td><span class="status-badge status-pending">${r.status || 'Pending'}</span></td>
         <td>
-          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="openEditModal(${r.id}, 'trip', '${r.travelDate}', '${r.duration}', '${r.travelers}')"><i class="ti ti-edit"></i> Edit</button>
+          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="openEditModal(${r.id}, 'trip', '${r.startDate}', '${r.endDate}', '${r.travelers}')"><i class="ti ti-edit"></i> Edit</button>
           <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'trip')"><i class="ti ti-trash"></i> Cancel</button>
         </td>
       </tr>`).join('')}</tbody>
@@ -434,17 +448,21 @@ export function submitLogin(e) {
 
 export function submitRegister(e) {
   e.preventDefault();
+  const form = e.target;
   const data = { 
-    firstName: e.target.firstName.value, 
-    lastName: e.target.lastName.value, 
-    email: e.target.email.value, 
-    password: e.target.password.value 
+    firstName: form.firstName.value, 
+    lastName: form.lastName.value, 
+    email: form.email.value, 
+    password: form.password.value,
+    phone: form.phone.value,            
+    govId: form.govId.value,          
+    nationality: form.nationality.value || 'Filipino' 
   };
   
   ajaxPost('api/register.php', data, (err, res) => {
     if (res && res.success) {
       showToast('Account created! Please log in.', 'success');
-      e.target.reset(); // Clear the form
+      form.reset(); 
     } else {
       showToast(res ? res.message : 'Registration failed', 'error');
     }
@@ -525,14 +543,15 @@ export function openEditModal(id, target, val1, val2, val3) {
         <input class="form-input" type="number" name="guests" value="${val3}" min="1" required>
       </div>`;
   } else {
+    // UPDATED for Trip Plan dates
     fields.innerHTML = `
       <div class="form-group" style="margin-bottom:12px;">
-        <label class="form-label">Travel Date</label>
-        <input class="form-input" type="date" name="travelDate" value="${val1}" required>
+        <label class="form-label">Start Date</label>
+        <input class="form-input" type="date" name="startDate" value="${val1}" required>
       </div>
       <div class="form-group" style="margin-bottom:12px;">
-        <label class="form-label">Duration</label>
-        <input class="form-input" type="text" name="duration" value="${val2}" required>
+        <label class="form-label">End Date</label>
+        <input class="form-input" type="date" name="endDate" value="${val2}" required>
       </div>
       <div class="form-group" style="margin-bottom:12px;">
         <label class="form-label">Number of Travelers</label>
@@ -557,8 +576,9 @@ export function submitUpdate(e) {
     data.checkOut = e.target.checkOut.value;
     data.guests = e.target.guests.value;
   } else {
-    data.travelDate = e.target.travelDate.value;
-    data.duration = e.target.duration.value;
+    // UPDATED payload keys to match backend update_entry.php
+    data.startDate = e.target.startDate.value;
+    data.endDate = e.target.endDate.value;
     data.travelers = e.target.travelers.value;
   }
   
