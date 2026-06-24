@@ -242,12 +242,6 @@ export const RESTOS = [
     desc: "A cozy, modern cafe known for its hearty comfort food, artisan burgers, and locally sourced coffee.",
   },
   {
-    name: "Darex Lugawan",
-    loc: "Daet",
-    img: "http",
-    desc: "The ultimate late-night comfort spot. Renowned for their savory rice porridge (lugaw) topped with crispy pork and egg.",
-  },
-  {
     name: "Anita's Restaurant",
     loc: "Vinzons",
     img: "Asset/restaurants/Anita_s Restaurant.jpg",
