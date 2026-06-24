@@ -190,8 +190,8 @@ export const DESTINATIONS = [
     rating: "4.8",
     visitors: "10K+",
     best: "Jan–May",
-    img: "Asset/Beaches/Mercedes Group of Islands.jpg",
-    desc: "The Island-Hopping Capital of CamNorte! Seven stunning islands: Apuao Grande, Caringo, Quinapaguian, Malasugui, Apuao Pequeña, Canton, and Canimog — each with unique beaches, coral reefs, and marine life.",
+    img: "Asset/Beaches/Apuao Pequena.jpg",
+    desc: "Connected to Apuao Grande by a beautiful white sandbar. This island features a dense mangrove forest and a bat cave, offering a unique mix of beach relaxation and eco-adventure.",
   },
   {
     id: 17,
