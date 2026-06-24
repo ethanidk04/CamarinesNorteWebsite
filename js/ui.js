@@ -370,3 +370,36 @@ export function setMinDates() {
     });
   }
 }
+
+export function fetchLiveWeather() {
+  const weatherEl = document.getElementById('live-weather');
+  if (!weatherEl) return;
+
+  // Coordinates for Daet, Camarines Norte
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=14.1106&longitude=122.9553&current_weather=true';
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const temp = Math.round(data.current_weather.temperature);
+      const code = data.current_weather.weathercode;
+      const isDay = data.current_weather.is_day;
+      
+      let condition = 'Clear';
+      let icon = isDay ? 'ti-sun' : 'ti-moon';
+      let color = isDay ? '#F6AD55' : '#CBD5E0'; // Orange for sun, grayish for moon
+
+      // Basic WMO Weather Code translation to your Tabler Icons
+      if (code > 0 && code <= 3) { condition = 'Cloudy'; icon = 'ti-cloud'; color = '#E2E8F0'; }
+      else if (code >= 51 && code <= 67) { condition = 'Rain'; icon = 'ti-cloud-rain'; color = '#63B3ED'; }
+      else if (code >= 80 && code <= 82) { condition = 'Showers'; icon = 'ti-cloud-rain'; color = '#63B3ED'; }
+      else if (code >= 95) { condition = 'Storm'; icon = 'ti-cloud-storm'; color = '#718096'; }
+
+      weatherEl.innerHTML = `<i class="ti ${icon}" style="color:${color}; font-size:16px;"></i> ${temp}°C ${condition} &nbsp; &nbsp; Daet, Camarines Norte`;
+    })
+    .catch(err => {
+      console.error('Weather fetch error:', err);
+      // Fallback if the API fails
+      weatherEl.innerHTML = `<i class="ti ti-cloud" style="color:#A0AEC0;"></i> Weather Unavailable &nbsp; &nbsp; Daet, Camarines Norte`;
+    });
+}
