@@ -280,14 +280,14 @@ export const DESTINATIONS = [
   {
     id: 24,
     name: "Tinakubtakuban Pebble Beach",
-    loc: "Mercedes",
+    loc: "Vinzons",
     cat: "beach",
-    badge: "Island Hopping",
-    rating: "4.8",
-    visitors: "10K+",
-    best: "Jan–May",
-    img: "Asset/Beaches/Mercedes Group of Islands.jpg",
-    desc: "The Island-Hopping Capital of CamNorte! Seven stunning islands: Apuao Grande, Caringo, Quinapaguian, Malasugui, Apuao Pequeña, Canton, and Canimog — each with unique beaches, coral reefs, and marine life.",
+    badge: "Beach",
+    rating: "4.6",
+    visitors: "5K+",
+    best: "Nov–May",
+    img: "Asset/Beaches/Tinakubtakuban Pebble Beach.jpg",
+    desc: "A unique coastal destination defined by its smooth pebble shoreline instead of traditional sand. The rhythmic sound of waves crashing against the stones creates a highly therapeutic experience.",
   },
 ];
 
