@@ -1,8 +1,10 @@
-import {
-    initRender, filterDest, openDestModal, openGenericModal, closeModal,
-    showPage, openDrawer, closeDrawer, countUp, observeFadeIns, showMonthTip,
-    showTransport, toggleFaq, submitReservation, submitTripPlan, submitContact,
-    resetForm, loadBookings, switchBookingTab, setMinDates, fetchLiveWeather
+import { 
+  initRender, filterDest, openDestModal, openGenericModal, closeModal, 
+  showPage, openDrawer, closeDrawer, countUp, observeFadeIns, showMonthTip, 
+  showTransport, toggleFaq, submitReservation, submitTripPlan, submitContact, 
+  resetForm, loadBookings, switchBookingTab, setMinDates, fetchLiveWeather,
+  submitLogin, submitRegister, cancelBooking, checkAuthAndLockForms,
+  openEditModal, submitUpdate
 } from './ui.js';
 
 // ======================= EVENT LISTENERS =======================
@@ -18,6 +20,7 @@ window.addEventListener("scroll", () => {
 document.addEventListener("DOMContentLoaded", () => {
   initRender();
   fetchLiveWeather();
+  checkAuthAndLockForms();
   countUp();
   setMinDates();
   observeFadeIns();
@@ -88,3 +91,8 @@ window.switchBookingTab = switchBookingTab;
 window.showMonthTip = showMonthTip;
 window.showTransport = showTransport;
 window.toggleFaq = toggleFaq;
+window.submitLogin = submitLogin;
+window.submitRegister = submitRegister;
+window.cancelBooking = cancelBooking;
+window.openEditModal = openEditModal;
+window.submitUpdate = submitUpdate;
