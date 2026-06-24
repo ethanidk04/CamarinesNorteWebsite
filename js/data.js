@@ -29,24 +29,24 @@ export const FOODS = [
 ];
 
 export const RESTOS = [
-  {name: "Catherine's Bagasbas Lighthouse", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A beachfront favorite offering a mix of classic Filipino dishes and refreshing drinks right by the surfing waves.'},
-  {name: "Aurora's Cuisine", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'Famous for serving authentic Bicolano heirloom recipes, including their signature creamy Laing and spicy Bicol Express.'},
-  {name: "This Is Earl's Food & Whatnot", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A cozy, modern cafe known for its hearty comfort food, artisan burgers, and locally sourced coffee.'},
+  {name: "Catherine's Bagasbas Lighthouse", loc: 'Daet', img: 'Asset/restaurants/Catherine_s Bagasbas Lighthouse and Resort.jpg', desc: 'A beachfront favorite offering a mix of classic Filipino dishes and refreshing drinks right by the surfing waves.'},
+  {name: "Aurora's Cuisine", loc: 'Daet', img: 'Asset/restaurants/Aurora_s Cuisine.jpg', desc: 'Famous for serving authentic Bicolano heirloom recipes, including their signature creamy Laing and spicy Bicol Express.'},
+  {name: "This Is Earl's Food & Whatnot", loc: 'Daet', img: 'Asset/restaurants/This Is Earl_s & Whatnot.jpg', desc: 'A cozy, modern cafe known for its hearty comfort food, artisan burgers, and locally sourced coffee.'},
   {name: "Darex Lugawan", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'The ultimate late-night comfort spot. Renowned for their savory rice porridge (lugaw) topped with crispy pork and egg.'},
-  {name: "Anita's Restaurant", loc: 'Vinzons', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A traditional eatery serving the best homemade Angko and hearty seafood meals caught fresh from the local ports.'},
-  {name: "Bok's Kinalas", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'Serving the beloved Bicolano noodle soup, Kinalas. Their rich, slow-cooked broth and tender meat make it a local staple.'},
-  {name: "Yudrei's Kinalas", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A hidden gem for noodle lovers, offering a uniquely spiced Kinalas broth and a very relaxed, local street-food ambiance.'},
-  {name: "Lomi Hauz", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'Specializing in thick, piping hot bowls of Lomi overloaded with toppings like chicharon, meatballs, and liver.'},
-  {name: "Baked by Baby", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A beloved local bakery and cafe offering fresh pastries, custom cakes, and the sweetest Pili nut desserts in town.'},
-  {name: "Jannah's Pasalubong", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'Your one-stop shop for everything sweet in CamNorte! Famous for their Pili tarts and classic Bicolano snacks.'},
-  {name: "Chef Tiu's Signature", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'An upscale dining experience fusing international techniques with fresh, locally sourced Bicolano ingredients.'},
-  {name: "Hoogpaan Restaurant", loc: 'Bagasbas', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A vibrant surf-themed restobar. Perfect for unwinding with ice-cold drinks, grilled seafood, and live acoustic music.'},
-  {name: "Alvinos Roast Grill & Fry", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'The go-to place for meat lovers, featuring perfectly roasted chicken, smoky barbecue, and deep-fried local favorites.'},
-  {name: "Lugawan sa Bagasbas", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'Warm up after a morning surf session with a steaming bowl of affordable and delicious lugaw right by the beach.'},
+  {name: "Anita's Restaurant", loc: 'Vinzons', img: 'Asset/restaurants/Anita_s Restaurant.jpg', desc: 'A traditional eatery serving the best homemade Angko and hearty seafood meals caught fresh from the local ports.'},
+  {name: "Bok's Kinalas", loc: 'Daet', img: 'Asset/restaurants/Bok_s Kinalas.jpg', desc: 'Serving the beloved Bicolano noodle soup, Kinalas. Their rich, slow-cooked broth and tender meat make it a local staple.'},
+  {name: "Yudrei's Kinalas", loc: 'Daet', img: 'Asset/restaurants/Yudrei_s Kinalas.jpg', desc: 'A hidden gem for noodle lovers, offering a uniquely spiced Kinalas broth and a very relaxed, local street-food ambiance.'},
+  {name: "Lomi Hauz", loc: 'Daet', img: 'Asset/restaurants/Lomi Hauz & View Deck.jpg', desc: 'Specializing in thick, piping hot bowls of Lomi overloaded with toppings like chicharon, meatballs, and liver.'},
+  {name: "Baked by Baby", loc: 'Daet', img: 'Asset/restaurants/Baked by Baby.jpg', desc: 'A beloved local bakery and cafe offering fresh pastries, custom cakes, and the sweetest Pili nut desserts in town.'},
+  {name: "Jannah's Pasalubong", loc: 'Daet', img: 'Asset/restaurants/Jannah_s Pasalubong.jpg', desc: 'Your one-stop shop for everything sweet in CamNorte! Famous for their Pili tarts and classic Bicolano snacks.'},
+  {name: "Chef Tiu's Signature", loc: 'Daet', img: 'Asset/restaurants/Chef Tiu_s Signature.jpg', desc: 'An upscale dining experience fusing international techniques with fresh, locally sourced Bicolano ingredients.'},
+  {name: "Hoogpaan Restaurant", loc: 'Bagasbas', img: 'Asset/restaurants/Hoogpaan.jpg', desc: 'A vibrant surf-themed restobar. Perfect for unwinding with ice-cold drinks, grilled seafood, and live acoustic music.'},
+  {name: "Alvinos Roast Grill & Fry", loc: 'Daet', img: 'Asset/restaurants/Alvinos.jpg', desc: 'The go-to place for meat lovers, featuring perfectly roasted chicken, smoky barbecue, and deep-fried local favorites.'},
+  {name: "Lugawan sa Bagasbas", loc: 'Daet', img: 'Asset/restaurants/Lugawan sa Bagasbas.jpg', desc: 'Warm up after a morning surf session with a steaming bowl of affordable and delicious lugaw right by the beach.'},
   {name: "Tina's Eatery", loc: 'Mercedes', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'An authentic turo-turo experience offering home-cooked Sinantol and Kinunot straight from the Mercedes fish port.'},
-  {name: "Jybon Chicken Inasal", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'Satisfy your cravings with perfectly grilled, authentic Chicken Inasal served with unlimited rice and savory chicken oil.'},
-  {name: "Reichan Tabeya", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A unique fusion spot offering Japanese-inspired street food and sushi alongside comforting local dishes.'},
-  {name: "Pan Pao (Pansit at Siopao)", loc: 'Daet', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80', desc: 'A classic merienda destination famous for their massive, fluffy siopao and flavorful, freshly tossed pansit.'}
+  {name: "Jybon Chicken Inasal", loc: 'Daet', img: 'Asset/restaurants/Jybon Chicken Inasal.jpg', desc: 'Satisfy your cravings with perfectly grilled, authentic Chicken Inasal served with unlimited rice and savory chicken oil.'},
+  {name: "Reichan Tabeya", loc: 'Daet', img: 'Asset/restaurants/Reichan Tabeya.jpg', desc: 'A unique fusion spot offering Japanese-inspired street food and sushi alongside comforting local dishes.'},
+  {name: "Pan Pao (Pansit at Siopao)", loc: 'Daet', img: 'Asset/restaurants/Pan Pao.jpg', desc: 'A classic merienda destination famous for their massive, fluffy siopao and flavorful, freshly tossed pansit.'}
 ];
 
 export const FESTIVALS = [
