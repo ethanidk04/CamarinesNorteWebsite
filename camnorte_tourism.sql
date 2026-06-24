@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 19, 2026 at 03:36 PM
+-- Generation Time: Jun 24, 2026 at 09:43 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -52,18 +52,13 @@ INSERT INTO `contacts` (`id`, `transaction_id`, `name`, `email`, `subject`, `mes
 
 CREATE TABLE `reservations` (
   `id` int(11) NOT NULL,
-  `transaction_id` varchar(50) NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `gov_id` varchar(50) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `transaction_id` varchar(50) DEFAULT NULL,
+  `hotel` varchar(100) DEFAULT NULL,
+  `room_type` varchar(50) DEFAULT NULL,
+  `check_in` date DEFAULT NULL,
+  `check_out` date DEFAULT NULL,
   `guests` int(11) DEFAULT NULL,
-  `nationality` varchar(50) DEFAULT NULL,
-  `hotel` varchar(150) NOT NULL,
-  `room_type` varchar(100) DEFAULT NULL,
-  `check_in` date NOT NULL,
-  `check_out` date NOT NULL,
   `destinations` text DEFAULT NULL,
   `message` text DEFAULT NULL,
   `status` varchar(50) DEFAULT 'Confirmed',
@@ -74,8 +69,8 @@ CREATE TABLE `reservations` (
 -- Dumping data for table `reservations`
 --
 
-INSERT INTO `reservations` (`id`, `transaction_id`, `first_name`, `last_name`, `email`, `phone`, `gov_id`, `guests`, `nationality`, `hotel`, `room_type`, `check_in`, `check_out`, `destinations`, `message`, `status`, `booked_on`) VALUES
-(1, 'RES-1781873486362', 'Andrei Steven', 'Dela Cruz', 'ndrstvndlcrz0512@gmail.com', '+639277414889', '123456789', 1, 'Filipino', 'Mercedes Beachfront Resort — Mercedes', 'Suite', '2026-07-13', '2026-07-19', 'Mercedes Islands, Bantayog ni Rizal, Black Nazarene', 'one million soft girl', 'Confirmed', '6/19/2026');
+INSERT INTO `reservations` (`id`, `user_id`, `transaction_id`, `hotel`, `room_type`, `check_in`, `check_out`, `guests`, `destinations`, `message`, `status`, `booked_on`) VALUES
+(1, 1, 'RES-1782330097238', 'Catherine\'s Bagasbas Lighthouse Resort — Daet', 'Standard Room', '2026-06-25', '2026-06-25', 1, 'Bagasbas Beach', '', 'Confirmed', '6/25/2026');
 
 -- --------------------------------------------------------
 
@@ -85,25 +80,45 @@ INSERT INTO `reservations` (`id`, `transaction_id`, `first_name`, `last_name`, `
 
 CREATE TABLE `trip_plans` (
   `id` int(11) NOT NULL,
-  `transaction_id` varchar(50) NOT NULL,
-  `name` varchar(150) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `travel_date` date NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `transaction_id` varchar(50) DEFAULT NULL,
+  `trip_name` varchar(100) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   `travelers` int(11) DEFAULT NULL,
-  `duration` varchar(50) DEFAULT NULL,
-  `budget` varchar(100) DEFAULT NULL,
-  `destinations` text DEFAULT NULL,
+  `destination` varchar(100) DEFAULT NULL,
+  `tourist_spots` text DEFAULT NULL,
+  `transport_mode` varchar(50) DEFAULT NULL,
+  `budget` varchar(50) DEFAULT NULL,
   `notes` text DEFAULT NULL,
   `status` varchar(50) DEFAULT 'Pending',
   `submitted_on` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `trip_plans`
+-- Table structure for table `users`
 --
 
-INSERT INTO `trip_plans` (`id`, `transaction_id`, `name`, `email`, `travel_date`, `travelers`, `duration`, `budget`, `destinations`, `notes`, `status`, `submitted_on`) VALUES
-(1, 'TRP-1781873567444', 'Andrei Steven Dela Cruz', 'ndrstvndlcrz0512@gmail.com', '2026-07-13', 1, '1 Week', 'Budget (₱1,000–₱3,000/day)', 'Mercedes Islands, Parola Island, Heritage Sites', 'one million soft girl na chinita', 'Pending', '6/19/2026');
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `gov_id` varchar(50) NOT NULL,
+  `nationality` varchar(50) DEFAULT 'Filipino',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phone`, `gov_id`, `nationality`, `created_at`) VALUES
+(1, 'six seven', 'sixtyseven', 'sixseven@gmail.com', '$2y$10$Yhk5SSMBiZWGIVj32KHZd.HeV9FidWrp8tJew7cJU7UNVjcHkp1cS', '67', '67', 'Filipino', '2026-06-24 19:40:09');
 
 --
 -- Indexes for dumped tables
@@ -119,13 +134,22 @@ ALTER TABLE `contacts`
 -- Indexes for table `reservations`
 --
 ALTER TABLE `reservations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `trip_plans`
 --
 ALTER TABLE `trip_plans`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -147,7 +171,29 @@ ALTER TABLE `reservations`
 -- AUTO_INCREMENT for table `trip_plans`
 --
 ALTER TABLE `trip_plans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `reservations`
+--
+ALTER TABLE `reservations`
+  ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `trip_plans`
+--
+ALTER TABLE `trip_plans`
+  ADD CONSTRAINT `trip_plans_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
