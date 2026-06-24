@@ -207,15 +207,15 @@ export const DESTINATIONS = [
   },
   {
     id: 18,
-    name: "Caringo Beach",
+    name: "Caringo Island",
     loc: "Mercedes",
     cat: "beach",
     badge: "Island Hopping",
     rating: "4.8",
     visitors: "10K+",
     best: "Jan–May",
-    img: "Asset/Beaches/Mercedes Group of Islands.jpg",
-    desc: "The Island-Hopping Capital of CamNorte! Seven stunning islands: Apuao Grande, Caringo, Quinapaguian, Malasugui, Apuao Pequeña, Canton, and Canimog — each with unique beaches, coral reefs, and marine life.",
+    img: "Asset/Beaches/Caringo Island.jpg",
+    desc: "The oldest settlement among the Siete Pecados islands. It features a thriving fish sanctuary for snorkeling enthusiasts and the oldest house in Mercedes, blending history with marine beauty.",
   },
   {
     id: 19,
