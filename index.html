@@ -40,6 +40,7 @@
     <button class="nav-link" onclick="showPage('plan')">Plan Trip</button>
     <button class="nav-link" onclick="showPage('bookings')">My Bookings</button>
     <button class="nav-link" onclick="showPage('contact')">Contact</button>
+    <button class="nav-link" style="color: var(--coral); font-weight: 700;" onclick="showPage('auth')">Account</button>
   </div>
   <button class="nav-cta" onclick="showPage('reserve')">Book Now</button>
   <div class="hamburger" onclick="openDrawer()" aria-label="Menu">
@@ -79,6 +80,7 @@
     <button class="drawer-link" onclick="showPage('reserve');closeDrawer()"><i class="ti ti-building" style="margin-right:8px;"></i>Book Hotel</button>
     <button class="drawer-link" onclick="showPage('bookings');closeDrawer()"><i class="ti ti-list" style="margin-right:8px;"></i>My Bookings</button>
     <button class="drawer-link" onclick="showPage('contact');closeDrawer()"><i class="ti ti-mail" style="margin-right:8px;"></i>Contact</button>
+    <button class="drawer-link" style="color: var(--coral);" onclick="showPage('auth');closeDrawer()"><i class="ti ti-user" style="margin-right:8px;"></i>Account</button>
   </div>
 </div>
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
@@ -206,6 +208,47 @@
       </div>
     </div>
   </section>
+</div>
+
+<div class="page" id="page-auth">
+  <div style="padding-top:80px;background:var(--bg-cream);"></div>
+  <section class="section">
+    <div class="form-card zoom-in" style="max-width: 400px; margin: 0 auto;">
+      <div class="section-tag" style="margin-bottom:8px;"><i class="ti ti-lock"></i> Authentication</div>
+      <div class="form-title">Login to Your Account</div>
+      
+      <form id="loginForm" onsubmit="submitLogin(event)">
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" name="email" required>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" name="password" required>
+        </div>
+        <button type="submit" class="form-submit"><i class="ti ti-login"></i> Login</button>
+      </form>
+
+      <div class="form-divider"></div>
+
+      <div class="form-title" style="font-size: 18px;">New User? Create Account</div>
+      <form id="registerForm" onsubmit="submitRegister(event)" style="margin-top: 14px;">
+        <div class="form-grid">
+          <div class="form-group"><input class="form-input" type="text" name="firstName" placeholder="First Name" required></div>
+          <div class="form-group"><input class="form-input" type="text" name="lastName" placeholder="Last Name" required></div>
+        </div>
+        <div class="form-group" style="margin-top:14px;"><input class="form-input" type="email" name="email" placeholder="Email" required></div>
+        <div class="form-group" style="margin-top:14px;"><input class="form-input" type="password" name="password" placeholder="Password" required></div>
+        <button type="submit" class="btn-outline" style="width: 100%; margin-top: 14px; color: var(--coral); border-color: var(--coral);">Register</button>
+      </form>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-bottom" style="border:none;padding:24px 48px;">
+      <div class="footer-copy">© 2026 Camarines Norte Tourism Office</div>
+      <button class="btn-white" onclick="showPage('home')" style="font-size:12px;padding:8px 18px;"><i class="ti ti-home"></i> Back to Home</button>
+    </div>
+  </footer>
 </div>
 
 <div class="page" id="page-explore">
@@ -772,6 +815,23 @@
   <div class="modal modal-wrap">
     <button class="modal-close" onclick="document.getElementById('destModal').classList.remove('show')"><i class="ti ti-x"></i></button>
     <div id="modal-content"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="editModal">
+  <div class="modal modal-wrap" style="max-width: 400px; padding: 24px;">
+    <button class="modal-close" onclick="document.getElementById('editModal').classList.remove('show')"><i class="ti ti-x"></i></button>
+    <div class="form-title" style="margin-bottom: 16px; font-size: 20px;">Edit Booking</div>
+    <form id="editForm" onsubmit="submitUpdate(event)">
+      <input type="hidden" name="editId" id="editId">
+      <input type="hidden" name="editTarget" id="editTarget">
+      
+      <div id="editFields"></div>
+      
+      <button type="submit" class="form-submit" style="margin-top: 16px;">
+        <i class="ti ti-device-floppy"></i> Save Changes
+      </button>
+    </form>
   </div>
 </div>
 
