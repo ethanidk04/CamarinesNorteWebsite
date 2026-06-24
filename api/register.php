@@ -7,14 +7,18 @@ if ($data) {
     // Hash the password securely using PHP's built-in bcrypt
     $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
     
-    $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $data['firstName'], $data['lastName'], $data['email'], $hashedPassword);
+    // Schema update: Included phone, gov_id, and nationality
+    $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password, phone, gov_id, nationality) VALUES (?, ?, ?, ?, ?, ?, ?)");
     
-    // If successful, return true. If it fails (likely due to a duplicate email), return an error.
+    // Default to 'Filipino' if nationality isn't provided by the frontend
+    $nationality = isset($data['nationality']) ? $data['nationality'] : 'Filipino';
+    
+    $stmt->bind_param("sssssss", $data['firstName'], $data['lastName'], $data['email'], $hashedPassword, $data['phone'], $data['govId'], $nationality);
+    
     if ($stmt->execute()) { 
         echo json_encode(["success" => true]); 
     } else { 
-        echo json_encode(["success" => false, "message" => "Email already registered."]); 
+        echo json_encode(["success" => false, "message" => "Email already registered or missing data."]); 
     }
     $stmt->close();
 }

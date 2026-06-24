@@ -11,11 +11,11 @@ if (!isset($_SESSION['user_id'])) {
 
 $data = json_decode(file_get_contents("php://input"), true);
 if ($data) {
-    // We added user_id as the first column to insert
-    $stmt = $conn->prepare("INSERT INTO reservations (user_id, transaction_id, first_name, last_name, email, phone, gov_id, guests, nationality, hotel, room_type, check_in, check_out, destinations, message, booked_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    // Schema update: Removed personal info fields. Relying solely on user_id.
+    $stmt = $conn->prepare("INSERT INTO reservations (user_id, transaction_id, hotel, room_type, check_in, check_out, guests, destinations, message, booked_on) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    // "i" stands for integer (user_id), followed by the string parameters
-    $stmt->bind_param("issssssissssssss", $_SESSION['user_id'], $data['transactionId'], $data['firstName'], $data['lastName'], $data['email'], $data['phone'], $data['govId'], $data['guests'], $data['nationality'], $data['hotel'], $data['roomType'], $data['checkIn'], $data['checkOut'], $data['destinations'], $data['message'], $data['bookedOn']);
+    // "i" for integer (user_id & guests), "s" for strings
+    $stmt->bind_param("isssssisss", $_SESSION['user_id'], $data['transactionId'], $data['hotel'], $data['roomType'], $data['checkIn'], $data['checkOut'], $data['guests'], $data['destinations'], $data['message'], $data['bookedOn']);
     
     if ($stmt->execute()) { 
         echo json_encode(["success" => true, "id" => $data['transactionId']]); 

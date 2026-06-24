@@ -3,7 +3,6 @@ header('Content-Type: application/json');
 require_once 'db.php';
 session_start();
 
-// Security check
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(["success" => false, "message" => "Unauthorized"]);
     exit;
@@ -14,13 +13,13 @@ if ($data) {
     $user_id = $_SESSION['user_id'];
     $id = intval($data['id']);
 
-    // Check if we are updating a Hotel Reservation or a Trip Plan
     if ($data['target'] === 'reservation') {
         $stmt = $conn->prepare("UPDATE reservations SET check_in=?, check_out=?, guests=? WHERE id=? AND user_id=?");
         $stmt->bind_param("sssii", $data['checkIn'], $data['checkOut'], $data['guests'], $id, $user_id);
     } else {
-        $stmt = $conn->prepare("UPDATE trip_plans SET travel_date=?, duration=?, travelers=? WHERE id=? AND user_id=?");
-        $stmt->bind_param("sssii", $data['travelDate'], $data['duration'], $data['travelers'], $id, $user_id);
+        // Schema update: changed to start_date and end_date
+        $stmt = $conn->prepare("UPDATE trip_plans SET start_date=?, end_date=?, travelers=? WHERE id=? AND user_id=?");
+        $stmt->bind_param("sssii", $data['startDate'], $data['endDate'], $data['travelers'], $id, $user_id);
     }
 
     if ($stmt->execute()) {

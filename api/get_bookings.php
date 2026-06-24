@@ -9,21 +9,25 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-// Added a success flag so the frontend knows it was authorized
 $response = ["success" => true, "reservations" => [], "tripplans" => []];
 
-// Only fetch reservations belonging to this specific user
-$stmt = $conn->prepare("SELECT * FROM reservations WHERE user_id = ? ORDER BY id DESC");
+// Schema Update: JOIN the users table to retrieve first_name, last_name, and gov_id
+$stmt = $conn->prepare("
+    SELECT r.*, u.first_name, u.last_name, u.gov_id 
+    FROM reservations r
+    JOIN users u ON r.user_id = u.id
+    WHERE r.user_id = ? ORDER BY r.id DESC
+");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $res = $stmt->get_result();
 while ($row = $res->fetch_assoc()) {
     $response["reservations"][] = [
-        "id" => $row["id"], // The crucial database ID needed for the Delete function
+        "id" => $row["id"],
         "transactionId" => $row["transaction_id"],
-        "firstName" => $row["first_name"],
-        "lastName" => $row["last_name"],
-        "govId" => $row["gov_id"],
+        "firstName" => $row["first_name"], // Now coming from the JOINed users table
+        "lastName" => $row["last_name"],   // Now coming from the JOINed users table
+        "govId" => $row["gov_id"],         // Now coming from the JOINed users table
         "hotel" => $row["hotel"],
         "roomType" => $row["room_type"],
         "checkIn" => $row["check_in"],
@@ -34,21 +38,28 @@ while ($row = $res->fetch_assoc()) {
     ];
 }
 
-// Only fetch trip plans belonging to this specific user
-$stmt2 = $conn->prepare("SELECT * FROM trip_plans WHERE user_id = ? ORDER BY id DESC");
+// Do the same JOIN for trip plans
+$stmt2 = $conn->prepare("
+    SELECT t.*, u.first_name, u.last_name 
+    FROM trip_plans t
+    JOIN users u ON t.user_id = u.id
+    WHERE t.user_id = ? ORDER BY t.id DESC
+");
 $stmt2->bind_param("i", $user_id);
 $stmt2->execute();
 $res2 = $stmt2->get_result();
 while ($row = $res2->fetch_assoc()) {
     $response["tripplans"][] = [
-        "id" => $row["id"], // The crucial database ID needed for the Delete function
+        "id" => $row["id"],
         "transactionId" => $row["transaction_id"],
-        "name" => $row["name"],
-        "travelDate" => $row["travel_date"],
+        "name" => $row["first_name"] . " " . $row["last_name"], 
+        "tripName" => $row["trip_name"],
+        "startDate" => $row["start_date"], // Updated to new schema
+        "endDate" => $row["end_date"],     // Updated to new schema
         "travelers" => $row["travelers"],
-        "duration" => $row["duration"],
+        "destination" => $row["destination"],
+        "transportMode" => $row["transport_mode"],
         "budget" => $row["budget"],
-        "destinations" => $row["destinations"],
         "status" => $row["status"],
         "submittedOn" => $row["submitted_on"]
     ];
