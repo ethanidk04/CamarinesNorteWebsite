@@ -239,6 +239,11 @@
         </div>
         <div class="form-group" style="margin-top:14px;"><input class="form-input" type="email" name="email" placeholder="Email" required></div>
         <div class="form-group" style="margin-top:14px;"><input class="form-input" type="password" name="password" placeholder="Password" required></div>
+        <div class="form-grid" style="margin-top:14px;">
+          <div class="form-group"><input class="form-input" type="tel" name="phone" placeholder="Phone Number" required></div>
+          <div class="form-group"><input class="form-input" type="text" name="govId" placeholder="Gov ID / Passport" required></div>
+        </div>
+        <div class="form-group" style="margin-top:14px;"><input class="form-input" type="text" name="nationality" placeholder="Nationality (e.g. Filipino)"></div>
         <button type="submit" class="btn-outline" style="width: 100%; margin-top: 14px; color: var(--coral); border-color: var(--coral);">Register</button>
       </form>
     </div>
@@ -414,38 +419,6 @@
       <div class="form-sub">Fill in the details below to reserve your hotel. All fields marked with * are required.</div>
       <div id="reserve-form-wrap">
         <form id="reserveForm" onsubmit="submitReservation(event)">
-          <div class="form-section-label">Personal Information</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">First Name *</label>
-              <input class="form-input" type="text" name="firstName" placeholder="Juan" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Last Name *</label>
-              <input class="form-input" type="text" name="lastName" placeholder="Dela Cruz" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email Address *</label>
-              <input class="form-input" type="email" name="email" placeholder="juan@email.com" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Phone Number *</label>
-              <input class="form-input" type="tel" name="phone" placeholder="+63 9XX XXX XXXX" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Government ID / Passport No. *</label>
-              <input class="form-input" type="text" name="govId" placeholder="ID Number" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Number of Guests *</label>
-              <input class="form-input" type="number" name="guests" min="1" max="20" placeholder="2" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Nationality</label>
-              <input class="form-input" type="text" name="nationality" placeholder="Filipino">
-            </div>
-          </div>
-          <div class="form-divider"></div>
           <div class="form-section-label">Accommodation Details</div>
           <div class="form-grid">
             <div class="form-group">
@@ -481,6 +454,10 @@
             <div class="form-group">
               <label class="form-label">Check-Out Date *</label>
               <input class="form-input" type="date" name="checkOut" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Number of Guests *</label>
+              <input class="form-input" type="number" name="guests" min="1" max="20" placeholder="2" required>
             </div>
           </div>
           <div class="form-divider"></div>
@@ -575,31 +552,43 @@
       <div id="plan-form-wrap">
         <form id="planForm" onsubmit="submitTripPlan(event)">
           <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Full Name *</label>
-              <input class="form-input" type="text" name="name" placeholder="Juan Dela Cruz" required>
+            <div class="form-group full">
+              <label class="form-label">Trip Name *</label>
+              <input class="form-input" type="text" name="tripName" placeholder="e.g. Summer Barkada Getaway" required>
             </div>
             <div class="form-group">
-              <label class="form-label">Email *</label>
-              <input class="form-input" type="email" name="email" placeholder="juan@email.com" required>
+              <label class="form-label">Primary Destination *</label>
+              <select class="form-input form-select" name="destination" required>
+                <option value="">Select Base Municipality</option>
+                <option>Daet</option>
+                <option>Mercedes</option>
+                <option>Vinzons</option>
+                <option>Paracale</option>
+                <option>Jose Panganiban</option>
+                <option>Labo</option>
+                <option>Multiple Towns</option>
+              </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Travel Date *</label>
-              <input class="form-input" type="date" name="travelDate" required>
+              <label class="form-label">Mode of Transport</label>
+              <select class="form-input form-select" name="transportMode">
+                <option>Private Vehicle</option>
+                <option>Public Commute (Bus/Van)</option>
+                <option>Flying in via Naga</option>
+                <option>Rented Van</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Start Date *</label>
+              <input class="form-input" type="date" name="startDate" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Date *</label>
+              <input class="form-input" type="date" name="endDate" required>
             </div>
             <div class="form-group">
               <label class="form-label">Number of Travelers *</label>
               <input class="form-input" type="number" name="travelers" min="1" max="50" placeholder="4" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Trip Duration</label>
-              <select class="form-input form-select" name="duration">
-                <option>1 Day</option>
-                <option selected>2–3 Days</option>
-                <option>4–5 Days</option>
-                <option>1 Week</option>
-                <option>More than 1 Week</option>
-              </select>
             </div>
             <div class="form-group">
               <label class="form-label">Budget Range</label>
@@ -611,20 +600,20 @@
               </select>
             </div>
             <div class="form-group full">
-              <label class="form-label">Preferred Destinations</label>
+              <label class="form-label">Tourist Spots to Visit</label>
               <div class="check-grid">
-                <label class="check-item"><input type="checkbox" name="pdest" value="Bagasbas Beach"> Bagasbas Beach</label>
-                <label class="check-item"><input type="checkbox" name="pdest" value="Calaguas Island"> Calaguas Island</label>
-                <label class="check-item"><input type="checkbox" name="pdest" value="Mercedes Islands"> Mercedes Siete Pecados</label>
-                <label class="check-item"><input type="checkbox" name="pdest" value="Parola Island"> Parola Pink Sand Beach</label>
-                <label class="check-item"><input type="checkbox" name="pdest" value="Mt. Labo"> Mt. Labo Trekking</label>
-                <label class="check-item"><input type="checkbox" name="pdest" value="Waterfalls"> Waterfalls Tour</label>
-                <label class="check-item"><input type="checkbox" name="pdest" value="Heritage Sites"> Heritage & Religious Sites</label>
-                <label class="check-item"><input type="checkbox" name="pdest" value="Food Tour"> Food & Culinary Tour</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Bagasbas Beach"> Bagasbas Beach</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Calaguas Island"> Calaguas Island</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Mercedes Islands"> Mercedes Siete Pecados</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Parola Island"> Parola Pink Sand Beach</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Mt. Labo"> Mt. Labo Trekking</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Waterfalls"> Waterfalls Tour</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Heritage Sites"> Heritage & Religious Sites</label>
+                <label class="check-item"><input type="checkbox" name="touristSpots" value="Food Tour"> Food & Culinary Tour</label>
               </div>
             </div>
             <div class="form-group full">
-              <label class="form-label">Special Requests or Questions</label>
+              <label class="form-label">Special Requests or Notes</label>
               <textarea class="form-input form-textarea" name="notes" placeholder="Tell us more about your trip preferences, dietary needs, or any questions..."></textarea>
             </div>
           </div>
