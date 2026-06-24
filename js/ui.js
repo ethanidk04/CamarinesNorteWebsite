@@ -211,6 +211,7 @@ export function submitReservation(e) {
   const dests = [...form.querySelectorAll('input[name="dest"]:checked')].map(c => c.value).join(', ');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Processing...';
+  
   const data = {
     type: 'Hotel Reservation', transactionId: 'RES-' + Date.now(),
     firstName: form.firstName.value, lastName: form.lastName.value,
@@ -221,12 +222,15 @@ export function submitReservation(e) {
     destinations: dests, message: form.message.value,
     bookedOn: new Date().toLocaleDateString('en-PH')
   };
+  
   ajaxPost('reservations', data, (err, res) => {
     btn.disabled = false; btn.innerHTML = '<i class="ti ti-check"></i> Confirm Reservation';
-    if (res.success) {
+    if (res && res.success) {
       document.getElementById('reserve-form-wrap').classList.add('hidden');
       document.getElementById('reserve-success').classList.remove('hidden');
-      showToast('✅ Reservation confirmed! ID: ' + res.id, 'success');
+      showToast('Reservation confirmed! ID: ' + res.id, 'success');
+    } else {
+      showToast(res ? res.message : 'Error submitting reservation', 'error');
     }
   });
 }
@@ -238,6 +242,7 @@ export function submitTripPlan(e) {
   const pdests = [...form.querySelectorAll('input[name="pdest"]:checked')].map(c => c.value).join(', ');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Submitting...';
+  
   const data = {
     type: 'Trip Plan', transactionId: 'TRP-' + Date.now(),
     name: form.name.value, email: form.email.value,
@@ -246,12 +251,15 @@ export function submitTripPlan(e) {
     destinations: pdests, notes: form.notes.value,
     submittedOn: new Date().toLocaleDateString('en-PH')
   };
+  
   ajaxPost('tripplans', data, (err, res) => {
     btn.disabled = false; btn.innerHTML = '<i class="ti ti-send"></i> Submit Trip Plan';
-    if (res.success) {
+    if (res && res.success) {
       document.getElementById('plan-form-wrap').classList.add('hidden');
       document.getElementById('plan-success').classList.remove('hidden');
-      showToast('✅ Trip plan submitted! ID: ' + res.id, 'success');
+      showToast('Trip plan submitted! ID: ' + res.id, 'success');
+    } else {
+      showToast(res ? res.message : 'Error submitting trip plan', 'error');
     }
   });
 }
@@ -309,35 +317,41 @@ export function loadBookings() {
 export function renderBookingsTable(containerId, records, type) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  if (!records || records.length === 0) {
-    el.innerHTML = `<div class="empty-bookings"><i class="ti ti-calendar-off"></i><div style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:4px;">No ${type === 'reservation' ? 'Hotel Reservations' : 'Trip Plans'} Yet</div><p style="font-size:13px;">Your ${type === 'reservation' ? 'hotel reservations' : 'trip plans'} will appear here once submitted.</p><button class="btn-primary" style="margin-top:16px;" onclick="showPage('${type === 'reservation' ? 'reserve' : 'plan'}')"><i class="ti ti-plus"></i> ${type === 'reservation' ? 'Book a Hotel' : 'Plan a Trip'}</button></div>`;
+  
+  if (!records || records.length === 0 || records.success === false) {
+    el.innerHTML = `<div class="empty-bookings" style="text-align:center; padding: 40px 20px;">
+      <i class="ti ti-calendar-off" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px;"></i>
+      <div style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:4px;">No ${type === 'reservation' ? 'Hotel Reservations' : 'Trip Plans'} Found</div>
+      <p style="font-size:13px; color: var(--gray);">Please log in to view your records.</p>
+    </div>`;
     return;
   }
+  
   if (type === 'reservation') {
     el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
-      <thead><tr><th>Booking ID</th><th>Guest Name</th><th>Gov ID</th><th>Hotel</th><th>Room Type</th><th>Check-In</th><th>Check-Out</th><th>Guests</th><th>Status</th><th>Booked On</th></tr></thead>
+      <thead><tr><th>Booking ID</th><th>Guest Name</th><th>Hotel</th><th>Check-In</th><th>Check-Out</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${records.map(r => `<tr>
-        <td style="font-weight:700;color:var(--coral);">${r.transactionId || r.id}</td>
-        <td>${r.firstName || ''} ${r.lastName || ''}</td>
-        <td>${r.govId || 'N/A'}</td>
-        <td>${r.hotel}</td><td>${r.roomType}</td>
-        <td>${r.checkIn}</td><td>${r.checkOut}</td>
-        <td style="text-align:center;">${r.guests}</td>
-        <td><span class="status-badge status-confirmed">${r.status}</span></td>
-        <td>${r.bookedOn}</td>
+        <td style="font-weight:700;color:var(--coral);">${r.transactionId}</td>
+        <td>${r.firstName} ${r.lastName}</td>
+        <td>${r.hotel}</td><td>${r.checkIn}</td><td>${r.checkOut}</td>
+        <td><span class="status-badge status-confirmed">${r.status || 'Confirmed'}</span></td>
+        <td>
+          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="openEditModal(${r.id}, 'reservation', '${r.checkIn}', '${r.checkOut}', '${r.guests}')"><i class="ti ti-edit"></i> Edit</button>
+          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'reservation')"><i class="ti ti-trash"></i> Cancel</button>
+        </td>
       </tr>`).join('')}</tbody>
     </table></div>`;
   } else {
     el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
-      <thead><tr><th>Plan ID</th><th>Traveler</th><th>Travel Date</th><th>Travelers</th><th>Duration</th><th>Budget</th><th>Destinations</th><th>Status</th><th>Submitted</th></tr></thead>
+      <thead><tr><th>Plan ID</th><th>Traveler</th><th>Travel Date</th><th>Duration</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${records.map(r => `<tr>
-        <td style="font-weight:700;color:var(--coral);">${r.transactionId || r.id}</td>
-        <td>${r.name}</td><td>${r.travelDate}</td>
-        <td style="text-align:center;">${r.travelers}</td>
-        <td>${r.duration}</td><td>${r.budget}</td>
-        <td style="max-width:200px;font-size:11px;">${r.destinations || 'Not specified'}</td>
-        <td><span class="status-badge status-pending">${r.status}</span></td>
-        <td>${r.submittedOn}</td>
+        <td style="font-weight:700;color:var(--coral);">${r.transactionId}</td>
+        <td>${r.name}</td><td>${r.travelDate}</td><td>${r.duration}</td>
+        <td><span class="status-badge status-pending">${r.status || 'Pending'}</span></td>
+        <td>
+          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="openEditModal(${r.id}, 'trip', '${r.travelDate}', '${r.duration}', '${r.travelers}')"><i class="ti ti-edit"></i> Edit</button>
+          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'trip')"><i class="ti ti-trash"></i> Cancel</button>
+        </td>
       </tr>`).join('')}</tbody>
     </table></div>`;
   }
@@ -402,4 +416,159 @@ export function fetchLiveWeather() {
       // Fallback if the API fails
       weatherEl.innerHTML = `<i class="ti ti-cloud" style="color:#A0AEC0;"></i> Weather Unavailable &nbsp; &nbsp; Daet, Camarines Norte`;
     });
+}
+
+export function submitLogin(e) {
+  e.preventDefault();
+  const data = { email: e.target.email.value, password: e.target.password.value };
+  ajaxPost('api/login.php', data, (err, res) => {
+    if (res && res.success) {
+      showToast('Logged in successfully!', 'success');
+      // Refresh the page so the forms unlock!
+      setTimeout(() => { window.location.reload(); }, 1000);
+    } else {
+      showToast(res ? res.message : 'Login failed', 'error');
+    }
+  });
+}
+
+export function submitRegister(e) {
+  e.preventDefault();
+  const data = { 
+    firstName: e.target.firstName.value, 
+    lastName: e.target.lastName.value, 
+    email: e.target.email.value, 
+    password: e.target.password.value 
+  };
+  
+  ajaxPost('api/register.php', data, (err, res) => {
+    if (res && res.success) {
+      showToast('Account created! Please log in.', 'success');
+      e.target.reset(); // Clear the form
+    } else {
+      showToast(res ? res.message : 'Registration failed', 'error');
+    }
+  });
+}
+
+export function cancelBooking(id, targetType) {
+  if (!confirm(`Are you sure you want to cancel this ${targetType}?`)) return;
+  
+  ajaxPost('api/delete_entry.php', { id: id, target: targetType }, (err, res) => {
+    if (res && res.success) {
+      showToast('Canceled successfully!', 'success');
+      loadBookings(); // Refresh the table to remove the deleted row
+    } else {
+      showToast(res ? res.message : 'Failed to cancel', 'error');
+    }
+  });
+}
+
+export function checkAuthAndLockForms() {
+  ajaxGet('api/check_session.php', (err, res) => {
+    if (res && res.loggedIn) {
+        // Change the "Account" buttons to say "Logout"
+        document.querySelectorAll('.nav-link, .drawer-link').forEach(btn => {
+            if(btn.textContent.includes('Account')) {
+                btn.innerHTML = btn.innerHTML.replace('Account', 'Logout');
+                btn.onclick = () => {
+                    fetch('api/logout.php').then(() => window.location.reload());
+                };
+            }
+        });
+    } else {
+        // Lock the Hotel Booking Form
+        const resWrap = document.getElementById('reserve-form-wrap');
+        if (resWrap) {
+            resWrap.innerHTML = `
+            <div style="text-align:center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: var(--shadow);">
+              <i class="ti ti-lock" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px; display:inline-block;"></i>
+              <h3 style="margin-bottom: 8px;">Authentication Required</h3>
+              <p style="color:var(--gray); margin-bottom: 24px;">You must be logged in to your account to book a hotel reservation.</p>
+              <button class="btn-primary" onclick="showPage('auth')">Go to Login</button>
+            </div>`;
+        }
+        
+        // Lock the Trip Plan Form
+        const planWrap = document.getElementById('plan-form-wrap');
+        if (planWrap) {
+            planWrap.innerHTML = `
+            <div style="text-align:center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: var(--shadow);">
+              <i class="ti ti-lock" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px; display:inline-block;"></i>
+              <h3 style="margin-bottom: 8px;">Authentication Required</h3>
+              <p style="color:var(--gray); margin-bottom: 24px;">You must be logged in to your account to create a trip plan.</p>
+              <button class="btn-primary" onclick="showPage('auth')">Go to Login</button>
+            </div>`;
+        }
+    }
+  });
+}
+
+export function openEditModal(id, target, val1, val2, val3) {
+  document.getElementById('editId').value = id;
+  document.getElementById('editTarget').value = target;
+  
+  const fields = document.getElementById('editFields');
+  
+  if (target === 'reservation') {
+    fields.innerHTML = `
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Check-In Date</label>
+        <input class="form-input" type="date" name="checkIn" value="${val1}" required>
+      </div>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Check-Out Date</label>
+        <input class="form-input" type="date" name="checkOut" value="${val2}" required>
+      </div>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Number of Guests</label>
+        <input class="form-input" type="number" name="guests" value="${val3}" min="1" required>
+      </div>`;
+  } else {
+    fields.innerHTML = `
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Travel Date</label>
+        <input class="form-input" type="date" name="travelDate" value="${val1}" required>
+      </div>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Duration</label>
+        <input class="form-input" type="text" name="duration" value="${val2}" required>
+      </div>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Number of Travelers</label>
+        <input class="form-input" type="number" name="travelers" value="${val3}" min="1" required>
+      </div>`;
+  }
+  
+  document.getElementById('editModal').classList.add('show');
+}
+
+export function submitUpdate(e) {
+  e.preventDefault();
+  const target = document.getElementById('editTarget').value;
+  
+  let data = {
+    id: document.getElementById('editId').value,
+    target: target
+  };
+  
+  if (target === 'reservation') {
+    data.checkIn = e.target.checkIn.value;
+    data.checkOut = e.target.checkOut.value;
+    data.guests = e.target.guests.value;
+  } else {
+    data.travelDate = e.target.travelDate.value;
+    data.duration = e.target.duration.value;
+    data.travelers = e.target.travelers.value;
+  }
+  
+  ajaxPost('api/update_entry.php', data, (err, res) => {
+    if (res && res.success) {
+      showToast('Successfully updated!', 'success');
+      document.getElementById('editModal').classList.remove('show');
+      loadBookings(); // Instantly refresh the tables with new data
+    } else {
+      showToast('Failed to update.', 'error');
+    }
+  });
 }

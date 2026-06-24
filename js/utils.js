@@ -1,20 +1,18 @@
-// js/utils.js
-
 export function escapeQuote(str) {
   if(!str) return '';
   return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
 
-// Map the old fake database names to your new real PHP endpoints
 const endpoints = {
   'reservations': 'api/reserve.php',
   'tripplans': 'api/plan_trip.php',
   'contacts': 'api/contact.php'
 };
 
-// Handle POST requests (Form Submissions)
 export function ajaxPost(endpoint, data, cb) {
-  const url = endpoints[endpoint];
+  // Fix: Allow direct paths (like 'api/login.php') or mapped keys
+  const url = endpoint.includes('/') ? endpoint : endpoints[endpoint];
+  
   if (!url) {
     console.error('Unknown endpoint:', endpoint);
     return cb(new Error('Unknown endpoint'), null);
@@ -33,7 +31,6 @@ export function ajaxPost(endpoint, data, cb) {
   });
 }
 
-// Handle GET requests (Retrieving Bookings)
 export function ajaxGet(url, cb) {
   fetch(url)
   .then(res => res.json())
