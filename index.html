@@ -1,2091 +1,784 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Camarines Norte | Gateway to Bicolandia</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <nav class="navbar" id="navbar">
-      <div class="nav-logo" onclick="showPage('home')">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camarines Norte | Gateway to Bicolandia</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-icon">
+      <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="url(#paint_logo)"/>
+        <path d="M8 26L16 14L22 22L30 10L34 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 30C14 27 26 33 32 30" stroke="#FFF0EB" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="28" cy="14" r="3.5" fill="#FFD166"/>
+        <defs>
+          <linearGradient id="paint_logo" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF6B35"/>
+            <stop offset="1" stop-color="#1A6B8A"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="nav-logo-text">
+      <div class="nav-logo-title">Camarines Norte</div>
+      <div class="nav-logo-sub">Gateway to Bicolandia</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showPage('explore')">Explore</button>
+    <button class="nav-link" onclick="showPage('food')">Food</button>
+    <button class="nav-link" onclick="showPage('festivals')">Festivals</button>
+    <button class="nav-link" onclick="showPage('about')">About</button>
+    <button class="nav-link" onclick="showPage('plan')">Plan Trip</button>
+    <button class="nav-link" onclick="showPage('bookings')">My Bookings</button>
+    <button class="nav-link" onclick="showPage('contact')">Contact</button>
+  </div>
+  <button class="nav-cta" onclick="showPage('reserve')">Book Now</button>
+  <div class="hamburger" onclick="openDrawer()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="closeDrawer()"><i class="ti ti-x"></i></button>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+    <div class="nav-logo-icon">
+      <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="url(#paint_logo2)"/>
+        <path d="M8 26L16 14L22 22L30 10L34 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 30C14 27 26 33 32 30" stroke="#FFF0EB" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="28" cy="14" r="3.5" fill="#FFD166"/>
+        <defs>
+          <linearGradient id="paint_logo2" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF6B35"/>
+            <stop offset="1" stop-color="#1A6B8A"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:var(--dark);">Camarines Norte</div>
+      <div style="font-size:9px;color:var(--light-gray);text-transform:uppercase;letter-spacing:.5px;">Gateway to Bicolandia</div>
+    </div>
+  </div>
+  <div class="drawer-links">
+    <button class="drawer-link" onclick="showPage('home');closeDrawer()"><i class="ti ti-home" style="margin-right:8px;"></i>Home</button>
+    <button class="drawer-link" onclick="showPage('explore');closeDrawer()"><i class="ti ti-compass" style="margin-right:8px;"></i>Explore</button>
+    <button class="drawer-link" onclick="showPage('food');closeDrawer()"><i class="ti ti-tools-kitchen-2" style="margin-right:8px;"></i>Food</button>
+    <button class="drawer-link" onclick="showPage('festivals');closeDrawer()"><i class="ti ti-confetti" style="margin-right:8px;"></i>Festivals</button>
+    <button class="drawer-link" onclick="showPage('about');closeDrawer()"><i class="ti ti-info-circle" style="margin-right:8px;"></i>About</button>
+    <button class="drawer-link" onclick="showPage('plan');closeDrawer()"><i class="ti ti-calendar" style="margin-right:8px;"></i>Plan Trip</button>
+    <button class="drawer-link" onclick="showPage('reserve');closeDrawer()"><i class="ti ti-building" style="margin-right:8px;"></i>Book Hotel</button>
+    <button class="drawer-link" onclick="showPage('bookings');closeDrawer()"><i class="ti ti-list" style="margin-right:8px;"></i>My Bookings</button>
+    <button class="drawer-link" onclick="showPage('contact');closeDrawer()"><i class="ti ti-mail" style="margin-right:8px;"></i>Contact</button>
+  </div>
+</div>
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-location fade-in visible"><i class="ti ti-map-pin"></i> Bicol Region, Philippines  ·  <span style="background:rgba(255,107,53,.3);padding:2px 10px;border-radius:99px;">Madya na Kamo!</span></div>
+      <h1 class="fade-in visible" style="transition-delay: 0.1s">Discover <span>Camarines Norte</span><br>The Gateway to Bicolandia</h1>
+      <p class="hero-sub fade-in visible" style="transition-delay: 0.2s">Where pristine natural beauty meets profound historical heritage — the northernmost gem of the Bicol Region awaits your adventure.</p>
+      <div class="hero-btns fade-in visible" style="transition-delay: 0.3s">
+        <button class="btn-primary" onclick="showPage('explore')"><i class="ti ti-compass"></i> Explore Now <i class="ti ti-arrow-right"></i></button>
+        <button class="btn-outline" onclick="showPage('reserve')"><i class="ti ti-building"></i> Book a Hotel</button>
+      </div>
+    </div>
+    <div class="hero-weather" id="live-weather">
+      <span class="spinner" style="width:12px;height:12px;border-width:2px;margin-right:6px;"></span> Fetching live weather...
+    </div>
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+        <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,25 1440,30 L1440,60 L0,60 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat-item fade-in"><div class="stat-num" data-target="12">0</div><div class="stat-label">Municipalities</div></div>
+    <div class="stat-item fade-in" style="transition-delay: 0.1s"><div class="stat-num" data-target="15">0</div><div class="stat-label">Islands & Beaches</div></div>
+    <div class="stat-item fade-in" style="transition-delay: 0.2s"><div class="stat-num" data-target="12">0</div><div class="stat-label">Annual Festivals</div></div>
+    <div class="stat-item fade-in" style="transition-delay: 0.3s"><div class="stat-num" data-target="7">0</div><div class="stat-label">Signature Dishes</div></div>
+  </div>
+
+  <section class="section">
+    <div class="section-tag fade-in"><i class="ti ti-sparkles"></i> Quick Highlights</div>
+    <div class="section-title fade-in">Why Visit Camarines Norte?</div>
+    <div class="highlights-row fade-in" id="scrollable-highlights">
+      <div class="h-chip">Surfing Capital of Bicol</div>
+      <div class="h-chip">Calaguas Islands</div>
+      <div class="h-chip">First Rizal Monument</div>
+      <div class="h-chip">Gold Mining Heritage</div>
+      <div class="h-chip">Black Nazarene Shrine</div>
+      <div class="h-chip">Sweet Formosa Pineapple</div>
+      <div class="h-chip">Mercedes Siete Pecados</div>
+      <div class="h-chip">Fresh Seafood & Tinapa</div>
+      <div class="h-chip">12 Unique Municipalities</div>
+      <div class="h-chip">Bicolano Cuisine</div>
+    </div>
+
+    <div class="section-tag fade-in" style="margin-top:20px;"><i class="ti ti-star"></i> Must Visit</div>
+    <div class="section-title fade-in">Top Destinations</div>
+    <p class="section-sub fade-in">From surf-ready shores to island-hopping paradise — Camarines Norte has it all.</p>
+    <div class="dest-grid" id="home-dest-grid"></div>
+    <div class="fade-in" style="text-align:center;margin-top:28px;">
+      <button class="btn-primary" onclick="showPage('explore')">See All Destinations <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="section-tag fade-in"><i class="ti ti-tools-kitchen-2"></i> Taste CamNorte</div>
+    <div class="section-title fade-in">Food & Culinary Heritage</div>
+    <p class="section-sub fade-in">Unique Bicolano flavors you won't find anywhere else in the Philippines.</p>
+    <div class="food-grid" id="home-food-grid"></div>
+    <div class="fade-in" style="text-align:center;margin-top:28px;">
+      <button class="btn-primary" onclick="showPage('food')">Explore All Dishes <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-tag fade-in"><i class="ti ti-confetti"></i> Celebrations</div>
+    <div class="section-title fade-in">Festivals of Camarines Norte</div>
+    <p class="section-sub fade-in">Every municipality has its own fiesta — pick your favorite celebration!</p>
+    <div class="fest-grid" id="home-fest-grid"></div>
+    <div class="fade-in" style="text-align:center;margin-top:28px;">
+      <button class="btn-primary" onclick="showPage('festivals')">See All 12 Festivals <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </section>
+
+  <section class="cta-dark">
+    <h2 class="zoom-in">Visit Camarines Norte with Us</h2>
+    <p class="fade-in">Experience the best beaches, festivals, and flavors of the province. Plan your trip today and create memories that last a lifetime.</p>
+    <div class="cta-btns fade-in">
+      <button class="btn-white" onclick="showPage('reserve')"><i class="ti ti-building"></i> Book a Hotel</button>
+      <button class="btn-coral-outline" onclick="showPage('plan')"><i class="ti ti-calendar"></i> Plan My Trip</button>
+    </div>
+  </section>
+
+  <section class="section section-blue">
+    <div class="section-tag fade-in"><i class="ti ti-bolt"></i> Experiences</div>
+    <div class="section-title fade-in">The Best Experiences in Camarines Norte</div>
+    <p class="section-sub fade-in">Adventure, culture, food, and nature — all in one beautiful province.</p>
+    <div class="exp-grid">
+      <div class="exp-card slide-left" onclick="openGenericModal('Surf the Pacific at Bagasbas Beach', 'Daet, Camarines Norte', 'Experience', 'One of the Philippines\' premier surfing destinations featuring consistent surf year-round.', 'Asset/ExperienceCamNorte/Surfing.jpg')">
+        <img src="Asset/ExperienceCamNorte/Surfing.jpg" alt="Surfing at Bagasbas">
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-content">
+          <div class="exp-card-title">Surf the Pacific at Bagasbas Beach</div>
+          <div class="exp-card-sub">Daet, Camarines Norte</div>
+        </div>
+      </div>
+      <div class="exp-card slide-right" onclick="openGenericModal('Island Hop the Mercedes Siete Pecados', 'Mercedes, Camarines Norte', 'Experience', 'The Island-Hopping Capital of CamNorte! Explore seven stunning islands.', 'Asset/Beaches/Mercedes Group of Islands.jpg')">
+        <img src="Asset/Beaches/Mercedes Group of Islands.jpg" alt="Island Hopping">
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-content">
+          <div class="exp-card-title">Island Hop the Mercedes Siete Pecados</div>
+          <div class="exp-card-sub">Mercedes, Camarines Norte</div>
+        </div>
+      </div>
+      <div class="exp-card slide-left" onclick="openGenericModal('Soar on Bicol\'s Longest Zipline', 'San Lorenzo Ruiz, Camarines Norte', 'Experience', 'Experience the thrill of soaring high above the natural landscapes of San Lorenzo Ruiz.', 'Asset/ExperienceCamNorte/Zipline.jpg')">
+        <img src="Asset/ExperienceCamNorte/Zipline.jpg" alt="Zipline">
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-content">
+          <div class="exp-card-title">Soar on Bicol's Longest Zipline</div>
+          <div class="exp-card-sub">San Lorenzo Ruiz, Camarines Norte</div>
+        </div>
+      </div>
+      <div class="exp-card slide-right" onclick="openGenericModal('Stroll the 8.7km Cory Aquino Boulevard', 'Daet, Camarines Norte', 'Experience', 'The longest boulevard in the Philippines, perfect for afternoon walks and scenic sunsets.', 'Asset/ExperienceCamNorte/Boulevard.jpg')">
+        <img src="Asset/ExperienceCamNorte/Boulevard.jpg" alt="Boulevard">
+        <div class="exp-card-overlay"></div>
+        <div class="exp-card-content">
+          <div class="exp-card-title">Stroll the 8.7km Cory Aquino Boulevard</div>
+          <div class="exp-card-sub">Daet, Camarines Norte</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-explore">
+  <div style="padding-top:80px;background:var(--bg-cream);"></div>
+  <section class="section section-alt" style="padding-top:60px;">
+    <div class="section-tag fade-in"><i class="ti ti-compass"></i> Explore. Discover. Experience.</div>
+    <div class="section-title fade-in">Explore Camarines Norte</div>
+    <p class="section-sub fade-in">Islands, waterfalls, mountains, heritage sites — the province is your playground.</p>
+    <div class="filter-row fade-in" id="dest-filter-row">
+      <button class="filter-btn active" onclick="filterDest(this,'all')">All</button>
+      <button class="filter-btn" onclick="filterDest(this,'beach')">Islands & Beaches</button>
+      <button class="filter-btn" onclick="filterDest(this,'falls')">Waterfalls</button>
+      <button class="filter-btn" onclick="filterDest(this,'mountain')">Mountains</button>
+      <button class="filter-btn" onclick="filterDest(this,'heritage')">Heritage & Religious</button>
+    </div>
+    <div class="dest-grid" id="all-dest-grid"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-tag fade-in"><i class="ti ti-building-community"></i> Municipality Showcase</div>
+    <div class="section-title fade-in">12 Municipalities of Camarines Norte</div>
+    <p class="section-sub fade-in">Each municipality has its own unique identity, culture, and attractions.</p>
+    <div class="muni-grid" id="muni-grid"></div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="section-tag fade-in"><i class="ti ti-bolt"></i> Unique Experiences</div>
+    <div class="section-title fade-in">Experience Camarines Norte</div>
+    <div class="exp-grid">
+      <div class="exp-card slide-left" onclick="openGenericModal('Surf the Pacific at Bagasbas Beach', 'Daet, Camarines Norte', 'Experience', 'One of the Philippines\' premier surfing destinations featuring consistent surf year-round.', 'Asset/ExperienceCamNorte/Surfing.jpg')"><img src="Asset/ExperienceCamNorte/Surfing.jpg" alt="Surfing"><div class="exp-card-overlay"></div><div class="exp-card-content"><div class="exp-card-title">Ride the waves at Bagasbas Beach</div><div class="exp-card-sub">One of the Philippines' premier surfing destinations</div></div></div>
+      <div class="exp-card slide-right" onclick="openGenericModal('Soar on Bicol\'s Longest Zipline', 'San Lorenzo Ruiz, Camarines Norte', 'Experience', 'Experience the thrill of soaring high above the natural landscapes of San Lorenzo Ruiz.', 'Asset/ExperienceCamNorte/Zipline.jpg')"><img src="Asset/ExperienceCamNorte/Zipline.jpg" alt="Zipline"><div class="exp-card-overlay"></div><div class="exp-card-content"><div class="exp-card-title">Soar on Bicol's Longest Zipline</div><div class="exp-card-sub">San Lorenzo Ruiz, Camarines Norte</div></div></div>
+      <div class="exp-card slide-left" onclick="openGenericModal('Stroll the 8.7km Cory Aquino Boulevard', 'Daet, Camarines Norte', 'Experience', 'The longest boulevard in the Philippines, perfect for afternoon walks and scenic sunsets.', 'Asset/ExperienceCamNorte/Boulevard.jpg')"><img src="Asset/ExperienceCamNorte/Boulevard.jpg" alt="Boulevard"><div class="exp-card-overlay"></div><div class="exp-card-content"><div class="exp-card-title">Walk the 8.7km Cory Aquino Boulevard</div><div class="exp-card-sub">Longest boulevard in the Philippines</div></div></div>
+      <div class="exp-card slide-right" onclick="openGenericModal('Visit Mercedes Fish Port', 'Mercedes, Camarines Norte', 'Experience', 'Fresh seafood from sea to table experience.', 'Asset/ExperienceCamNorte/FishPort.JPG')"><img src="Asset/ExperienceCamNorte/FishPort.JPG" alt="Fish Port"><div class="exp-card-overlay"></div><div class="exp-card-content"><div class="exp-card-title">Visit Mercedes Fish Port</div><div class="exp-card-sub">Fresh seafood "from sea to table" experience</div></div></div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-food">
+  <div style="padding-top:80px;background:var(--bg-cream);"></div>
+  <section class="section section-alt" style="padding-top:60px;">
+    <div class="section-tag fade-in"><i class="ti ti-tools-kitchen-2"></i> Taste CamNorte</div>
+    <div class="section-title fade-in">Food & Culinary Heritage</div>
+    <p class="section-sub fade-in">From creamy coconut dishes to smoked fish and pili pastries — a true Bicolano feast awaits.</p>
+    <div class="food-grid" id="all-food-grid"></div>
+  </section>
+  <section class="section">
+    <div class="section-tag fade-in"><i class="ti ti-building-store"></i> Where to Eat</div>
+    <div class="section-title fade-in">Restaurants & Food Houses</div>
+    <p class="section-sub fade-in">Local spots loved by tourists and locals alike in Camarines Norte.</p>
+    <div class="resto-grid" id="resto-grid"></div>
+  </section>
+</div>
+
+<div class="page" id="page-festivals">
+  <div style="padding-top:80px;background:var(--bg-cream);"></div>
+  <section class="section section-alt" style="padding-top:60px;">
+    <div class="section-tag fade-in"><i class="ti ti-confetti"></i> Annual Celebrations</div>
+    <div class="section-title fade-in">Festivals of Camarines Norte</div>
+    <p class="section-sub fade-in">Every municipality has its own fiesta — color, music, street dancing, and cultural pride!</p>
+    
+    <div class="bantayog-card zoom-in" style="margin-bottom:32px;">
+      <span class="fest-month">Entire Month of April</span>
+      <div class="bantayog-title">Bantayog Festival — The Grand Province-Wide Celebration</div>
+      <p class="bantayog-desc">More than a festival, Bantayog is a province-wide celebration that honors the heroism of the past, commemorates the rich history of Camarines Norte, and showcases the pride and unity of its people. The name "Bantayog" means monument, inspired by the First Rizal Monument in Daet. First celebrated in April 2005 for the 85th founding anniversary, it is now a month-long celebration every April featuring: Binibining Camarines Norte, Grand Festival Parade & Street Dancing, and Parangal sa Natatanging Camnorteño.</p>
+      <div class="bantayog-tags">
+        <span class="btag" style="background:rgba(255,107,53,.2);color:#FF8C42;">Grand Parade</span>
+        <span class="btag" style="background:rgba(99,179,237,.15);color:#63B3ED;">Street Dancing</span>
+        <span class="btag" style="background:rgba(246,173,85,.15);color:#B7791F;">Binibining CamNorte</span>
+        <span class="btag" style="background:rgba(104,211,145,.15);color:#276749;">Heritage Tribute</span>
+        <span class="btag" style="background:rgba(159,122,234,.15);color:#9F7AEA;">Started 2005</span>
+        <span class="btag" style="background:rgba(252,129,129,.15);color:#C53030;">Province-Wide</span>
+      </div>
+    </div>
+
+    <div class="fest-grid" id="all-fest-grid"></div>
+  </section>
+</div>
+
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <h1 class="fade-in">About Camarines Norte</h1>
+    <p class="fade-in">Hilagang Camarines — a province of resilience, heroism, and breathtaking natural beauty.</p>
+  </div>
+  <section class="section">
+    <div class="section-tag fade-in"><i class="ti ti-map"></i> Geography</div>
+    <div class="section-title fade-in">The Northern Frontier</div>
+    <div class="two-col">
+      <div class="slide-left">
+        <p style="font-size:14px;color:var(--gray);line-height:1.8;margin-bottom:16px;">Camarines Norte is strategically positioned as the <strong>gateway to the Bicol Region</strong>. Bounded by the vast Pacific Ocean to the north and east, and neighboring Quezon province and Camarines Sur to the south and west, its geography dictates its stunning environment.</p>
+        <p style="font-size:14px;color:var(--gray);line-height:1.8;">The province is characterized by cascading waterfalls, lush mountains, and paradise-like beaches — most notably the world-class <strong>Calaguas Islands</strong>. Its capital, <strong>Daet</strong>, serves as the bustling central hub for travelers exploring the province's coastal and inland wonders.</p>
+      </div>
+      <div class="slide-right">
+        <img src="Asset/Beaches/Calaguas Island.jpg" alt="Camarines Norte" style="border-radius:var(--radius);box-shadow:var(--shadow-lg);width:100%;height:260px;object-fit:cover;">
+      </div>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="section-tag fade-in"><i class="ti ti-clock"></i> History</div>
+    <div class="section-title fade-in">A Journey Through Time</div>
+    <p class="section-sub fade-in">Camarines Norte's history is a story of resilience, rebellion, and a fierce desire for independence.</p>
+    <div class="timeline">
+      <div class="tl-item orange slide-left"><div class="tl-era">1573–1829 · Spanish Period</div><div class="tl-title">Ambos Camarines Era</div><div class="tl-desc">Governed as one unit with Camarines Sur as "Ambos Camarines." Towns of Daet, Paracale, and Indan (now Vinzons) were established. Paracale's gold mining and goldsmithing skills were already thriving even before the Spanish arrived.</div></div>
+      <div class="tl-item blue slide-right"><div class="tl-era">April 1898 · Revolutionary Era</div><div class="tl-title">The Daet Revolt</div><div class="tl-desc">Katipunan leader Ildefonso Moreno led an uprising against Spanish colonizers, briefly occupying Daet. Though crushed by Spanish reinforcements resulting in Moreno's martyrdom, it ignited the flame of rebellion throughout the entire Bicol region.</div></div>
+      <div class="tl-item gold slide-left"><div class="tl-era">March 3, 1919 / April 15, 1920 · American Period</div><div class="tl-title">A Province is Born</div><div class="tl-desc">Act 2809 was passed by the Philippine Legislature on March 3, 1919, authorizing partition. Camarines Norte was officially declared a fully independent province on April 15, 1920 under Executive Order No. 22.</div></div>
+      <div class="tl-item red slide-right"><div class="tl-era">December 18, 1941 · World War II</div><div class="tl-title">First Guerrilla Stand in the Philippines</div><div class="tl-desc">Just days after the bombing of Pearl Harbor, Camarines Norte became the site of the FIRST guerrilla encounter in the Philippines. Led by Governor Wenceslao Q. Vinzons, resistance fighters engaged the Japanese Imperial Army in Laniton, Basud.</div></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-tag fade-in"><i class="ti ti-users"></i> Culture & Traditions</div>
+    <div class="section-title fade-in">The Heart of the North</div>
+    <div class="two-col">
+      <div class="culture-card slide-left">
+        <div class="culture-title"><i class="ti ti-message-2"></i> Language & Identity</div>
+        <div class="culture-desc">Despite being a Bicolano province, Camarines Norte boasts a unique linguistic identity. Due to its proximity to Quezon province, a slight majority of the population speaks <strong>Tagalog</strong>, while eastern towns lean toward a distinct Bicolano variation mixing Tagalog and Bicolano influences.</div>
+        <ul class="culture-list" style="margin-top:10px;">
+          <li>Home to the <strong>Manide Tribe</strong> — an indigenous community in the highlands of Jose Panganiban</li>
+          <li>Unique blend of Tagalog and Bicolano languages</li>
+        </ul>
+      </div>
+      <div class="culture-card slide-right">
+        <div class="culture-title"><i class="ti ti-plant"></i> Traditional Livelihoods</div>
+        <ul class="culture-list">
+          <li><strong>Agriculture:</strong> Coconuts, root crops, and the famous incredibly sweet Queen Formosa pineapples</li>
+          <li><strong>Fishing:</strong> Mercedes is a major fishing hub supplying fresh fish and shrimp to Manila, famous for high-quality dried fish</li>
+          <li><strong>Gold & Jewelry Crafting:</strong> Paracale continues centuries-old traditions of crafting fine gold jewelry including the agrimon and alakdan necklaces</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="section-tag fade-in"><i class="ti ti-user-star"></i> Notable Heroes</div>
+    <div class="section-title fade-in">Historical Figures of Camarines Norte</div>
+    <p class="section-sub fade-in">The province is the birthplace of some of the Philippines' most brilliant minds and fiercest patriots.</p>
+    <div class="heroes-grid">
+      <div class="hero-figure zoom-in">
+        <div class="hero-fig-icon hfi-orange"><i class="ti ti-shield"></i></div>
+        <div class="hero-fig-name">Wenceslao Q. Vinzons</div>
+        <div class="hero-fig-title">WWII Guerrilla Hero · Provincial Governor</div>
+        <div class="hero-fig-desc">Born in Indan (now Vinzons), he was a brilliant lawyer, orator, and student leader. At age 24, he became the youngest delegate to the 1934 Constitutional Convention. When the Japanese invaded in 1941, he organized the armed guerrilla resistance in Bicol. Captured in 1942, he refused to collaborate and was executed — a true national martyr.</div>
+      </div>
+      <div class="hero-figure zoom-in" style="transition-delay: 0.1s">
+        <div class="hero-fig-icon hfi-blue"><i class="ti ti-writing"></i></div>
+        <div class="hero-fig-name">José María Panganiban</div>
+        <div class="hero-fig-title">Propaganda Movement Writer · Linguist</div>
+        <div class="hero-fig-desc">Born in Mambulao (now Jose Panganiban). An exceptional intellectual with a photographic memory, he joined the Propaganda Movement alongside José Rizal and Marcelo H. del Pilar. Writing as "Jomapa" for La Solidaridad, Rizal himself praised him as "an excellent companion of labor and a legitimate hope of his unfortunate country."</div>
+      </div>
+      <div class="hero-figure zoom-in" style="transition-delay: 0.2s">
+        <div class="hero-fig-icon hfi-green"><i class="ti ti-sword"></i></div>
+        <div class="hero-fig-name">Vicente Lukban</div>
+        <div class="hero-fig-title">Revolutionary General · Born in Labo (1860–1916)</div>
+        <div class="hero-fig-desc">Born in Labo on February 11, 1860. He joined the Philippine Revolution and became a trusted general under Emilio Aguinaldo. As military governor of Samar, he led the Filipino resistance against American forces using effective guerrilla warfare tactics. Later elected governor of Tayabas Province after his capture in 1902.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-reserve">
+  <div style="padding-top:80px;"></div>
+  <div class="form-section zoom-in">
+    <div class="form-card">
+      <div class="section-tag" style="margin-bottom:8px;"><i class="ti ti-building"></i> Hotel Reservation</div>
+      <div class="form-title">Book Your Stay in Camarines Norte</div>
+      <div class="form-sub">Fill in the details below to reserve your hotel. All fields marked with * are required.</div>
+      <div id="reserve-form-wrap">
+        <form id="reserveForm" onsubmit="submitReservation(event)">
+          <div class="form-section-label">Personal Information</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">First Name *</label>
+              <input class="form-input" type="text" name="firstName" placeholder="Juan" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name *</label>
+              <input class="form-input" type="text" name="lastName" placeholder="Dela Cruz" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input class="form-input" type="email" name="email" placeholder="juan@email.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input class="form-input" type="tel" name="phone" placeholder="+63 9XX XXX XXXX" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Government ID / Passport No. *</label>
+              <input class="form-input" type="text" name="govId" placeholder="ID Number" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Number of Guests *</label>
+              <input class="form-input" type="number" name="guests" min="1" max="20" placeholder="2" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nationality</label>
+              <input class="form-input" type="text" name="nationality" placeholder="Filipino">
+            </div>
+          </div>
+          <div class="form-divider"></div>
+          <div class="form-section-label">Accommodation Details</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Hotel / Resort *</label>
+              <select class="form-input form-select" name="hotel" required>
+                <option value="">Select Hotel</option>
+                <option>Catherine's Bagasbas Lighthouse Resort — Daet</option>
+                <option>Hoogpaan Resort — Bagasbas</option>
+                <option>Bagasbas Beach Hotel — Daet</option>
+                <option>CamNorte Heritage Inn — Daet</option>
+                <option>Mercedes Beachfront Resort — Mercedes</option>
+                <option>Calaguas Island Lodge — Vinzons</option>
+                <option>Paracale Gold Inn — Paracale</option>
+                <option>Labo Mountain View Lodge — Labo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Room Type *</label>
+              <select class="form-input form-select" name="roomType" required>
+                <option value="">Select Room Type</option>
+                <option>Standard Room</option>
+                <option>Deluxe Room</option>
+                <option>Suite</option>
+                <option>Family Room</option>
+                <option>Beach Front Cottage</option>
+                <option>Dormitory / Bunk Bed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Check-In Date *</label>
+              <input class="form-input" type="date" name="checkIn" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Check-Out Date *</label>
+              <input class="form-input" type="date" name="checkOut" required>
+            </div>
+          </div>
+          <div class="form-divider"></div>
+          <div class="form-section-label">Trip Preferences</div>
+          <div class="form-group full" style="margin-bottom:16px;">
+            <label class="form-label">Destinations to Visit</label>
+            <div class="check-grid">
+              <label class="check-item"><input type="checkbox" name="dest" value="Bagasbas Beach"> Bagasbas Beach</label>
+              <label class="check-item"><input type="checkbox" name="dest" value="Calaguas Island"> Calaguas Island</label>
+              <label class="check-item"><input type="checkbox" name="dest" value="Mercedes Islands"> Mercedes Islands (Siete Pecados)</label>
+              <label class="check-item"><input type="checkbox" name="dest" value="Parola Island"> Parola Island (Pink Sand)</label>
+              <label class="check-item"><input type="checkbox" name="dest" value="Mt. Labo"> Mt. Labo Trekking</label>
+              <label class="check-item"><input type="checkbox" name="dest" value="Bantayog ni Rizal"> Bantayog ni Rizal</label>
+              <label class="check-item"><input type="checkbox" name="dest" value="Black Nazarene"> Black Nazarene Shrine</label>
+              <label class="check-item"><input type="checkbox" name="dest" value="Nacali Falls"> Nacali Falls</label>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Special Requests / Message</label>
+            <textarea class="form-input form-textarea" name="message" placeholder="Any special requests, dietary needs, or questions?"></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="reserveBtn">
+            <i class="ti ti-check"></i> Confirm Reservation
+          </button>
+        </form>
+      </div>
+      <div id="reserve-success" class="success-screen hidden">
+        <div class="success-icon"><i class="ti ti-check"></i></div>
+        <div class="success-title">Reservation Confirmed!</div>
+        <div class="success-sub">Your hotel booking has been successfully recorded. You will receive a confirmation email shortly. <strong>Madya na kamo sa Camarines Norte!</strong></div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="showPage('bookings')"><i class="ti ti-list"></i> View My Bookings</button>
+          <button class="btn-outline" style="color:var(--coral);border-color:var(--coral);background:#fff;" onclick="resetForm('reserveForm','reserve-form-wrap','reserve-success')">Make Another Reservation</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-plan">
+  <div style="padding-top:80px;"></div>
+  <section class="section section-alt" style="padding-top:60px;">
+    <div class="section-tag fade-in"><i class="ti ti-calendar"></i> Plan Your Visit</div>
+    <div class="section-title fade-in">Plan Your Trip to Camarines Norte</div>
+
+    <div class="slide-left" style="margin-bottom:40px;">
+      <h3 style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;">Best Time to Visit</h3>
+      <p style="font-size:13px;color:var(--light-gray);margin-bottom:16px;">Click a month to see travel tips. Peak Season  ·  Shoulder Season  ·  Off-Peak</p>
+      <div class="month-grid">
+        <button class="month-btn peak" onclick="showMonthTip(this,'January','Peak season! Excellent beach weather. Best time for island hopping and surfing at Bagasbas.')">Jan</button>
+        <button class="month-btn peak" onclick="showMonthTip(this,'February','Peak season! Cool and dry. Perfect for trekking Mt. Labo and visiting heritage sites.')">Feb</button>
+        <button class="month-btn peak" onclick="showMonthTip(this,'March','Peak season! Warm and sunny. Ideal for Calaguas Island and Mercedes Siete Pecados.')">Mar</button>
+        <button class="month-btn peak" onclick="showMonthTip(this,'April','Peak + Bantayog Festival month! Witness the grand province-wide celebration. Book early!')">Apr</button>
+        <button class="month-btn peak" onclick="showMonthTip(this,'May','Late peak season. Great weather, fewer crowds. Perfect for waterfalls and eco-tourism.')">May</button>
+        <button class="month-btn shoulder" onclick="showMonthTip(this,'June','Pinyasan & Mambulawan Festivals! Some rain possible but festive atmosphere.')">Jun</button>
+        <button class="month-btn shoulder" onclick="showMonthTip(this,'July','Shoulder season. Occasional rain. Kadagatan Festival in Mercedes (Aug 1-8).')">Jul</button>
+        <button class="month-btn shoulder" onclick="showMonthTip(this,'August','Kadagatan Festival! Reduced hotel rates. Great for cultural tourism.')">Aug</button>
+        <button class="month-btn offpeak" onclick="showMonthTip(this,'September','Busig-on Festival in Labo! Rainy season — bring rain gear. Good for indoor heritage sites.')">Sep</button>
+        <button class="month-btn offpeak" onclick="showMonthTip(this,'October','Rahugan Festival in Basud (Oct 18-24). Off-peak but cultural events make it worthwhile.')">Oct</button>
+        <button class="month-btn offpeak" onclick="showMonthTip(this,'November','Weather transitioning. Budget-friendly rates. Pre-Christmas quiet charm.')">Nov</button>
+        <button class="month-btn peak" onclick="showMonthTip(this,'December','Peak season begins! Christmas festivities, great beach weather, festive province.')">Dec</button>
+      </div>
+      <div class="month-tip" id="month-tip"></div>
+    </div>
+
+    <h3 class="fade-in" style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:12px;">How to Get There</h3>
+    <div class="transport-tabs fade-in">
+      <button class="transport-tab active" onclick="showTransport(this,'air')"><i class="ti ti-plane"></i> By Air</button>
+      <button class="transport-tab" onclick="showTransport(this,'land')"><i class="ti ti-bus"></i> By Land</button>
+      <button class="transport-tab" onclick="showTransport(this,'sea')"><i class="ti ti-ship"></i> By Sea</button>
+    </div>
+    <div class="transport-content active fade-in" id="transport-air"><p><strong>Nearest Airport:</strong> Naga Airport (IATA: WNP) in Camarines Sur, approximately 2–3 hours from Daet. Alternatively, fly to Ninoy Aquino International Airport (Manila) and take a bus or van to Daet.<br><br><strong>From Manila by Air + Land:</strong> Fly to Naga (~1 hr), then take a van/bus to Daet (~2 hrs). Total travel: approximately 3–4 hours.</p></div>
+    <div class="transport-content fade-in" id="transport-land"><p><strong>From Manila by Bus:</strong> Multiple bus companies (Peñafrancia, Isarog, DLTB) operate daily trips from Cubao or Pasay to Daet. Travel time: approximately 7–9 hours overnight.<br><br><strong>From Naga City:</strong> Take a van or bus from Naga City Bus Terminal to Daet. Travel time: approximately 1.5–2 hours. Vans depart regularly throughout the day.</p></div>
+    <div class="transport-content fade-in" id="transport-sea"><p><strong>Limited Sea Routes:</strong> No direct ferry service from Manila to Camarines Norte currently. Sea travel is mainly used for inter-island trips within the province — especially for island hopping to Calaguas Island, Mercedes Islands (Siete Pecados), and Parola Island.<br><br><strong>Island Hopping Boats:</strong> Available at Mercedes Fish Port and Calaguas jump-off points. Always coordinate with local boat operators in advance.</p></div>
+
+    <div class="slide-right" style="margin-top:40px; margin-bottom: 40px;">
+      <h3 style="font-size:16px;font-weight:800;color:var(--dark);margin-bottom:16px;">Frequently Asked Questions</h3>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is Camarines Norte safe to visit? <i class="ti ti-plus"></i></div><div class="faq-a"><p>Yes! Camarines Norte is generally safe for tourists. The local government actively promotes tourism and the communities are known for their warm, welcoming hospitality. As with any travel, practice standard safety precautions, keep valuables secure, and stay updated on local advisories.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is the best beach in Camarines Norte? <i class="ti ti-plus"></i></div><div class="faq-a"><p>Bagasbas Beach in Daet is the most famous — it's the Surfing Capital of Bicol. For pristine white sand, Calaguas Island's Mahabang Buhangin is considered world-class. For a unique experience, visit Parola Island's pink sand beach in Jose Panganiban.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How far is Camarines Norte from Manila? <i class="ti ti-plus"></i></div><div class="faq-a"><p>Camarines Norte is approximately 400–450 km from Manila. By bus, the journey takes about 7–9 hours overnight. The fastest way is to fly to Naga Airport and then take a van/bus to Daet, totaling about 3–4 hours.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is Camarines Norte famous for? <i class="ti ti-plus"></i></div><div class="faq-a"><p>Camarines Norte is famous for: (1) Bagasbas Beach — Surfing Capital of Bicol, (2) Calaguas Island — one of the most beautiful beaches in the Philippines, (3) The First Rizal Monument in the Philippines (in Daet), (4) Paracale's gold mining heritage, (5) The Black Nazarene Shrine in Capalonga, and (6) The province-wide Bantayog Festival every April.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Do I need a guide to visit Calaguas Island? <i class="ti ti-plus"></i></div><div class="faq-a"><p>While not strictly required, hiring a local guide or joining an organized tour is highly recommended for Calaguas Island. The island is accessible only by boat and is quite remote. Local tour operators in Vinzons or Daet can arrange everything — boat, food, accommodations, and itinerary.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What are the must-try foods in Camarines Norte? <i class="ti ti-plus"></i></div><div class="faq-a"><p>Don't miss: Angko (glutinous rice cake from Vinzons), Pandecillos (pili nut pastry), Sinantol (coconut milk and santol fruit dish), Kinunot (shark or stingray in coconut milk), Tinumok (taro leaf wrap), Tinapa of Mercedes (smoked fish), and Pili Tart & Roll from Daet.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What language do people speak in Camarines Norte? <i class="ti ti-plus"></i></div><div class="faq-a"><p>A unique mix of Tagalog and Bicolano. Due to its proximity to Quezon province, a slight majority speaks Tagalog. Eastern towns speak a distinct Bicolano variation. Filipino (Tagalog) and English are widely understood, so communication is generally easy for visitors.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">When is the Bantayog Festival? <i class="ti ti-plus"></i></div><div class="faq-a"><p>The Bantayog Festival is celebrated throughout the entire month of April, making it a month-long province-wide celebration. It was first held in April 2005 for the 85th founding anniversary of the province. Key events include the Grand Parade, Binibining Camarines Norte, Street Dancing, and Parangal sa Natatanging Camnorteño.</p></div></div>
+    </div>
+
+    <div class="form-card zoom-in">
+      <div class="section-tag" style="margin-bottom:8px;"><i class="ti ti-route"></i> Trip Planner</div>
+      <div class="form-title">Plan Your Camarines Norte Adventure</div>
+      <div class="form-sub">Tell us about your trip and we'll help you make the most of it.</div>
+      <div id="plan-form-wrap">
+        <form id="planForm" onsubmit="submitTripPlan(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input class="form-input" type="text" name="name" placeholder="Juan Dela Cruz" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email *</label>
+              <input class="form-input" type="email" name="email" placeholder="juan@email.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Travel Date *</label>
+              <input class="form-input" type="date" name="travelDate" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Number of Travelers *</label>
+              <input class="form-input" type="number" name="travelers" min="1" max="50" placeholder="4" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Trip Duration</label>
+              <select class="form-input form-select" name="duration">
+                <option>1 Day</option>
+                <option selected>2–3 Days</option>
+                <option>4–5 Days</option>
+                <option>1 Week</option>
+                <option>More than 1 Week</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Budget Range</label>
+              <select class="form-input form-select" name="budget">
+                <option>Budget (₱1,000–₱3,000/day)</option>
+                <option selected>Mid-Range (₱3,000–₱7,000/day)</option>
+                <option>Premium (₱7,000–₱15,000/day)</option>
+                <option>Luxury (₱15,000+/day)</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Preferred Destinations</label>
+              <div class="check-grid">
+                <label class="check-item"><input type="checkbox" name="pdest" value="Bagasbas Beach"> Bagasbas Beach</label>
+                <label class="check-item"><input type="checkbox" name="pdest" value="Calaguas Island"> Calaguas Island</label>
+                <label class="check-item"><input type="checkbox" name="pdest" value="Mercedes Islands"> Mercedes Siete Pecados</label>
+                <label class="check-item"><input type="checkbox" name="pdest" value="Parola Island"> Parola Pink Sand Beach</label>
+                <label class="check-item"><input type="checkbox" name="pdest" value="Mt. Labo"> Mt. Labo Trekking</label>
+                <label class="check-item"><input type="checkbox" name="pdest" value="Waterfalls"> Waterfalls Tour</label>
+                <label class="check-item"><input type="checkbox" name="pdest" value="Heritage Sites"> Heritage & Religious Sites</label>
+                <label class="check-item"><input type="checkbox" name="pdest" value="Food Tour"> Food & Culinary Tour</label>
+              </div>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Special Requests or Questions</label>
+              <textarea class="form-input form-textarea" name="notes" placeholder="Tell us more about your trip preferences, dietary needs, or any questions..."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="form-submit" id="planBtn">
+            <i class="ti ti-send"></i> Submit Trip Plan
+          </button>
+        </form>
+      </div>
+      <div id="plan-success" class="success-screen hidden">
+        <div class="success-icon"><i class="ti ti-check"></i></div>
+        <div class="success-title">Trip Plan Submitted!</div>
+        <div class="success-sub">Your trip plan has been saved! You can view it in My Bookings. Our team will get back to you within 24 hours. <strong>Madya na kamo!</strong></div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="showPage('bookings')"><i class="ti ti-list"></i> View My Bookings</button>
+          <button class="btn-outline" style="color:var(--coral);border-color:var(--coral);background:#fff;" onclick="resetForm('planForm','plan-form-wrap','plan-success')">Plan Another Trip</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-bookings">
+  <div style="padding-top:80px;"></div>
+  <section class="section fade-in" style="padding-top:60px;">
+    <div class="section-tag"><i class="ti ti-list"></i> Booking Records</div>
+    <div class="section-title">My Bookings & Reservations</div>
+    <p class="section-sub">All your hotel reservations and trip plans are listed below in real-time.</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+      <div class="tab-row" style="margin-bottom:0;">
+        <button class="tab-btn active" onclick="switchBookingTab(this,'hotels')">Hotel Reservations</button>
+        <button class="tab-btn" onclick="switchBookingTab(this,'trips')">Trip Plans</button>
+      </div>
+      <button class="btn-primary" style="padding:10px 20px;font-size:13px;" onclick="loadBookings()"><i class="ti ti-refresh"></i> Refresh</button>
+    </div>
+    <div class="tab-content active" id="tab-hotels">
+      <div id="hotels-table-wrap"></div>
+    </div>
+    <div class="tab-content" id="tab-trips">
+      <div id="trips-table-wrap"></div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-contact">
+  <div style="padding-top:80px;"></div>
+  <section class="section section-alt" style="padding-top:60px;">
+    <div class="section-tag fade-in"><i class="ti ti-mail"></i> Get in Touch</div>
+    <div class="section-title fade-in">Contact Us</div>
+    <p class="section-sub fade-in">Have questions about Camarines Norte? We'd love to hear from you!</p>
+    <div class="contact-grid">
+      <div class="slide-left">
+        <div class="contact-info-card">
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="ti ti-map-pin"></i></div>
+            <div><div class="contact-info-label">Address</div><div class="contact-info-val">Capitol Complex, Daet, Camarines Norte, Philippines</div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="ti ti-phone"></i></div>
+            <div><div class="contact-info-label">Phone</div><div class="contact-info-val">(054) 440-1234</div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="ti ti-mail"></i></div>
+            <div><div class="contact-info-label">Email</div><div class="contact-info-val">tourism@camarinesnorte.gov.ph</div></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="ti ti-clock"></i></div>
+            <div><div class="contact-info-label">Office Hours</div><div class="contact-info-val">Monday–Friday, 8:00 AM – 5:00 PM</div></div>
+          </div>
+          <div class="map-placeholder">
+            <i class="ti ti-map-pin"></i>
+            <p>Daet, Camarines Norte, Philippines</p>
+            <button class="btn-maps" onclick="window.open('https://www.google.com/maps/place/Daet,+Camarines+Norte','_blank')">View on Google Maps</button>
+          </div>
+          <div class="social-row">
+            <div class="soc-btn"><i class="ti ti-brand-facebook"></i></div>
+            <div class="soc-btn"><i class="ti ti-brand-instagram"></i></div>
+            <div class="soc-btn"><i class="ti ti-brand-twitter"></i></div>
+            <div class="soc-btn"><i class="ti ti-brand-youtube"></i></div>
+            <div class="soc-btn"><i class="ti ti-mail"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-right">
+        <div class="form-card" style="box-shadow:var(--shadow);">
+          <div class="form-title" style="font-size:22px;">Send Us a Message</div>
+          <div class="form-sub">We'll get back to you within 24 hours.</div>
+          <div id="contact-form-wrap">
+            <form id="contactForm" onsubmit="submitContact(event)">
+              <div class="form-group" style="margin-bottom:14px;">
+                <label class="form-label">Full Name *</label>
+                <input class="form-input" type="text" name="name" placeholder="Juan Dela Cruz" required>
+              </div>
+              <div class="form-group" style="margin-bottom:14px;">
+                <label class="form-label">Email Address *</label>
+                <input class="form-input" type="email" name="email" placeholder="juan@email.com" required>
+              </div>
+              <div class="form-group" style="margin-bottom:14px;">
+                <label class="form-label">Subject *</label>
+                <select class="form-input form-select" name="subject" required>
+                  <option value="">Select Subject</option>
+                  <option>Hotel Reservation Inquiry</option>
+                  <option>Trip Planning Assistance</option>
+                  <option>Festival Information</option>
+                  <option>Destination Guide</option>
+                  <option>General Inquiry</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:14px;">
+                <label class="form-label">Message *</label>
+                <textarea class="form-input form-textarea" name="message" placeholder="Your message here..." required style="min-height:120px;"></textarea>
+              </div>
+              <button type="submit" class="form-submit" id="contactBtn">
+                <i class="ti ti-send"></i> Send Message
+              </button>
+            </form>
+          </div>
+          <div id="contact-success" class="success-screen hidden">
+            <div class="success-icon"><i class="ti ti-check"></i></div>
+            <div class="success-title">Message Sent!</div>
+            <div class="success-sub">Thank you for reaching out! We'll get back to you within 24 hours. Madya na kamo!</div>
+            <button class="btn-primary" onclick="resetForm('contactForm','contact-form-wrap','contact-success')">Send Another Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
         <div class="nav-logo-icon">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 40 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="40" height="40" rx="10" fill="url(#paint_logo)" />
-            <path
-              d="M8 26L16 14L22 22L30 10L34 16"
-              stroke="white"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M8 30C14 27 26 33 32 30"
-              stroke="#FFF0EB"
-              stroke-width="3"
-              stroke-linecap="round"
-            />
-            <circle cx="28" cy="14" r="3.5" fill="#FFD166" />
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="url(#paint_logo3)"/>
+            <path d="M8 26L16 14L22 22L30 10L34 16" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 30C14 27 26 33 32 30" stroke="#FFF0EB" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="28" cy="14" r="3.5" fill="#FFD166"/>
             <defs>
-              <linearGradient
-                id="paint_logo"
-                x1="0"
-                y1="0"
-                x2="40"
-                y2="40"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#FF6B35" />
-                <stop offset="1" stop-color="#1A6B8A" />
+              <linearGradient id="paint_logo3" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF6B35"/>
+                <stop offset="1" stop-color="#1A6B8A"/>
               </linearGradient>
             </defs>
           </svg>
         </div>
-        <div class="nav-logo-text">
-          <div class="nav-logo-title">Camarines Norte</div>
-          <div class="nav-logo-sub">Gateway to Bicolandia</div>
-        </div>
+        <div style="font-size:15px;font-weight:800;color:#fff;">Camarines Norte</div>
       </div>
-      <div class="nav-links">
-        <button class="nav-link active" onclick="showPage('home')">Home</button>
-        <button class="nav-link" onclick="showPage('explore')">Explore</button>
-        <button class="nav-link" onclick="showPage('food')">Food</button>
-        <button class="nav-link" onclick="showPage('festivals')">
-          Festivals
-        </button>
-        <button class="nav-link" onclick="showPage('about')">About</button>
-        <button class="nav-link" onclick="showPage('plan')">Plan Trip</button>
-        <button class="nav-link" onclick="showPage('bookings')">
-          My Bookings
-        </button>
-        <button class="nav-link" onclick="showPage('contact')">Contact</button>
-      </div>
-      <button class="nav-cta" onclick="showPage('reserve')">Book Now</button>
-      <div class="hamburger" onclick="openDrawer()" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </div>
-    </nav>
-
-    <div class="drawer" id="drawer">
-      <button class="drawer-close" onclick="closeDrawer()">
-        <i class="ti ti-x"></i>
-      </button>
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 4px;
-        "
-      >
-        <div class="nav-logo-icon">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 40 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="40" height="40" rx="10" fill="url(#paint_logo2)" />
-            <path
-              d="M8 26L16 14L22 22L30 10L34 16"
-              stroke="white"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M8 30C14 27 26 33 32 30"
-              stroke="#FFF0EB"
-              stroke-width="3"
-              stroke-linecap="round"
-            />
-            <circle cx="28" cy="14" r="3.5" fill="#FFD166" />
-            <defs>
-              <linearGradient
-                id="paint_logo2"
-                x1="0"
-                y1="0"
-                x2="40"
-                y2="40"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#FF6B35" />
-                <stop offset="1" stop-color="#1A6B8A" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div>
-          <div style="font-size: 14px; font-weight: 800; color: var(--dark)">
-            Camarines Norte
-          </div>
-          <div
-            style="
-              font-size: 9px;
-              color: var(--light-gray);
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-            "
-          >
-            Gateway to Bicolandia
-          </div>
-        </div>
-      </div>
-      <div class="drawer-links">
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('home');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-home" style="margin-right: 8px"></i>Home
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('explore');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-compass" style="margin-right: 8px"></i>Explore
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('food');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-tools-kitchen-2" style="margin-right: 8px"></i>Food
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('festivals');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-confetti" style="margin-right: 8px"></i>Festivals
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('about');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-info-circle" style="margin-right: 8px"></i>About
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('plan');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-calendar" style="margin-right: 8px"></i>Plan Trip
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('reserve');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-building" style="margin-right: 8px"></i>Book Hotel
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('bookings');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-list" style="margin-right: 8px"></i>My Bookings
-        </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('contact');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-mail" style="margin-right: 8px"></i>Contact
-        </button>
-      </div>
+      <p class="footer-tagline">"Madya na Kamo sa Camarines Norte!"</p>
+      <p>Discover Bicol's Hidden Treasures — beaches, heritage, festivals, and flavors await.</p>
     </div>
-    <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
-
-    <div class="page active" id="page-home">
-      <section class="hero">
-        <div class="hero-bg" id="heroBg"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <div class="hero-location fade-in visible">
-            <i class="ti ti-map-pin"></i> Bicol Region, Philippines ·
-            <span
-              style="
-                background: rgba(255, 107, 53, 0.3);
-                padding: 2px 10px;
-                border-radius: 99px;
-              "
-              >Madya na Kamo!</span
-            >
-          </div>
-          <h1 class="fade-in visible" style="transition-delay: 0.1s">
-            Discover <span>Camarines Norte</span><br />The Gateway to Bicolandia
-          </h1>
-          <p class="hero-sub fade-in visible" style="transition-delay: 0.2s">
-            Where pristine natural beauty meets profound historical heritage —
-            the northernmost gem of the Bicol Region awaits your adventure.
-          </p>
-          <div class="hero-btns fade-in visible" style="transition-delay: 0.3s">
-            <button class="btn-primary" onclick="showPage('explore')">
-              <i class="ti ti-compass"></i> Explore Now
-              <i class="ti ti-arrow-right"></i>
-            </button>
-            <button class="btn-outline" onclick="showPage('reserve')">
-              <i class="ti ti-building"></i> Book a Hotel
-            </button>
-          </div>
-        </div>
-        <div class="hero-weather">
-          <i class="ti ti-sun" style="color: #f6ad55"></i> 30° Sunny · Daet,
-          Camarines Norte
-        </div>
-        <div class="hero-wave">
-          <svg
-            viewBox="0 0 1440 60"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            style="display: block; width: 100%; height: 60px"
-          >
-            <path
-              d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,25 1440,30 L1440,60 L0,60 Z"
-              fill="#ffffff"
-            />
-          </svg>
-        </div>
-      </section>
-
-      <div class="stats-bar">
-        <div class="stat-item fade-in">
-          <div class="stat-num" data-target="12">0</div>
-          <div class="stat-label">Municipalities</div>
-        </div>
-        <div class="stat-item fade-in" style="transition-delay: 0.1s">
-          <div class="stat-num" data-target="15">0</div>
-          <div class="stat-label">Islands & Beaches</div>
-        </div>
-        <div class="stat-item fade-in" style="transition-delay: 0.2s">
-          <div class="stat-num" data-target="12">0</div>
-          <div class="stat-label">Annual Festivals</div>
-        </div>
-        <div class="stat-item fade-in" style="transition-delay: 0.3s">
-          <div class="stat-num" data-target="7">0</div>
-          <div class="stat-label">Signature Dishes</div>
-        </div>
-      </div>
-
-      <section class="section">
-        <div class="section-tag fade-in">
-          <i class="ti ti-sparkles"></i> Quick Highlights
-        </div>
-        <div class="section-title fade-in">Why Visit Camarines Norte?</div>
-        <div class="highlights-row fade-in" id="scrollable-highlights">
-          <div class="h-chip" style="margin-left: 10px">
-            Surfing Capital of Bicol
-          </div>
-          <div class="h-chip">Calaguas Islands</div>
-          <div class="h-chip">First Rizal Monument</div>
-          <div class="h-chip">Gold Mining Heritage</div>
-          <div class="h-chip">Black Nazarene Shrine</div>
-          <div class="h-chip">Sweet Formosa Pineapple</div>
-          <div class="h-chip">Mercedes Siete Pecados</div>
-          <div class="h-chip">Fresh Seafood & Tinapa</div>
-          <div class="h-chip">12 Unique Municipalities</div>
-          <div class="h-chip" style="margin-right: 10px">Bicolano Cuisine</div>
-        </div>
-
-        <div class="section-tag fade-in" style="margin-top: 20px">
-          <i class="ti ti-star"></i> Must Visit
-        </div>
-        <div class="section-title fade-in">Top Destinations</div>
-        <p class="section-sub fade-in">
-          From surf-ready shores to island-hopping paradise — Camarines Norte
-          has it all.
-        </p>
-        <div class="dest-grid" id="home-dest-grid"></div>
-        <div class="fade-in" style="text-align: center; margin-top: 28px">
-          <button class="btn-primary" onclick="showPage('explore')">
-            See All Destinations <i class="ti ti-arrow-right"></i>
-          </button>
-        </div>
-      </section>
-
-      <section class="section section-alt">
-        <div class="section-tag fade-in">
-          <i class="ti ti-tools-kitchen-2"></i> Taste CamNorte
-        </div>
-        <div class="section-title fade-in">Food & Culinary Heritage</div>
-        <p class="section-sub fade-in">
-          Unique Bicolano flavors you won't find anywhere else in the
-          Philippines.
-        </p>
-        <div class="food-grid" id="home-food-grid"></div>
-        <div class="fade-in" style="text-align: center; margin-top: 28px">
-          <button class="btn-primary" onclick="showPage('food')">
-            Explore All Dishes <i class="ti ti-arrow-right"></i>
-          </button>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-tag fade-in">
-          <i class="ti ti-confetti"></i> Celebrations
-        </div>
-        <div class="section-title fade-in">Festivals of Camarines Norte</div>
-        <p class="section-sub fade-in">
-          Every municipality has its own fiesta — pick your favorite
-          celebration!
-        </p>
-        <div class="fest-grid" id="home-fest-grid"></div>
-        <div class="fade-in" style="text-align: center; margin-top: 28px">
-          <button class="btn-primary" onclick="showPage('festivals')">
-            See All 12 Festivals <i class="ti ti-arrow-right"></i>
-          </button>
-        </div>
-      </section>
-
-      <section class="cta-dark">
-        <h2 class="zoom-in">Visit Camarines Norte with Us</h2>
-        <p class="fade-in">
-          Experience the best beaches, festivals, and flavors of the province.
-          Plan your trip today and create memories that last a lifetime.
-        </p>
-        <div class="cta-btns fade-in">
-          <button class="btn-white" onclick="showPage('reserve')">
-            <i class="ti ti-building"></i> Book a Hotel
-          </button>
-          <button class="btn-coral-outline" onclick="showPage('plan')">
-            <i class="ti ti-calendar"></i> Plan My Trip
-          </button>
-        </div>
-      </section>
-
-      <section class="section section-blue">
-        <div class="section-tag fade-in">
-          <i class="ti ti-bolt"></i> Experiences
-        </div>
-        <div class="section-title fade-in">
-          The Best Experiences in Camarines Norte
-        </div>
-        <p class="section-sub fade-in">
-          Adventure, culture, food, and nature — all in one beautiful province.
-        </p>
-        <div class="exp-grid">
-          <div
-            class="exp-card slide-left"
-            onclick="
-              openGenericModal(
-                'Surf the Pacific at Bagasbas Beach',
-                'Daet, Camarines Norte',
-                'Experience',
-                'One of the Philippines\' premier surfing destinations featuring consistent surf year-round.',
-                'Asset/ExperienceCamNorte/Surfing.jpg',
-              )
-            "
-          >
-            <img
-              src="Asset/ExperienceCamNorte/Surfing.jpg"
-              alt="Surfing at Bagasbas"
-            />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">
-                Surf the Pacific at Bagasbas Beach
-              </div>
-              <div class="exp-card-sub">Daet, Camarines Norte</div>
-            </div>
-          </div>
-          <div
-            class="exp-card slide-right"
-            onclick="
-              openGenericModal(
-                'Island Hop the Mercedes Siete Pecados',
-                'Mercedes, Camarines Norte',
-                'Experience',
-                'The Island-Hopping Capital of CamNorte! Explore seven stunning islands.',
-                'Asset/Beaches/Mercedes Group of Islands.jpg',
-              )
-            "
-          >
-            <img
-              src="Asset/Beaches/Mercedes Group of Islands.jpg"
-              alt="Island Hopping"
-            />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">
-                Island Hop the Mercedes Siete Pecados
-              </div>
-              <div class="exp-card-sub">Mercedes, Camarines Norte</div>
-            </div>
-          </div>
-          <div
-            class="exp-card slide-left"
-            onclick="
-              openGenericModal(
-                'Soar on Bicol\'s Longest Zipline',
-                'San Lorenzo Ruiz, Camarines Norte',
-                'Experience',
-                'Experience the thrill of soaring high above the natural landscapes of San Lorenzo Ruiz.',
-                'Asset/ExperienceCamNorte/Zipline.jpg',
-              )
-            "
-          >
-            <img src="Asset/ExperienceCamNorte/Zipline.jpg" alt="Zipline" />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">Soar on Bicol's Longest Zipline</div>
-              <div class="exp-card-sub">San Lorenzo Ruiz, Camarines Norte</div>
-            </div>
-          </div>
-          <div
-            class="exp-card slide-right"
-            onclick="
-              openGenericModal(
-                'Stroll the 8.7km Cory Aquino Boulevard',
-                'Daet, Camarines Norte',
-                'Experience',
-                'The longest boulevard in the Philippines, perfect for afternoon walks and scenic sunsets.',
-                'Asset/ExperienceCamNorte/Boulevard.jpg',
-              )
-            "
-          >
-            <img src="Asset/ExperienceCamNorte/Boulevard.jpg" alt="Boulevard" />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">
-                Stroll the 8.7km Cory Aquino Boulevard
-              </div>
-              <div class="exp-card-sub">Daet, Camarines Norte</div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><button onclick="showPage('explore')">Destinations</button></li>
+        <li><button onclick="showPage('food')">Food & Culinary</button></li>
+        <li><button onclick="showPage('festivals')">Festivals</button></li>
+        <li><button onclick="showPage('about')">About Province</button></li>
+      </ul>
     </div>
-
-    <div class="page" id="page-explore">
-      <div style="padding-top: 80px; background: var(--bg-cream)"></div>
-      <section class="section section-alt" style="padding-top: 60px">
-        <div class="section-tag fade-in">
-          <i class="ti ti-compass"></i> Explore. Discover. Experience.
-        </div>
-        <div class="section-title fade-in">Explore Camarines Norte</div>
-        <p class="section-sub fade-in">
-          Islands, waterfalls, mountains, heritage sites — the province is your
-          playground.
-        </p>
-        <div class="filter-row fade-in" id="dest-filter-row">
-          <button class="filter-btn active" onclick="filterDest(this, 'all')">
-            All
-          </button>
-          <button class="filter-btn" onclick="filterDest(this, 'beach')">
-            Islands & Beaches
-          </button>
-          <button class="filter-btn" onclick="filterDest(this, 'falls')">
-            Waterfalls
-          </button>
-          <button class="filter-btn" onclick="filterDest(this, 'mountain')">
-            Mountains
-          </button>
-          <button class="filter-btn" onclick="filterDest(this, 'heritage')">
-            Heritage & Religious Sites
-          </button>
-        </div>
-        <div class="dest-grid" id="all-dest-grid"></div>
-      </section>
-
-      <section class="section">
-        <div class="section-tag fade-in">
-          <i class="ti ti-building-community"></i> Municipality Showcase
-        </div>
-        <div class="section-title fade-in">
-          12 Municipalities of Camarines Norte
-        </div>
-        <p class="section-sub fade-in">
-          Each municipality has its own unique identity, culture, and
-          attractions.
-        </p>
-        <div class="muni-grid" id="muni-grid"></div>
-      </section>
-
-      <section class="section section-alt">
-        <div class="section-tag fade-in">
-          <i class="ti ti-bolt"></i> Unique Experiences
-        </div>
-        <div class="section-title fade-in">Experience Camarines Norte</div>
-        <div class="exp-grid">
-          <div
-            class="exp-card slide-left"
-            onclick="
-              openGenericModal(
-                'Surf the Pacific at Bagasbas Beach',
-                'Daet, Camarines Norte',
-                'Experience',
-                'One of the Philippines\' premier surfing destinations featuring consistent surf year-round.',
-                'Asset/ExperienceCamNorte/Surfing.jpg',
-              )
-            "
-          >
-            <img src="Asset/ExperienceCamNorte/Surfing.jpg" alt="Surfing" />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">Ride the waves at Bagasbas Beach</div>
-              <div class="exp-card-sub">
-                One of the Philippines' premier surfing destinations
-              </div>
-            </div>
-          </div>
-          <div
-            class="exp-card slide-right"
-            onclick="
-              openGenericModal(
-                'Soar on Bicol\'s Longest Zipline',
-                'San Lorenzo Ruiz, Camarines Norte',
-                'Experience',
-                'Experience the thrill of soaring high above the natural landscapes of San Lorenzo Ruiz.',
-                'Asset/ExperienceCamNorte/Zipline.jpg',
-              )
-            "
-          >
-            <img src="Asset/ExperienceCamNorte/Zipline.jpg" alt="Zipline" />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">Soar on Bicol's Longest Zipline</div>
-              <div class="exp-card-sub">San Lorenzo Ruiz, Camarines Norte</div>
-            </div>
-          </div>
-          <div
-            class="exp-card slide-left"
-            onclick="
-              openGenericModal(
-                'Stroll the 8.7km Cory Aquino Boulevard',
-                'Daet, Camarines Norte',
-                'Experience',
-                'The longest boulevard in the Philippines, perfect for afternoon walks and scenic sunsets.',
-                'Asset/ExperienceCamNorte/Boulevard.jpg',
-              )
-            "
-          >
-            <img src="Asset/ExperienceCamNorte/Boulevard.jpg" alt="Boulevard" />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">
-                Walk the 8.7km Cory Aquino Boulevard
-              </div>
-              <div class="exp-card-sub">
-                Longest boulevard in the Philippines
-              </div>
-            </div>
-          </div>
-          <div
-            class="exp-card slide-right"
-            onclick="
-              openGenericModal(
-                'Visit Mercedes Fish Port',
-                'Mercedes, Camarines Norte',
-                'Experience',
-                'Fresh seafood from sea to table experience.',
-                'Asset/ExperienceCamNorte/FishPort.JPG',
-              )
-            "
-          >
-            <img src="Asset/ExperienceCamNorte/FishPort.JPG" alt="Fish Port" />
-            <div class="exp-card-overlay"></div>
-            <div class="exp-card-content">
-              <div class="exp-card-title">Visit Mercedes Fish Port</div>
-              <div class="exp-card-sub">
-                Fresh seafood "from sea to table" experience
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div class="footer-col">
+      <h4>Contacts</h4>
+      <ul style="color:rgba(255,255,255,.4); font-size:13px; line-height:1.8;">
+        <li><i class="ti ti-map-pin"></i> Capitol Complex, Daet</li>
+        <li><i class="ti ti-phone"></i> (054) 440-1234</li>
+        <li><i class="ti ti-mail"></i> tourism@camarinesnorte.gov.ph</li>
+        <li><i class="ti ti-clock"></i> Mon-Fri, 8AM - 5PM</li>
+      </ul>
     </div>
-
-    <div class="page" id="page-food">
-      <div style="padding-top: 80px; background: var(--bg-cream)"></div>
-      <section class="section section-alt" style="padding-top: 60px">
-        <div class="section-tag fade-in">
-          <i class="ti ti-tools-kitchen-2"></i> Taste CamNorte
-        </div>
-        <div class="section-title fade-in">Food & Culinary Heritage</div>
-        <p class="section-sub fade-in">
-          From creamy coconut dishes to smoked fish and pili pastries — a true
-          Bicolano feast awaits.
-        </p>
-        <div class="food-grid" id="all-food-grid"></div>
-      </section>
-      <section class="section">
-        <div class="section-tag fade-in">
-          <i class="ti ti-building-store"></i> Where to Eat
-        </div>
-        <div class="section-title fade-in">Restaurants & Food Houses</div>
-        <p class="section-sub fade-in">
-          Local spots loved by tourists and locals alike in Camarines Norte.
-        </p>
-        <div class="resto-grid" id="resto-grid"></div>
-      </section>
-    </div>
-
-    <div class="page" id="page-festivals">
-      <div style="padding-top: 80px; background: var(--bg-cream)"></div>
-      <section class="section section-alt" style="padding-top: 60px">
-        <div class="section-tag fade-in">
-          <i class="ti ti-confetti"></i> Annual Celebrations
-        </div>
-        <div class="section-title fade-in">Festivals of Camarines Norte</div>
-        <p class="section-sub fade-in">
-          Every municipality has its own fiesta — color, music, street dancing,
-          and cultural pride!
-        </p>
-
-        <div class="bantayog-card zoom-in" style="margin-bottom: 32px">
-          <span class="fest-month">Entire Month of April</span>
-          <div class="bantayog-title">
-            Bantayog Festival — The Grand Province-Wide Celebration
-          </div>
-          <p class="bantayog-desc">
-            More than a festival, Bantayog is a province-wide celebration that
-            honors the heroism of the past, commemorates the rich history of
-            Camarines Norte, and showcases the pride and unity of its people.
-            The name "Bantayog" means monument, inspired by the First Rizal
-            Monument in Daet. First celebrated in April 2005 for the 85th
-            founding anniversary, it is now a month-long celebration every April
-            featuring: Binibining Camarines Norte, Grand Festival Parade &
-            Street Dancing, and Parangal sa Natatanging Camnorteño.
-          </p>
-          <div class="bantayog-tags">
-            <span
-              class="btag"
-              style="background: rgba(255, 107, 53, 0.2); color: #ff8c42"
-              >Grand Parade</span
-            >
-            <span
-              class="btag"
-              style="background: rgba(99, 179, 237, 0.15); color: #63b3ed"
-              >Street Dancing</span
-            >
-            <span
-              class="btag"
-              style="background: rgba(246, 173, 85, 0.15); color: #b7791f"
-              >Binibining CamNorte</span
-            >
-            <span
-              class="btag"
-              style="background: rgba(104, 211, 145, 0.15); color: #276749"
-              >Heritage Tribute</span
-            >
-            <span
-              class="btag"
-              style="background: rgba(159, 122, 234, 0.15); color: #9f7aea"
-              >Started 2005</span
-            >
-            <span
-              class="btag"
-              style="background: rgba(252, 129, 129, 0.15); color: #c53030"
-              >Province-Wide</span
-            >
-          </div>
-        </div>
-
-        <div class="fest-grid" id="all-fest-grid"></div>
-      </section>
-    </div>
-
-    <div class="page" id="page-about">
-      <div class="about-hero">
-        <h1 class="fade-in">About Camarines Norte</h1>
-        <p class="fade-in">
-          Hilagang Camarines — a province of resilience, heroism, and
-          breathtaking natural beauty.
-        </p>
-      </div>
-      <section class="section">
-        <div class="section-tag fade-in">
-          <i class="ti ti-map"></i> Geography
-        </div>
-        <div class="section-title fade-in">The Northern Frontier</div>
-        <div class="two-col">
-          <div class="slide-left">
-            <p
-              style="
-                font-size: 14px;
-                color: var(--gray);
-                line-height: 1.8;
-                margin-bottom: 16px;
-              "
-            >
-              Camarines Norte is strategically positioned as the
-              <strong>gateway to the Bicol Region</strong>. Bounded by the vast
-              Pacific Ocean to the north and east, and neighboring Quezon
-              province and Camarines Sur to the south and west, its geography
-              dictates its stunning environment.
-            </p>
-            <p style="font-size: 14px; color: var(--gray); line-height: 1.8">
-              The province is characterized by cascading waterfalls, lush
-              mountains, and paradise-like beaches — most notably the
-              world-class <strong>Calaguas Islands</strong>. Its capital,
-              <strong>Daet</strong>, serves as the bustling central hub for
-              travelers exploring the province's coastal and inland wonders.
-            </p>
-          </div>
-          <div class="slide-right">
-            <img
-              src="Asset/Beaches/Calaguas Island.jpg"
-              alt="Camarines Norte"
-              style="
-                border-radius: var(--radius);
-                box-shadow: var(--shadow-lg);
-                width: 100%;
-                height: 260px;
-                object-fit: cover;
-              "
-            />
-          </div>
-        </div>
-      </section>
-      <section class="section section-alt">
-        <div class="section-tag fade-in">
-          <i class="ti ti-clock"></i> History
-        </div>
-        <div class="section-title fade-in">A Journey Through Time</div>
-        <p class="section-sub fade-in">
-          Camarines Norte's history is a story of resilience, rebellion, and a
-          fierce desire for independence.
-        </p>
-        <div class="timeline">
-          <div class="tl-item orange slide-left">
-            <div class="tl-era">1573–1829 · Spanish Period</div>
-            <div class="tl-title">Ambos Camarines Era</div>
-            <div class="tl-desc">
-              Governed as one unit with Camarines Sur as "Ambos Camarines."
-              Towns of Daet, Paracale, and Indan (now Vinzons) were established.
-              Paracale's gold mining and goldsmithing skills were already
-              thriving even before the Spanish arrived.
-            </div>
-          </div>
-          <div class="tl-item blue slide-right">
-            <div class="tl-era">April 1898 · Revolutionary Era</div>
-            <div class="tl-title">The Daet Revolt</div>
-            <div class="tl-desc">
-              Katipunan leader Ildefonso Moreno led an uprising against Spanish
-              colonizers, briefly occupying Daet. Though crushed by Spanish
-              reinforcements resulting in Moreno's martyrdom, it ignited the
-              flame of rebellion throughout the entire Bicol region.
-            </div>
-          </div>
-          <div class="tl-item gold slide-left">
-            <div class="tl-era">
-              March 3, 1919 / April 15, 1920 · American Period
-            </div>
-            <div class="tl-title">A Province is Born</div>
-            <div class="tl-desc">
-              Act 2809 was passed by the Philippine Legislature on March 3,
-              1919, authorizing partition. Camarines Norte was officially
-              declared a fully independent province on April 15, 1920 under
-              Executive Order No. 22.
-            </div>
-          </div>
-          <div class="tl-item red slide-right">
-            <div class="tl-era">December 18, 1941 · World War II</div>
-            <div class="tl-title">First Guerrilla Stand in the Philippines</div>
-            <div class="tl-desc">
-              Just days after the bombing of Pearl Harbor, Camarines Norte
-              became the site of the FIRST guerrilla encounter in the
-              Philippines. Led by Governor Wenceslao Q. Vinzons, resistance
-              fighters engaged the Japanese Imperial Army in Laniton, Basud.
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section">
-        <div class="section-tag fade-in">
-          <i class="ti ti-users"></i> Culture & Traditions
-        </div>
-        <div class="section-title fade-in">The Heart of the North</div>
-        <div class="two-col">
-          <div class="culture-card slide-left">
-            <div class="culture-title">
-              <i class="ti ti-message-2"></i> Language & Identity
-            </div>
-            <div class="culture-desc">
-              Despite being a Bicolano province, Camarines Norte boasts a unique
-              linguistic identity. Due to its proximity to Quezon province, a
-              slight majority of the population speaks <strong>Tagalog</strong>,
-              while eastern towns lean toward a distinct Bicolano variation
-              mixing Tagalog and Bicolano influences.
-            </div>
-            <ul class="culture-list" style="margin-top: 10px">
-              <li>
-                Home to the <strong>Manide Tribe</strong> — an indigenous
-                community in the highlands of Jose Panganiban
-              </li>
-              <li>Unique blend of Tagalog and Bicolano languages</li>
-            </ul>
-          </div>
-          <div class="culture-card slide-right">
-            <div class="culture-title">
-              <i class="ti ti-plant"></i> Traditional Livelihoods
-            </div>
-            <ul class="culture-list">
-              <li>
-                <strong>Agriculture:</strong> Coconuts, root crops, and the
-                famous incredibly sweet Queen Formosa pineapples
-              </li>
-              <li>
-                <strong>Fishing:</strong> Mercedes is a major fishing hub
-                supplying fresh fish and shrimp to Manila, famous for
-                high-quality dried fish
-              </li>
-              <li>
-                <strong>Gold & Jewelry Crafting:</strong> Paracale continues
-                centuries-old traditions of crafting fine gold jewelry including
-                the agrimon and alakdan necklaces
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      <section class="section section-alt">
-        <div class="section-tag fade-in">
-          <i class="ti ti-user-star"></i> Notable Heroes
-        </div>
-        <div class="section-title fade-in">
-          Historical Figures of Camarines Norte
-        </div>
-        <p class="section-sub fade-in">
-          The province is the birthplace of some of the Philippines' most
-          brilliant minds and fiercest patriots.
-        </p>
-        <div class="heroes-grid">
-          <div class="hero-figure zoom-in">
-            <div class="hero-fig-icon hfi-orange">
-              <i class="ti ti-shield"></i>
-            </div>
-            <div class="hero-fig-name">Wenceslao Q. Vinzons</div>
-            <div class="hero-fig-title">
-              WWII Guerrilla Hero · Provincial Governor
-            </div>
-            <div class="hero-fig-desc">
-              Born in Indan (now Vinzons), he was a brilliant lawyer, orator,
-              and student leader. At age 24, he became the youngest delegate to
-              the 1934 Constitutional Convention. When the Japanese invaded in
-              1941, he organized the armed guerrilla resistance in Bicol.
-              Captured in 1942, he refused to collaborate and was executed — a
-              true national martyr.
-            </div>
-          </div>
-          <div class="hero-figure zoom-in" style="transition-delay: 0.1s">
-            <div class="hero-fig-icon hfi-blue">
-              <i class="ti ti-writing"></i>
-            </div>
-            <div class="hero-fig-name">José María Panganiban</div>
-            <div class="hero-fig-title">
-              Propaganda Movement Writer · Linguist
-            </div>
-            <div class="hero-fig-desc">
-              Born in Mambulao (now Jose Panganiban). An exceptional
-              intellectual with a photographic memory, he joined the Propaganda
-              Movement alongside José Rizal and Marcelo H. del Pilar. Writing as
-              "Jomapa" for La Solidaridad, Rizal himself praised him as "an
-              excellent companion of labor and a legitimate hope of his
-              unfortunate country."
-            </div>
-          </div>
-          <div class="hero-figure zoom-in" style="transition-delay: 0.2s">
-            <div class="hero-fig-icon hfi-green">
-              <i class="ti ti-sword"></i>
-            </div>
-            <div class="hero-fig-name">Vicente Lukban</div>
-            <div class="hero-fig-title">
-              Revolutionary General · Born in Labo (1860–1916)
-            </div>
-            <div class="hero-fig-desc">
-              Born in Labo on February 11, 1860. He joined the Philippine
-              Revolution and became a trusted general under Emilio Aguinaldo. As
-              military governor of Samar, he led the Filipino resistance against
-              American forces using effective guerrilla warfare tactics. Later
-              elected governor of Tayabas Province after his capture in 1902.
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div class="page" id="page-reserve">
-      <div style="padding-top: 80px"></div>
-      <div class="form-section zoom-in">
-        <div class="form-card">
-          <div class="section-tag" style="margin-bottom: 8px">
-            <i class="ti ti-building"></i> Hotel Reservation
-          </div>
-          <div class="form-title">Book Your Stay in Camarines Norte</div>
-          <div class="form-sub">
-            Fill in the details below to reserve your hotel. All fields marked
-            with * are required.
-          </div>
-          <div id="reserve-form-wrap">
-            <form id="reserveForm" onsubmit="submitReservation(event)">
-              <div class="form-section-label">Personal Information</div>
-              <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label">First Name *</label>
-                  <input
-                    class="form-input"
-                    type="text"
-                    name="firstName"
-                    placeholder="Juan"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Last Name *</label>
-                  <input
-                    class="form-input"
-                    type="text"
-                    name="lastName"
-                    placeholder="Dela Cruz"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Email Address *</label>
-                  <input
-                    class="form-input"
-                    type="email"
-                    name="email"
-                    placeholder="juan@email.com"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Phone Number *</label>
-                  <input
-                    class="form-input"
-                    type="tel"
-                    name="phone"
-                    placeholder="+63 9XX XXX XXXX"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label"
-                    >Government ID / Passport No. *</label
-                  >
-                  <input
-                    class="form-input"
-                    type="text"
-                    name="govId"
-                    placeholder="ID Number"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Number of Guests *</label>
-                  <input
-                    class="form-input"
-                    type="number"
-                    name="guests"
-                    min="1"
-                    max="20"
-                    placeholder="2"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Nationality</label>
-                  <input
-                    class="form-input"
-                    type="text"
-                    name="nationality"
-                    placeholder="Filipino"
-                  />
-                </div>
-              </div>
-              <div class="form-divider"></div>
-              <div class="form-section-label">Accommodation Details</div>
-              <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label">Hotel / Resort *</label>
-                  <select class="form-input form-select" name="hotel" required>
-                    <option value="">Select Hotel</option>
-                    <option>
-                      Catherine's Bagasbas Lighthouse Resort — Daet
-                    </option>
-                    <option>Hoogpaan Resort — Bagasbas</option>
-                    <option>Bagasbas Beach Hotel — Daet</option>
-                    <option>CamNorte Heritage Inn — Daet</option>
-                    <option>Mercedes Beachfront Resort — Mercedes</option>
-                    <option>Calaguas Island Lodge — Vinzons</option>
-                    <option>Paracale Gold Inn — Paracale</option>
-                    <option>Labo Mountain View Lodge — Labo</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Room Type *</label>
-                  <select
-                    class="form-input form-select"
-                    name="roomType"
-                    required
-                  >
-                    <option value="">Select Room Type</option>
-                    <option>Standard Room</option>
-                    <option>Deluxe Room</option>
-                    <option>Suite</option>
-                    <option>Family Room</option>
-                    <option>Beach Front Cottage</option>
-                    <option>Dormitory / Bunk Bed</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Check-In Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="checkIn"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Check-Out Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="checkOut"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="form-divider"></div>
-              <div class="form-section-label">Trip Preferences</div>
-              <div class="form-group full" style="margin-bottom: 16px">
-                <label class="form-label">Destinations to Visit</label>
-                <div class="check-grid">
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Bagasbas Beach"
-                    />
-                    Bagasbas Beach</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Calaguas Island"
-                    />
-                    Calaguas Island</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Mercedes Islands"
-                    />
-                    Mercedes Islands (Siete Pecados)</label
-                  >
-                  <label class="check-item"
-                    ><input type="checkbox" name="dest" value="Parola Island" />
-                    Parola Island (Pink Sand)</label
-                  >
-                  <label class="check-item"
-                    ><input type="checkbox" name="dest" value="Mt. Labo" /> Mt.
-                    Labo Trekking</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Bantayog ni Rizal"
-                    />
-                    Bantayog ni Rizal</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Black Nazarene"
-                    />
-                    Black Nazarene Shrine</label
-                  >
-                  <label class="check-item"
-                    ><input type="checkbox" name="dest" value="Nacali Falls" />
-                    Nacali Falls</label
-                  >
-                </div>
-              </div>
-              <div class="form-group full">
-                <label class="form-label">Special Requests / Message</label>
-                <textarea
-                  class="form-input form-textarea"
-                  name="message"
-                  placeholder="Any special requests, dietary needs, or questions?"
-                ></textarea>
-              </div>
-              <button type="submit" class="form-submit" id="reserveBtn">
-                <i class="ti ti-check"></i> Confirm Reservation
-              </button>
-            </form>
-          </div>
-          <div id="reserve-success" class="success-screen hidden">
-            <div class="success-icon"><i class="ti ti-check"></i></div>
-            <div class="success-title">Reservation Confirmed!</div>
-            <div class="success-sub">
-              Your hotel booking has been successfully recorded. You will
-              receive a confirmation email shortly.
-              <strong>Madya na kamo sa Camarines Norte!</strong>
-            </div>
-            <div
-              style="
-                display: flex;
-                gap: 12px;
-                justify-content: center;
-                flex-wrap: wrap;
-              "
-            >
-              <button class="btn-primary" onclick="showPage('bookings')">
-                <i class="ti ti-list"></i> View My Bookings
-              </button>
-              <button
-                class="btn-outline"
-                style="
-                  color: var(--coral);
-                  border-color: var(--coral);
-                  background: #fff;
-                "
-                onclick="
-                  resetForm(
-                    'reserveForm',
-                    'reserve-form-wrap',
-                    'reserve-success',
-                  )
-                "
-              >
-                Make Another Reservation
-              </button>
-            </div>
-          </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <div class="footer-social" style="margin-top:0;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <div class="footer-soc"><i class="ti ti-brand-facebook"></i></div>
+          <div class="footer-soc"><i class="ti ti-brand-instagram"></i></div>
+          <div class="footer-soc"><i class="ti ti-brand-twitter"></i></div>
+          <div class="footer-soc"><i class="ti ti-brand-youtube"></i></div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Camarines Norte Tourism Office · Province of Camarines Norte, Bicol Region, Philippines</div>
+  </div>
+</footer>
 
-    <div class="page" id="page-plan">
-      <div style="padding-top: 80px"></div>
-      <section class="section section-alt" style="padding-top: 60px">
-        <div class="section-tag fade-in">
-          <i class="ti ti-calendar"></i> Plan Your Visit
-        </div>
-        <div class="section-title fade-in">
-          Plan Your Trip to Camarines Norte
-        </div>
+<div class="modal-overlay" id="destModal" onclick="closeModal(event)">
+  <div class="modal modal-wrap">
+    <button class="modal-close" onclick="document.getElementById('destModal').classList.remove('show')"><i class="ti ti-x"></i></button>
+    <div id="modal-content"></div>
+  </div>
+</div>
 
-        <div class="slide-left" style="margin-bottom: 40px">
-          <h3
-            style="
-              font-size: 16px;
-              font-weight: 800;
-              color: var(--dark);
-              margin-bottom: 8px;
-            "
-          >
-            Best Time to Visit
-          </h3>
-          <p
-            style="
-              font-size: 13px;
-              color: var(--light-gray);
-              margin-bottom: 16px;
-            "
-          >
-            Click a month to see travel tips. Peak Season · Shoulder Season ·
-            Off-Peak
-          </p>
-          <div class="month-grid">
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'January',
-                  'Peak season! Excellent beach weather. Best time for island hopping and surfing at Bagasbas.',
-                )
-              "
-            >
-              Jan
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'February',
-                  'Peak season! Cool and dry. Perfect for trekking Mt. Labo and visiting heritage sites.',
-                )
-              "
-            >
-              Feb
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'March',
-                  'Peak season! Warm and sunny. Ideal for Calaguas Island and Mercedes Siete Pecados.',
-                )
-              "
-            >
-              Mar
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'April',
-                  'Peak + Bantayog Festival month! Witness the grand province-wide celebration. Book early!',
-                )
-              "
-            >
-              Apr
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'May',
-                  'Late peak season. Great weather, fewer crowds. Perfect for waterfalls and eco-tourism.',
-                )
-              "
-            >
-              May
-            </button>
-            <button
-              class="month-btn shoulder"
-              onclick="
-                showMonthTip(
-                  this,
-                  'June',
-                  'Pinyasan & Mambulawan Festivals! Some rain possible but festive atmosphere.',
-                )
-              "
-            >
-              Jun
-            </button>
-            <button
-              class="month-btn shoulder"
-              onclick="
-                showMonthTip(
-                  this,
-                  'July',
-                  'Shoulder season. Occasional rain. Kadagatan Festival in Mercedes (Aug 1-8).',
-                )
-              "
-            >
-              Jul
-            </button>
-            <button
-              class="month-btn shoulder"
-              onclick="
-                showMonthTip(
-                  this,
-                  'August',
-                  'Kadagatan Festival! Reduced hotel rates. Great for cultural tourism.',
-                )
-              "
-            >
-              Aug
-            </button>
-            <button
-              class="month-btn offpeak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'September',
-                  'Busig-on Festival in Labo! Rainy season — bring rain gear. Good for indoor heritage sites.',
-                )
-              "
-            >
-              Sep
-            </button>
-            <button
-              class="month-btn offpeak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'October',
-                  'Rahugan Festival in Basud (Oct 18-24). Off-peak but cultural events make it worthwhile.',
-                )
-              "
-            >
-              Oct
-            </button>
-            <button
-              class="month-btn offpeak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'November',
-                  'Weather transitioning. Budget-friendly rates. Pre-Christmas quiet charm.',
-                )
-              "
-            >
-              Nov
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'December',
-                  'Peak season begins! Christmas festivities, great beach weather, festive province.',
-                )
-              "
-            >
-              Dec
-            </button>
-          </div>
-          <div class="month-tip" id="month-tip"></div>
-        </div>
+<div class="toast" id="toast"></div>
 
-        <h3
-          class="fade-in"
-          style="
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 12px;
-          "
-        >
-          How to Get There
-        </h3>
-        <div class="transport-tabs fade-in">
-          <button
-            class="transport-tab active"
-            onclick="showTransport(this, 'air')"
-          >
-            <i class="ti ti-plane"></i> By Air
-          </button>
-          <button class="transport-tab" onclick="showTransport(this, 'land')">
-            <i class="ti ti-bus"></i> By Land
-          </button>
-          <button class="transport-tab" onclick="showTransport(this, 'sea')">
-            <i class="ti ti-ship"></i> By Sea
-          </button>
-        </div>
-        <div class="transport-content active fade-in" id="transport-air">
-          <p>
-            <strong>Nearest Airport:</strong> Naga Airport (IATA: WNP) in
-            Camarines Sur, approximately 2–3 hours from Daet. Alternatively, fly
-            to Ninoy Aquino International Airport (Manila) and take a bus or van
-            to Daet.<br /><br /><strong>From Manila by Air + Land:</strong> Fly
-            to Naga (~1 hr), then take a van/bus to Daet (~2 hrs). Total travel:
-            approximately 3–4 hours.
-          </p>
-        </div>
-        <div class="transport-content fade-in" id="transport-land">
-          <p>
-            <strong>From Manila by Bus:</strong> Multiple bus companies
-            (Peñafrancia, Isarog, DLTB) operate daily trips from or Pasay to
-            Daet. Travel time: approximately 7–9 hours overnight.<br /><br /><strong
-              >From Naga City:</strong
-            >
-            Take a van or bus from Naga City Bus Terminal to Daet. Travel time:
-            approximately 1.5–2 hours. Vans depart regularly throughout the day.
-          </p>
-        </div>
-        <div class="transport-content fade-in" id="transport-sea">
-          <p>
-            <strong>Limited Sea Routes:</strong> No direct ferry service from
-            Manila to Camarines Norte currently. Sea travel is mainly used for
-            inter-island trips within the province — especially for island
-            hopping to Calaguas Island, Mercedes Islands (Siete Pecados), and
-            Parola Island.<br /><br /><strong>Island Hopping Boats:</strong>
-            Available at Mercedes Fish Port and Calaguas jump-off points. Always
-            coordinate with local boat operators in advance.
-          </p>
-        </div>
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top"><i class="ti ti-arrow-up"></i></button>
 
-        <div class="slide-right" style="margin-top: 40px; margin-bottom: 40px">
-          <h3
-            style="
-              font-size: 16px;
-              font-weight: 800;
-              color: var(--dark);
-              margin-bottom: 16px;
-            "
-          >
-            Frequently Asked Questions
-          </h3>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              Is Camarines Norte safe to visit? <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Yes! Camarines Norte is generally safe for tourists. The local
-                government actively promotes tourism and the communities are
-                known for their warm, welcoming hospitality. As with any travel,
-                practice standard safety precautions, keep valuables secure, and
-                stay updated on local advisories.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What is the best beach in Camarines Norte?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Bagasbas Beach in Daet is the most famous — it's the Surfing
-                Capital of Bicol. For pristine white sand, Calaguas Island's
-                Mahabang Buhangin is considered world-class. For a unique
-                experience, visit Parola Island's pink sand beach in Jose
-                Panganiban.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              How far is Camarines Norte from Manila? <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Camarines Norte is approximately 400–450 km from Manila. By bus,
-                the journey takes about 7–9 hours overnight. The fastest way is
-                to fly to Naga Airport and then take a van/bus to Daet, totaling
-                about 3–4 hours.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What is Camarines Norte famous for? <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Camarines Norte is famous for: (1) Bagasbas Beach — Surfing
-                Capital of Bicol, (2) Calaguas Island — one of the most
-                beautiful beaches in the Philippines, (3) The First Rizal
-                Monument in the Philippines (in Daet), (4) Paracale's gold
-                mining heritage, (5) The Black Nazarene Shrine in Capalonga, and
-                (6) The province-wide Bantayog Festival every April.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              Do I need a guide to visit Calaguas Island?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                While not strictly required, hiring a local guide or joining an
-                organized tour is highly recommended for Calaguas Island. The
-                island is accessible only by boat and is quite remote. Local
-                tour operators in Vinzons or Daet can arrange everything — boat,
-                food, accommodations, and itinerary.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What are the must-try foods in Camarines Norte?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Don't miss: Angko (glutinous rice cake from Vinzons),
-                Pandecillos (pili nut pastry), Sinantol (coconut milk and santol
-                fruit dish), Kinunot (shark or stingray in coconut milk),
-                Tinumok (taro leaf wrap), Tinapa of Mercedes (smoked fish), and
-                Pili Tart & Roll from Daet.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What language do people speak in Camarines Norte?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                A unique mix of Tagalog and Bicolano. Due to its proximity to
-                Quezon province, a slight majority speaks Tagalog. Eastern towns
-                speak a distinct Bicolano variation. Filipino (Tagalog) and
-                English are widely understood, so communication is generally
-                easy for visitors.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              When is the Bantayog Festival? <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                The Bantayog Festival is celebrated throughout the entire month
-                of April, making it a month-long province-wide celebration. It
-                was first held in April 2005 for the 85th founding anniversary
-                of the province. Key events include the Grand Parade, Binibining
-                Camarines Norte, Street Dancing, and Parangal sa Natatanging
-                Camnorteño.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-card zoom-in">
-          <div class="section-tag" style="margin-bottom: 8px">
-            <i class="ti ti-route"></i> Trip Planner
-          </div>
-          <div class="form-title">Plan Your Camarines Norte Adventure</div>
-          <div class="form-sub">
-            Tell us about your trip and we'll help you make the most of it.
-          </div>
-          <div id="plan-form-wrap">
-            <form id="planForm" onsubmit="submitTripPlan(event)">
-              <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label">Full Name *</label>
-                  <input
-                    class="form-input"
-                    type="text"
-                    name="name"
-                    placeholder="Juan Dela Cruz"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Email *</label>
-                  <input
-                    class="form-input"
-                    type="email"
-                    name="email"
-                    placeholder="juan@email.com"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Travel Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="travelDate"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Number of Travelers *</label>
-                  <input
-                    class="form-input"
-                    type="number"
-                    name="travelers"
-                    min="1"
-                    max="50"
-                    placeholder="4"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Trip Duration</label>
-                  <select class="form-input form-select" name="duration">
-                    <option>1 Day</option>
-                    <option selected>2–3 Days</option>
-                    <option>4–5 Days</option>
-                    <option>1 Week</option>
-                    <option>More than 1 Week</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Budget Range</label>
-                  <select class="form-input form-select" name="budget">
-                    <option>Budget (₱1,000–₱3,000/day)</option>
-                    <option selected>Mid-Range (₱3,000–₱7,000/day)</option>
-                    <option>Premium (₱7,000–₱15,000/day)</option>
-                    <option>Luxury (₱15,000+/day)</option>
-                  </select>
-                </div>
-                <div class="form-group full">
-                  <label class="form-label">Preferred Destinations</label>
-                  <div class="check-grid">
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="pdest"
-                        value="Bagasbas Beach"
-                      />
-                      Bagasbas Beach</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="pdest"
-                        value="Calaguas Island"
-                      />
-                      Calaguas Island</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="pdest"
-                        value="Mercedes Islands"
-                      />
-                      Mercedes Siete Pecados</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="pdest"
-                        value="Parola Island"
-                      />
-                      Parola Pink Sand Beach</label
-                    >
-                    <label class="check-item"
-                      ><input type="checkbox" name="pdest" value="Mt. Labo" />
-                      Mt. Labo Trekking</label
-                    >
-                    <label class="check-item"
-                      ><input type="checkbox" name="pdest" value="Waterfalls" />
-                      Waterfalls Tour</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="pdest"
-                        value="Heritage Sites"
-                      />
-                      Heritage & Religious Sites</label
-                    >
-                    <label class="check-item"
-                      ><input type="checkbox" name="pdest" value="Food Tour" />
-                      Food & Culinary Tour</label
-                    >
-                  </div>
-                </div>
-                <div class="form-group full">
-                  <label class="form-label"
-                    >Special Requests or Questions</label
-                  >
-                  <textarea
-                    class="form-input form-textarea"
-                    name="notes"
-                    placeholder="Tell us more about your trip preferences, dietary needs, or any questions..."
-                  ></textarea>
-                </div>
-              </div>
-              <button type="submit" class="form-submit" id="planBtn">
-                <i class="ti ti-send"></i> Submit Trip Plan
-              </button>
-            </form>
-          </div>
-          <div id="plan-success" class="success-screen hidden">
-            <div class="success-icon"><i class="ti ti-check"></i></div>
-            <div class="success-title">Trip Plan Submitted!</div>
-            <div class="success-sub">
-              Your trip plan has been saved! You can view it in My Bookings. Our
-              team will get back to you within 24 hours.
-              <strong>Madya na kamo!</strong>
-            </div>
-            <div
-              style="
-                display: flex;
-                gap: 12px;
-                justify-content: center;
-                flex-wrap: wrap;
-              "
-            >
-              <button class="btn-primary" onclick="showPage('bookings')">
-                <i class="ti ti-list"></i> View My Bookings
-              </button>
-              <button
-                class="btn-outline"
-                style="
-                  color: var(--coral);
-                  border-color: var(--coral);
-                  background: #fff;
-                "
-                onclick="
-                  resetForm('planForm', 'plan-form-wrap', 'plan-success')
-                "
-              >
-                Plan Another Trip
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div class="page" id="page-bookings">
-      <div style="padding-top: 80px"></div>
-      <section class="section fade-in" style="padding-top: 60px">
-        <div class="section-tag">
-          <i class="ti ti-list"></i> Booking Records
-        </div>
-        <div class="section-title">My Bookings & Reservations</div>
-        <p class="section-sub">
-          All your hotel reservations and trip plans are listed below in
-          real-time.
-        </p>
-        <div
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-          "
-        >
-          <div class="tab-row" style="margin-bottom: 0">
-            <button
-              class="tab-btn active"
-              onclick="switchBookingTab(this, 'hotels')"
-            >
-              Hotel Reservations
-            </button>
-            <button class="tab-btn" onclick="switchBookingTab(this, 'trips')">
-              Trip Plans
-            </button>
-          </div>
-          <button
-            class="btn-primary"
-            style="padding: 10px 20px; font-size: 13px"
-            onclick="loadBookings()"
-          >
-            <i class="ti ti-refresh"></i> Refresh
-          </button>
-        </div>
-        <div class="tab-content active" id="tab-hotels">
-          <div id="hotels-table-wrap"></div>
-        </div>
-        <div class="tab-content" id="tab-trips">
-          <div id="trips-table-wrap"></div>
-        </div>
-      </section>
-    </div>
-
-    <div class="page" id="page-contact">
-      <div style="padding-top: 80px"></div>
-      <section class="section section-alt" style="padding-top: 60px">
-        <div class="section-tag fade-in">
-          <i class="ti ti-mail"></i> Get in Touch
-        </div>
-        <div class="section-title fade-in">Contact Us</div>
-        <p class="section-sub fade-in">
-          Have questions about Camarines Norte? We'd love to hear from you!
-        </p>
-        <div class="contact-grid">
-          <div class="slide-left">
-            <div class="contact-info-card">
-              <div class="contact-info-item">
-                <div class="contact-icon"><i class="ti ti-map-pin"></i></div>
-                <div>
-                  <div class="contact-info-label">Address</div>
-                  <div class="contact-info-val">
-                    Capitol Complex, Daet, Camarines Norte, Philippines
-                  </div>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <div class="contact-icon"><i class="ti ti-phone"></i></div>
-                <div>
-                  <div class="contact-info-label">Phone</div>
-                  <div class="contact-info-val">(054) 440-1234</div>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <div class="contact-icon"><i class="ti ti-mail"></i></div>
-                <div>
-                  <div class="contact-info-label">Email</div>
-                  <div class="contact-info-val">
-                    tourism@camarinesnorte.gov.ph
-                  </div>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <div class="contact-icon"><i class="ti ti-clock"></i></div>
-                <div>
-                  <div class="contact-info-label">Office Hours</div>
-                  <div class="contact-info-val">
-                    Monday–Friday, 8:00 AM – 5:00 PM
-                  </div>
-                </div>
-              </div>
-              <div class="map-placeholder">
-                <i class="ti ti-map-pin"></i>
-                <p>Daet, Camarines Norte, Philippines</p>
-                <button
-                  class="btn-maps"
-                  onclick="
-                    window.open(
-                      'https://www.google.com/maps/place/Daet,+Camarines+Norte',
-                      '_blank',
-                    )
-                  "
-                >
-                  View on Google Maps
-                </button>
-              </div>
-              <div class="social-row">
-                <div class="soc-btn"><i class="ti ti-brand-facebook"></i></div>
-                <div class="soc-btn"><i class="ti ti-brand-instagram"></i></div>
-                <div class="soc-btn"><i class="ti ti-brand-twitter"></i></div>
-                <div class="soc-btn"><i class="ti ti-brand-youtube"></i></div>
-                <div class="soc-btn"><i class="ti ti-mail"></i></div>
-              </div>
-            </div>
-          </div>
-          <div class="slide-right">
-            <div class="form-card" style="box-shadow: var(--shadow)">
-              <div class="form-title" style="font-size: 22px">
-                Send Us a Message
-              </div>
-              <div class="form-sub">We'll get back to you within 24 hours.</div>
-              <div id="contact-form-wrap">
-                <form id="contactForm" onsubmit="submitContact(event)">
-                  <div class="form-group" style="margin-bottom: 14px">
-                    <label class="form-label">Full Name *</label>
-                    <input
-                      class="form-input"
-                      type="text"
-                      name="name"
-                      placeholder="Juan Dela Cruz"
-                      required
-                    />
-                  </div>
-                  <div class="form-group" style="margin-bottom: 14px">
-                    <label class="form-label">Email Address *</label>
-                    <input
-                      class="form-input"
-                      type="email"
-                      name="email"
-                      placeholder="juan@email.com"
-                      required
-                    />
-                  </div>
-                  <div class="form-group" style="margin-bottom: 14px">
-                    <label class="form-label">Subject *</label>
-                    <select
-                      class="form-input form-select"
-                      name="subject"
-                      required
-                    >
-                      <option value="">Select Subject</option>
-                      <option>Hotel Reservation Inquiry</option>
-                      <option>Trip Planning Assistance</option>
-                      <option>Festival Information</option>
-                      <option>Destination Guide</option>
-                      <option>General Inquiry</option>
-                    </select>
-                  </div>
-                  <div class="form-group" style="margin-bottom: 14px">
-                    <label class="form-label">Message *</label>
-                    <textarea
-                      class="form-input form-textarea"
-                      name="message"
-                      placeholder="Your message here..."
-                      required
-                      style="min-height: 120px"
-                    ></textarea>
-                  </div>
-                  <button type="submit" class="form-submit" id="contactBtn">
-                    <i class="ti ti-send"></i> Send Message
-                  </button>
-                </form>
-              </div>
-              <div id="contact-success" class="success-screen hidden">
-                <div class="success-icon"><i class="ti ti-check"></i></div>
-                <div class="success-title">Message Sent!</div>
-                <div class="success-sub">
-                  Thank you for reaching out! We'll get back to you within 24
-                  hours. Madya na kamo!
-                </div>
-                <button
-                  class="btn-primary"
-                  onclick="
-                    resetForm(
-                      'contactForm',
-                      'contact-form-wrap',
-                      'contact-success',
-                    )
-                  "
-                >
-                  Send Another Message
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <footer>
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              gap: 10px;
-              margin-bottom: 10px;
-            "
-          >
-            <div class="nav-logo-icon">
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="40" height="40" rx="10" fill="url(#paint_logo3)" />
-                <path
-                  d="M8 26L16 14L22 22L30 10L34 16"
-                  stroke="white"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M8 30C14 27 26 33 32 30"
-                  stroke="#FFF0EB"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                />
-                <circle cx="28" cy="14" r="3.5" fill="#FFD166" />
-                <defs>
-                  <linearGradient
-                    id="paint_logo3"
-                    x1="0"
-                    y1="0"
-                    x2="40"
-                    y2="40"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stop-color="#FF6B35" />
-                    <stop offset="1" stop-color="#1A6B8A" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <div style="font-size: 15px; font-weight: 800; color: #fff">
-              Camarines Norte
-            </div>
-          </div>
-          <p class="footer-tagline">"Madya na Kamo sa Camarines Norte!"</p>
-          <p>
-            Discover Bicol's Hidden Treasures — beaches, heritage, festivals,
-            and flavors await.
-          </p>
-        </div>
-        <div class="footer-col">
-          <h4>Explore</h4>
-          <ul>
-            <li><button onclick="showPage('explore')">Destinations</button></li>
-            <li><button onclick="showPage('food')">Food & Culinary</button></li>
-            <li><button onclick="showPage('festivals')">Festivals</button></li>
-            <li><button onclick="showPage('about')">About Province</button></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Contacts</h4>
-          <ul
-            style="
-              color: rgba(255, 255, 255, 0.4);
-              font-size: 13px;
-              line-height: 1.8;
-            "
-          >
-            <li><i class="ti ti-map-pin"></i> Capitol Complex, Daet</li>
-            <li><i class="ti ti-phone"></i> (054) 440-1234</li>
-            <li><i class="ti ti-mail"></i> tourism@camarinesnorte.gov.ph</li>
-            <li><i class="ti ti-clock"></i> Mon-Fri, 8AM - 5PM</li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Connect</h4>
-          <div
-            class="footer-social"
-            style="margin-top: 0; flex-direction: column; gap: 8px"
-          >
-            <div style="display: flex; gap: 8px; margin-top: 4px">
-              <div class="footer-soc"><i class="ti ti-brand-facebook"></i></div>
-              <div class="footer-soc">
-                <i class="ti ti-brand-instagram"></i>
-              </div>
-              <div class="footer-soc"><i class="ti ti-brand-twitter"></i></div>
-              <div class="footer-soc"><i class="ti ti-brand-youtube"></i></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="footer-copy">
-          © 2026 Camarines Norte Tourism Office · Province of Camarines Norte,
-          Bicol Region, Philippines
-        </div>
-      </div>
-    </footer>
-
-    <div class="modal-overlay" id="destModal" onclick="closeModal(event)">
-      <div class="modal modal-wrap">
-        <button
-          class="modal-close"
-          onclick="
-            document.getElementById('destModal').classList.remove('show')
-          "
-        >
-          <i class="ti ti-x"></i>
-        </button>
-        <div id="modal-content"></div>
-      </div>
-    </div>
-
-    <div class="toast" id="toast"></div>
-
-    <button
-      class="scroll-top"
-      id="scrollTop"
-      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-      aria-label="Scroll to top"
-    >
-      <i class="ti ti-arrow-up"></i>
-    </button>
-
-    <script type="module" src="js/main.js"></script>
-  </body>
+<script type="module" src="js/main.js"></script>
+</body>
 </html>
