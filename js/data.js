@@ -118,7 +118,7 @@ export const DESTINATIONS = [
     rating: "4.6",
     visitors: "8K+",
     best: "Feb–May",
-    img: "Asset/Beaches/Maculabo.jpg",
+    img: "Asset/Beaches/Maculabo Island.jpg",
     desc: "A pristine island in Paracale known for its powdery white sand and crystal-clear turquoise waters. Perfect for swimming and snorkeling.",
   },
   {
@@ -130,7 +130,7 @@ export const DESTINATIONS = [
     rating: "4.5",
     visitors: "5K+",
     best: "All year",
-    img: "Assets/Rivers_Falls/",
+    img: "Asset/Rivers_Falls/Mananap Falls.jpeg",
     desc: "A stunning 60-foot waterfall tucked inside the lush forests of San Vicente. It requires a scenic hike, rewarding visitors with a refreshing icy plunge.",
   },
   {
