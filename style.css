@@ -138,9 +138,35 @@ button {
   transition: all 0.25s;
   cursor: pointer;
 }
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.15);
+.nav-link {
+  padding: 7px 14px;
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  border: none;
+  background: none;
+  transition: color 0.25s, border-color 0.25s;
+  cursor: pointer;
+  position: relative;
+}
+.nav-link:hover,
+.nav-link:focus {
   color: #fff;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.25s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
 }
 .navbar.scrolled .nav-link,
 .navbar.force-solid .nav-link {
@@ -148,12 +174,14 @@ button {
 }
 .navbar.scrolled .nav-link:hover,
 .navbar.force-solid .nav-link:hover {
-  background: var(--coral-light);
-  color: var(--coral);
+  color: var(--dark);
+}
+.navbar.scrolled .nav-link::after,
+.navbar.force-solid .nav-link::after {
+  background: var(--coral);
 }
 .nav-link.active {
   color: var(--coral) !important;
-  background: var(--coral-light) !important;
 }
 
 .nav-cta {
