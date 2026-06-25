@@ -76,9 +76,9 @@ button {
 }
 .navbar.scrolled,
 .navbar.force-solid {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: none;
+  box-shadow: none;
 }
 .nav-logo {
   display: flex;
@@ -1436,14 +1436,14 @@ button {
 
 /* ===== ABOUT PAGE ===== */
 .about-hero {
-  background: linear-gradient(135deg, #1a0800, var(--dark));
+  background: linear-gradient(135deg, #1a0d01, var(--dark));
   padding: 100px 48px 60px;
   text-align: center;
 }
 .about-hero h1 {
   font-family: "Playfair Display", serif;
   font-size: clamp(32px, 5vw, 56px);
-  color: #fff;
+  color: #ffffff;
   margin-bottom: 12px;
 }
 .about-hero p {
