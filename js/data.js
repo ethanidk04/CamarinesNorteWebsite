@@ -566,12 +566,6 @@ export const RESTOS = [
     desc: "Warm up after a morning surf session with a steaming bowl of affordable and delicious lugaw right by the beach.",
   },
   {
-    name: "Tina's Eatery",
-    loc: "Mercedes",
-    img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
-    desc: "An authentic turo-turo experience offering home-cooked Sinantol and Kinunot straight from the Mercedes fish port.",
-  },
-  {
     name: "Jybon Chicken Inasal",
     loc: "Daet",
     img: "Asset/restaurants/Jybon Chicken Inasal.jpg",
