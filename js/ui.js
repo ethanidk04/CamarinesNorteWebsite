@@ -169,8 +169,12 @@ export function showPage(id) {
   if (idx >= 0 && links[idx]) links[idx].classList.add('active');
   
   const nb = document.getElementById('navbar');
-  if (id !== 'home') nb.classList.add('force-solid');
-  else nb.classList.remove('force-solid');
+  
+  if (id !== 'home' && id !== 'about') {
+    nb.classList.add('force-solid');
+  } else {
+    nb.classList.remove('force-solid');
+  }
 
   // FIX: This tells the database to fetch data if we visit Bookings OR the Plan page
   if (id === 'bookings' || id === 'plan') loadBookings();
