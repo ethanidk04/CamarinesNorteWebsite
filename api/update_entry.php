@@ -17,9 +17,9 @@ if ($data) {
         $stmt = $conn->prepare("UPDATE reservations SET check_in=?, check_out=?, guests=? WHERE id=? AND user_id=?");
         $stmt->bind_param("sssii", $data['checkIn'], $data['checkOut'], $data['guests'], $id, $user_id);
     } else {
-        // Schema update: changed to start_date and end_date
-        $stmt = $conn->prepare("UPDATE trip_plans SET start_date=?, end_date=?, travelers=? WHERE id=? AND user_id=?");
-        $stmt->bind_param("sssii", $data['startDate'], $data['endDate'], $data['travelers'], $id, $user_id);
+        // FULL Itinerary Update
+        $stmt = $conn->prepare("UPDATE trip_plans SET trip_name=?, start_date=?, end_date=?, travelers=?, destination=?, tourist_spots=?, transport_mode=?, budget=?, notes=? WHERE id=? AND user_id=?");
+        $stmt->bind_param("sssisssssii", $data['tripName'], $data['startDate'], $data['endDate'], $data['travelers'], $data['destination'], $data['touristSpots'], $data['transportMode'], $data['budget'], $data['notes'], $id, $user_id);
     }
 
     if ($stmt->execute()) {
