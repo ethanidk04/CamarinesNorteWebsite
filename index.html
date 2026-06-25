@@ -1565,32 +1565,23 @@
 
         <div class="form-card zoom-in">
           <div class="section-tag" style="margin-bottom: 8px">
-            <i class="ti ti-route"></i> Trip Planner
+            <i class="ti ti-route"></i> Personal Itinerary Builder
           </div>
-          <div class="form-title">Plan Your Camarines Norte Adventure</div>
+          <div class="form-title">Draft Your Custom Trip</div>
           <div class="form-sub">
-            Tell us about your trip and we'll help you make the most of it.
+            Create and save a personal itinerary for your upcoming adventure in Camarines Norte.
           </div>
           <div id="plan-form-wrap">
             <form id="planForm" onsubmit="submitTripPlan(event)">
+              <input type="hidden" name="planId" id="planId" value="">
               <div class="form-grid">
                 <div class="form-group full">
                   <label class="form-label">Trip Name *</label>
-                  <input
-                    class="form-input"
-                    type="text"
-                    name="tripName"
-                    placeholder="e.g. Summer Barkada Getaway"
-                    required
-                  />
+                  <input class="form-input" type="text" name="tripName" placeholder="e.g. Summer Barkada Getaway" required>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Primary Destination *</label>
-                  <select
-                    class="form-input form-select"
-                    name="destination"
-                    required
-                  >
+                  <select class="form-input form-select" name="destination" required>
                     <option value="">Select Base Municipality</option>
                     <option>Daet</option>
                     <option>Mercedes</option>
@@ -1612,33 +1603,15 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label">Start Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="startDate"
-                    required
-                  />
+                  <input class="form-input" type="date" name="startDate" required>
                 </div>
                 <div class="form-group">
                   <label class="form-label">End Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="endDate"
-                    required
-                  />
+                  <input class="form-input" type="date" name="endDate" required>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Number of Travelers *</label>
-                  <input
-                    class="form-input"
-                    type="number"
-                    name="travelers"
-                    min="1"
-                    max="50"
-                    placeholder="4"
-                    required
-                  />
+                  <input class="form-input" type="number" name="travelers" min="1" max="50" placeholder="4" required>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Budget Range</label>
@@ -1650,123 +1623,46 @@
                   </select>
                 </div>
                 <div class="form-group full">
-                  <label class="form-label">Tourist Spots to Visit</label>
-                  <div class="check-grid">
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Bagasbas Beach"
-                      />
-                      Bagasbas Beach</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Calaguas Island"
-                      />
-                      Calaguas Island</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Mercedes Islands"
-                      />
-                      Mercedes Siete Pecados</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Parola Island"
-                      />
-                      Parola Pink Sand Beach</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Mt. Labo"
-                      />
-                      Mt. Labo Trekking</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Waterfalls"
-                      />
-                      Waterfalls Tour</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Heritage Sites"
-                      />
-                      Heritage & Religious Sites</label
-                    >
-                    <label class="check-item"
-                      ><input
-                        type="checkbox"
-                        name="touristSpots"
-                        value="Food Tour"
-                      />
-                      Food & Culinary Tour</label
-                    >
+                  <label class="form-label">Select Attractions (Click to add)</label>
+                  <div id="dynamic-spots-container" class="spots-chip-container">
+                    <!-- Dynamic chips will be injected here by JS -->
                   </div>
+                  <!-- Hidden input to store selected chips for the backend -->
+                  <input type="hidden" name="touristSpots" id="touristSpotsInput" value="">
                 </div>
                 <div class="form-group full">
-                  <label class="form-label">Special Requests or Notes</label>
+                  <label class="form-label">Day-by-Day Plan & Notes</label>
                   <textarea
                     class="form-input form-textarea"
                     name="notes"
-                    placeholder="Tell us more about your trip preferences, dietary needs, or any questions..."
+                    placeholder="Draft your schedule here (e.g., Day 1: Arrive in Daet, surf Bagasbas. Day 2: Boat to Calaguas...)"
                   ></textarea>
                 </div>
               </div>
               <button type="submit" class="form-submit" id="planBtn">
-                <i class="ti ti-send"></i> Submit Trip Plan
+                <i class="ti ti-device-floppy"></i> Save to My Itinerary
               </button>
             </form>
           </div>
           <div id="plan-success" class="success-screen hidden">
             <div class="success-icon"><i class="ti ti-check"></i></div>
-            <div class="success-title">Trip Plan Submitted!</div>
+            <div class="success-title">Itinerary Saved!</div>
             <div class="success-sub">
-              Your trip plan has been saved! You can view it in My Bookings. Our
-              team will get back to you within 24 hours.
-              <strong>Madya na kamo!</strong>
+              Your custom trip plan has been saved successfully. You can view or edit it in your saved itineraries below.
             </div>
-            <div
-              style="
-                display: flex;
-                gap: 12px;
-                justify-content: center;
-                flex-wrap: wrap;
-              "
-            >
-              <button class="btn-primary" onclick="showPage('bookings')">
-                <i class="ti ti-list"></i> View My Bookings
-              </button>
-              <button
-                class="btn-outline"
-                style="
-                  color: var(--coral);
-                  border-color: var(--coral);
-                  background: #fff;
-                "
-                onclick="
-                  resetForm('planForm', 'plan-form-wrap', 'plan-success')
-                "
-              >
-                Plan Another Trip
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+              <button class="btn-primary" onclick="resetForm('planForm', 'plan-form-wrap', 'plan-success')">
+                <i class="ti ti-plus"></i> Create Another Plan
               </button>
             </div>
           </div>
         </div>
+
+        <div style="margin-top: 60px;">
+          <div class="section-title">My Saved Itineraries</div>
+          <div id="trips-table-wrap"></div>
+        </div>
+
       </section>
     </div>
 
@@ -1774,48 +1670,18 @@
       <div style="padding-top: 80px"></div>
       <section class="section fade-in" style="padding-top: 60px">
         <div class="section-tag">
-          <i class="ti ti-list"></i> Booking Records
+          <i class="ti ti-building"></i> Hotel Bookings
         </div>
-        <div class="section-title">My Bookings & Reservations</div>
+        <div class="section-title">My Hotel Reservations</div>
         <p class="section-sub">
-          All your hotel reservations and trip plans are listed below in
-          real-time.
+          View and manage your official accommodation bookings here.
         </p>
-        <div
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-          "
-        >
-          <div class="tab-row" style="margin-bottom: 0">
-            <button
-              class="tab-btn active"
-              onclick="switchBookingTab(this, 'hotels')"
-            >
-              Hotel Reservations
-            </button>
-            <button class="tab-btn" onclick="switchBookingTab(this, 'trips')">
-              Trip Plans
-            </button>
-          </div>
-          <button
-            class="btn-primary"
-            style="padding: 10px 20px; font-size: 13px"
-            onclick="loadBookings()"
-          >
-            <i class="ti ti-refresh"></i> Refresh
+        <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 20px;">
+          <button class="btn-primary" style="padding: 10px 20px; font-size: 13px" onclick="loadBookings()">
+            <i class="ti ti-refresh"></i> Refresh Records
           </button>
         </div>
-        <div class="tab-content active" id="tab-hotels">
-          <div id="hotels-table-wrap"></div>
-        </div>
-        <div class="tab-content" id="tab-trips">
-          <div id="trips-table-wrap"></div>
-        </div>
+        <div id="hotels-table-wrap"></div>
       </section>
     </div>
 
