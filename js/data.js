@@ -632,7 +632,7 @@ export const FESTIVALS = [
     name: "Babakasin Festival",
     town: "Vinzons",
     desc: "Promoting local delicacies. Coincides with the feast of St. Peter the Apostle.",
-    img: "https://images.unsplash.com/photo-1533174000222-1d5afba26099?w=600&q=80",
+    img: "Asset/festival/Babakasin.jpg",
   },
   {
     month: "Summer Season",
