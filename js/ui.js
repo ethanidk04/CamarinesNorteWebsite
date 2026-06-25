@@ -1,6 +1,8 @@
 import { DESTINATIONS, FOODS, RESTOS, FESTIVALS, MUNIS } from './data.js';
 import { ajaxPost, ajaxGet, escapeQuote } from './utils.js';
 
+let currentTrips = [];
+
 // ======================= RENDER TEMPLATES =======================
 export function renderDestCard(d, idx, showBtn = true) {
   const delay = (idx % 6) * 0.1; // Staggered cascading delay
@@ -82,6 +84,24 @@ export function initRender() {
   const afest = document.getElementById('all-fest-grid');
   if (afest) afest.innerHTML = FESTIVALS.map(renderFestCard).join('');
 
+  const spotsContainer = document.getElementById('dynamic-spots-container');
+  if (spotsContainer) {
+    spotsContainer.innerHTML = DESTINATIONS.map(d => 
+      `<div class="spot-chip" data-name="${escapeQuote(d.name)}">${d.name}</div>`
+    ).join('');
+
+    // Add click listener for selecting chips
+    spotsContainer.querySelectorAll('.spot-chip').forEach(chip => {
+      chip.addEventListener('click', function() {
+        this.classList.toggle('selected');
+        // Update the hidden input with all selected values
+        const selected = Array.from(spotsContainer.querySelectorAll('.spot-chip.selected'))
+                              .map(el => el.dataset.name);
+        document.getElementById('touristSpotsInput').value = selected.join(', ');
+      });
+    });
+  }
+
   observeFadeIns();
 }
 
@@ -141,23 +161,25 @@ export function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + id);
   if (target) { target.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   const pages = ['home', 'explore', 'food', 'festivals', 'about', 'plan', 'bookings', 'contact', 'reserve'];
   const idx = pages.indexOf(id);
   const links = document.querySelectorAll('.nav-link');
   if (idx >= 0 && links[idx]) links[idx].classList.add('active');
-
+  
   const nb = document.getElementById('navbar');
   if (id !== 'home') nb.classList.add('force-solid');
   else nb.classList.remove('force-solid');
 
-  if (id === 'bookings') loadBookings();
+  // FIX: This tells the database to fetch data if we visit Bookings OR the Plan page
+  if (id === 'bookings' || id === 'plan') loadBookings();
 
-  // FIX: Reset all animation classes so they run again when switching tabs!
+  // Reset all animation classes so they run again when switching tabs!
   document.querySelectorAll('.fade-in, .slide-left, .slide-right, .zoom-in').forEach(el => {
     el.classList.remove('visible');
   });
-
+  
   initRender();
   setTimeout(() => observeFadeIns(), 50);
 }
@@ -242,34 +264,54 @@ export function submitTripPlan(e) {
   e.preventDefault();
   const form = e.target;
   const btn = document.getElementById('planBtn');
-  // Grabbing checkboxes (assuming you update name="pdest" to name="touristSpots" in HTML, or keeping pdest)
-  const spots = [...form.querySelectorAll('input[name="touristSpots"]:checked')].map(c => c.value).join(', ');
+  const spots = form.touristSpots.value;
   
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Submitting...';
+  btn.innerHTML = '<span class="spinner"></span> Saving...';
+  
+  // Check if we are updating an existing plan
+  const planId = form.planId ? form.planId.value : "";
   
   const data = {
-    transactionId: 'TRP-' + Date.now(),
-    tripName: form.tripName.value,           // NEW
-    startDate: form.startDate.value,         // NEW (split from travelDate)
-    endDate: form.endDate.value,             // NEW
+    id: planId,
+    target: 'trip', // Tells update_entry.php this is a trip plan
+    transactionId: planId ? undefined : 'TRP-' + Date.now(),
+    tripName: form.tripName.value,           
+    startDate: form.startDate.value,         
+    endDate: form.endDate.value,             
     travelers: form.travelers.value,
-    destination: form.destination.value,     // NEW (Base municipality)
-    touristSpots: spots,                     // NEW (Specific attractions)
-    transportMode: form.transportMode.value, // NEW
+    destination: form.destination.value,     
+    touristSpots: spots,                     
+    transportMode: form.transportMode.value, 
     budget: form.budget.value,
     notes: form.notes.value,
     submittedOn: new Date().toLocaleDateString('en-PH')
   };
   
-  ajaxPost('tripplans', data, (err, res) => {
-    btn.disabled = false; btn.innerHTML = '<i class="ti ti-send"></i> Submit Trip Plan';
+  // Route to the correct PHP file depending on if we are creating or updating
+  const endpoint = planId ? 'api/update_entry.php' : 'tripplans';
+  
+  ajaxPost(endpoint, data, (err, res) => {
+    btn.disabled = false; 
+    btn.innerHTML = '<i class="ti ti-device-floppy"></i> Save to My Itinerary';
+    
     if (res && res.success) {
-      document.getElementById('plan-form-wrap').classList.add('hidden');
-      document.getElementById('plan-success').classList.remove('hidden');
-      showToast('Trip plan submitted! ID: ' + res.id, 'success');
+      if (planId) {
+        showToast('Itinerary updated successfully!', 'success');
+        form.planId.value = ""; // Reset hidden ID
+      } else {
+        document.getElementById('plan-form-wrap').classList.add('hidden');
+        document.getElementById('plan-success').classList.remove('hidden');
+      }
+      
+      // Reset form and chips
+      form.reset();
+      document.querySelectorAll('.spot-chip').forEach(c => c.classList.remove('selected'));
+      document.getElementById('touristSpotsInput').value = "";
+      
+      loadBookings(); // Refresh the table
     } else {
-      showToast(res ? res.message : 'Error submitting trip plan', 'error');
+      showToast(res ? res.message : 'Error saving itinerary', 'error');
     }
   });
 }
@@ -305,12 +347,10 @@ export function resetForm(formId, wrapId, successId) {
 export function loadBookings() {
   const hotelsWrap = document.getElementById('hotels-table-wrap');
   const tripsWrap = document.getElementById('trips-table-wrap');
-  
-  // Show a loading indicator while fetching from the database
+
   if(hotelsWrap) hotelsWrap.innerHTML = '<div style="padding: 20px; text-align: center;"><span class="spinner"></span> Loading database records...</div>';
   if(tripsWrap) tripsWrap.innerHTML = '<div style="padding: 20px; text-align: center;"><span class="spinner"></span> Loading database records...</div>';
 
-  // Fetch live data from the MySQL database via PHP
   ajaxGet('api/get_bookings.php', (err, data) => {
     if (err) {
       console.error(err);
@@ -318,9 +358,11 @@ export function loadBookings() {
       return;
     }
     
-    // Pass the retrieved MySQL arrays into the existing table renderer
+    // Save trips globally so we can edit them
+    currentTrips = data.tripplans || [];
+    
     renderBookingsTable('hotels-table-wrap', data.reservations, 'reservation');
-    renderBookingsTable('trips-table-wrap', data.tripplans, 'trip');
+    renderBookingsTable('trips-table-wrap', currentTrips, 'trip');
   });
 }
 
@@ -330,15 +372,14 @@ export function renderBookingsTable(containerId, records, type) {
   
   if (!records || records.length === 0 || records.success === false) {
     el.innerHTML = `<div class="empty-bookings" style="text-align:center; padding: 40px 20px;">
-      <i class="ti ti-calendar-off" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px;"></i>
-      <div style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:4px;">No ${type === 'reservation' ? 'Hotel Reservations' : 'Trip Plans'} Found</div>
-      <p style="font-size:13px; color: var(--gray);">Please log in to view your records.</p>
+      <i class="ti ${type === 'reservation' ? 'ti-calendar-off' : 'ti-map-off'}" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px;"></i>
+      <div style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:4px;">No ${type === 'reservation' ? 'Hotel Reservations' : 'Saved Itineraries'} Found</div>
+      <p style="font-size:13px; color: var(--gray);">Please log in or create one to view records.</p>
     </div>`;
     return;
   }
   
   if (type === 'reservation') {
-    // Hotel Reservations table remains mostly the same, relying on the JOINed data from backend
     el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
       <thead><tr><th>Booking ID</th><th>Guest Name</th><th>Hotel</th><th>Check-In</th><th>Check-Out</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${records.map(r => `<tr>
@@ -353,22 +394,68 @@ export function renderBookingsTable(containerId, records, type) {
       </tr>`).join('')}</tbody>
     </table></div>`;
   } else {
-    // UPDATED Trip Plans table 
     el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
-      <thead><tr><th>Plan ID</th><th>Trip Name</th><th>Dates</th><th>Travelers</th><th>Status</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Plan ID</th><th>Trip Name</th><th>Dates</th><th>Travelers</th><th>Actions</th></tr></thead>
       <tbody>${records.map(r => `<tr>
         <td style="font-weight:700;color:var(--coral);">${r.transactionId}</td>
-        <td>${r.tripName}</td>
+        <td><strong>${r.tripName}</strong></td>
         <td>${r.startDate} to ${r.endDate}</td>
-        <td>${r.travelers}</td>
-        <td><span class="status-badge status-pending">${r.status || 'Pending'}</span></td>
+        <td>${r.travelers} Pax</td>
         <td>
-          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="openEditModal(${r.id}, 'trip', '${r.startDate}', '${r.endDate}', '${r.travelers}')"><i class="ti ti-edit"></i> Edit</button>
-          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'trip')"><i class="ti ti-trash"></i> Cancel</button>
+          <!-- NEW: Calls editTripPlan instead of the modal -->
+          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="editTripPlan(${r.id})"><i class="ti ti-edit"></i> Edit Itinerary</button>
+          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'trip')"><i class="ti ti-trash"></i> Delete Plan</button>
         </td>
       </tr>`).join('')}</tbody>
     </table></div>`;
   }
+}
+
+export function editTripPlan(id) {
+  // Use == instead of === in case the database returns the ID as a string
+  const trip = currentTrips.find(t => t.id == id);
+  if(!trip) return;
+  
+  // FIX: Force the form to become visible again (hides the success screen if it was open)
+  document.getElementById('plan-form-wrap').classList.remove('hidden');
+  document.getElementById('plan-success').classList.add('hidden');
+
+  const form = document.getElementById('planForm');
+  
+  // Populate standard fields
+  form.planId.value = trip.id;
+  form.tripName.value = trip.tripName;
+  form.destination.value = trip.destination;
+  form.transportMode.value = trip.transportMode;
+  form.startDate.value = trip.startDate;
+  form.endDate.value = trip.endDate;
+  form.travelers.value = trip.travelers;
+  form.budget.value = trip.budget;
+  form.notes.value = trip.notes;
+  
+  // Populate the dynamic chips
+  const selectedSpots = trip.touristSpots ? trip.touristSpots.split(', ') : [];
+  document.getElementById('touristSpotsInput').value = trip.touristSpots || "";
+  
+  document.querySelectorAll('.spot-chip').forEach(chip => {
+    if (selectedSpots.includes(chip.dataset.name)) {
+      chip.classList.add('selected');
+    } else {
+      chip.classList.remove('selected');
+    }
+  });
+  
+  // Change button text to reflect an update
+  const btn = document.getElementById('planBtn');
+  btn.innerHTML = '<i class="ti ti-device-floppy"></i> Update Itinerary';
+  
+  // Smooth scroll back up to the form
+  const formWrap = document.getElementById('plan-form-wrap');
+  
+  // Calculate exact position accounting for current scroll and the fixed navbar
+  const exactPosition = formWrap.getBoundingClientRect().top + window.scrollY - 120;
+  
+  window.scrollTo({ top: exactPosition, behavior: 'smooth' });
 }
 
 export function switchBookingTab(btn, tabId) {
@@ -494,6 +581,10 @@ export function checkAuthAndLockForms() {
                 };
             }
         });
+
+        // FIX: Pre-load the user's data in the background immediately!
+        loadBookings();
+
     } else {
         // Lock the Hotel Booking Form
         const resWrap = document.getElementById('reserve-form-wrap');
