@@ -31,18 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nb.classList.remove("scrolled");
   }, 100);
 
-  // 1. Quick Highlights - Mouse Wheel Scrolling
-  const highlightsRow = document.getElementById("scrollable-highlights");
-  if (highlightsRow) {
-    highlightsRow.addEventListener("wheel", (e) => {
-      if (e.deltaY !== 0) {
-        e.preventDefault();
-        highlightsRow.scrollLeft += e.deltaY;
-      }
-    });
-  }
-
-  // 2. Home Page Background Slideshow (WITH SMOOTH FADE)
+  // 1. Home Page Background Slideshow (WITH SMOOTH FADE)
   const homeImages = [
     "Asset/Beaches/Camarines Norte.jpg",
     "Asset/Beaches/Calaguas Island.jpg",

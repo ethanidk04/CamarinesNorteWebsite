@@ -407,116 +407,74 @@
       <div style="padding-top: 80px; background: var(--bg-cream)"></div>
       <section class="section">
         <div class="form-card zoom-in" style="max-width: 400px; margin: 0 auto">
-          <div class="form-title">Login to Your Account</div>
-
-          <form id="loginForm" onsubmit="submitLogin(event)">
-            <div class="form-group" style="margin-bottom: 14px">
-              <label class="form-label">Email</label>
-              <input class="form-input" type="email" name="email" required />
+          
+          <div id="login-view">
+            <div class="form-title">Login to Your Account</div>
+            <form id="loginForm" onsubmit="submitLogin(event)">
+              <div class="form-group" style="margin-bottom: 14px">
+                <label class="form-label">Email</label>
+                <input class="form-input" type="email" name="email" required />
+              </div>
+              <div class="form-group" style="margin-bottom: 14px">
+                <label class="form-label">Password</label>
+                <input class="form-input" type="password" name="password" required />
+              </div>
+              <button type="submit" class="form-submit">
+                <i class="ti ti-login"></i> Login
+              </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--gray);">
+              Don't have an account? 
+              <span style="color: var(--coral); cursor: pointer; font-weight: 700;" 
+                    onclick="document.getElementById('login-view').classList.add('hidden'); document.getElementById('register-view').classList.remove('hidden');">
+                Click to Register
+              </span>
             </div>
-            <div class="form-group" style="margin-bottom: 14px">
-              <label class="form-label">Password</label>
-              <input
-                class="form-input"
-                type="password"
-                name="password"
-                required
-              />
-            </div>
-            <button type="submit" class="form-submit">
-              <i class="ti ti-login"></i> Login
-            </button>
-          </form>
-
-          <div class="form-divider"></div>
-
-          <div class="form-title" style="font-size: 18px">
-            New User? Create Account
           </div>
-          <form
-            id="registerForm"
-            onsubmit="submitRegister(event)"
-            style="margin-top: 14px"
-          >
-            <div class="form-grid">
-              <div class="form-group">
-                <input
-                  class="form-input"
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  required
-                />
+
+          <div id="register-view" class="hidden">
+            <div class="form-title" style="font-size: 22px">New User? Create Account</div>
+            <form id="registerForm" onsubmit="submitRegister(event)" style="margin-top: 14px">
+              <div class="form-grid">
+                <div class="form-group">
+                  <input class="form-input" type="text" name="firstName" placeholder="First Name" required />
+                </div>
+                <div class="form-group">
+                  <input class="form-input" type="text" name="lastName" placeholder="Last Name" required />
+                </div>
               </div>
-              <div class="form-group">
-                <input
-                  class="form-input"
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  required
-                />
+              <div class="form-group" style="margin-top: 14px">
+                <input class="form-input" type="email" name="email" placeholder="Email" required />
               </div>
-            </div>
-            <div class="form-group" style="margin-top: 14px">
-              <input
-                class="form-input"
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-              />
-            </div>
-            <div class="form-group" style="margin-top: 14px">
-              <input
-                class="form-input"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-              />
-            </div>
-            <div class="form-grid" style="margin-top: 14px">
-              <div class="form-group">
-                <input
-                  class="form-input"
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone Number"
-                  required
-                />
+              <div class="form-group" style="margin-top: 14px">
+                <input class="form-input" type="password" name="password" placeholder="Password" required />
               </div>
-              <div class="form-group">
-                <input
-                  class="form-input"
-                  type="text"
-                  name="govId"
-                  placeholder="Gov ID / Passport"
-                  required
-                />
+              <div class="form-grid" style="margin-top: 14px">
+                <div class="form-group">
+                  <input class="form-input" type="tel" name="phone" placeholder="Phone Number" required />
+                </div>
+                <div class="form-group">
+                  <input class="form-input" type="text" name="govId" placeholder="Gov ID / Passport" required />
+                </div>
               </div>
+              <div class="form-group" style="margin-top: 14px">
+                <input class="form-input" type="text" name="nationality" placeholder="Nationality (e.g. Filipino)" />
+              </div>
+              <button type="submit" class="btn-outline" style="width: 100%; margin-top: 14px; color: var(--coral); border-color: var(--coral); justify-content: center;">
+                Register
+              </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--gray);">
+              Already have an account? 
+              <span style="color: var(--coral); cursor: pointer; font-weight: 700;" 
+                    onclick="document.getElementById('register-view').classList.add('hidden'); document.getElementById('login-view').classList.remove('hidden');">
+                Login here
+              </span>
             </div>
-            <div class="form-group" style="margin-top: 14px">
-              <input
-                class="form-input"
-                type="text"
-                name="nationality"
-                placeholder="Nationality (e.g. Filipino)"
-              />
-            </div>
-            <button
-              type="submit"
-              class="btn-outline"
-              style="
-                width: 100%;
-                margin-top: 14px;
-                color: var(--coral);
-                border-color: var(--coral);
-              "
-            >
-              Register
-            </button>
-          </form>
+          </div>
+
         </div>
       </section>
     </div>
@@ -1146,7 +1104,7 @@
         </div>
 
         <!-- HOW TO GET THERE SECTION -->
-        <h3 class="fade-in" style="font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 16px;">How to Get There</h3>
+         <h3 class="fade-in" style="font-size: 18px; font-weight: 800; color: var(--dark); margin-top: 150px; margin-bottom: 16px;">How to Get There</h3>
 
         <div class="transport-tabs fade-in">
           <button class="transport-tab active" onclick="showTransport(this, 'air')"><i class="ti ti-plane"></i> By Air</button>

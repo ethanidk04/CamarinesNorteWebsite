@@ -526,48 +526,6 @@ button {
   margin-bottom: 40px;
 }
 
-/* ===== HIGHLIGHTS CHIPS ===== */
-.highlights-row {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 4px;
-  margin-bottom: 40px;
-  cursor: grab;
-}
-.highlights-row:active {
-  cursor: grabbing;
-}
-.highlights-row::-webkit-scrollbar {
-  display: none;
-}
-.h-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
-  border-radius: 99px;
-  background: #fff;
-  border: 1.5px solid var(--border);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--gray);
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: all 0.25s;
-  cursor: default;
-}
-.h-chip:hover {
-  border-color: var(--coral);
-  color: var(--coral);
-  background: var(--coral-light);
-  transform: translateY(-2px);
-}
-.h-chip {
-  margin-top: 20px;
-}
-
 /* ===== FILTER TABS ===== */
 .filter-row {
   display: flex;
