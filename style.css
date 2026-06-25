@@ -2300,6 +2300,22 @@ footer {
   font-weight: 600;
 }
 
+.hero-figure {
+  display: flex;
+  flex-direction: column; /* Stacks items vertically */
+  align-items: center;    /* Centers items horizontally */
+  text-align: center;     /* Centers the text */
+  padding: 24px;          /* Keep your padding */
+}
+.hero-fig-img {
+  width: 80px;         /* Adjust size to match your old icons */
+  height: 80px;
+  object-fit: cover;   /* Ensures images don't stretch */
+  border-radius: 50%;  /* Makes them circular */
+  margin-bottom: 16px;
+  border: 3px solid var(--bg-cream); /* Optional: adds a nice border */
+}
+
 /* ===== PLAN PAGE ISOLATED STYLES ===== */
 
 /* Prep the button */
