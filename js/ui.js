@@ -204,20 +204,48 @@ export function observeFadeIns() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => { 
       if (e.isIntersecting) { 
+        // Play animation when entering the screen
         e.target.classList.add('visible'); 
-        obs.unobserve(e.target); 
-      } 
+      } else {
+        // Reset animation when leaving the screen
+        e.target.classList.remove('visible'); 
+        
+        // Detect which way the element went off-screen
+        if (e.boundingClientRect.top < 0) {
+          // Element went off the top of the screen (user scrolled down)
+          e.target.classList.add('from-top');
+        } else {
+          // Element went off the bottom of the screen (user scrolled up)
+          e.target.classList.remove('from-top');
+        }
+      }
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in:not(.visible), .slide-left:not(.visible), .slide-right:not(.visible), .zoom-in:not(.visible)').forEach(el => obs.observe(el));
+  }, { threshold: 0.1 }); 
+  
+  document.querySelectorAll('.fade-in, .slide-left, .slide-right, .zoom-in').forEach(el => obs.observe(el));
 }
 
 export function showMonthTip(btn, month, tip) {
   const t = document.getElementById('month-tip');
-  t.innerHTML = `<strong>${month}:</strong> ${tip}`;
-  t.classList.add('show');
-  document.querySelectorAll('.month-btn').forEach(b => b.style.fontWeight = '');
-  btn.style.fontWeight = '800';
+  const allBtns = Array.from(document.querySelectorAll('.month-btn'));
+  const index = allBtns.indexOf(btn);
+  const isActive = btn.classList.contains('active');
+  
+  // Reset all
+  document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+  t.classList.remove('show', 'overlap-mode', 'stretch-mode');
+  
+  if (isActive) return;
+  
+  t.innerHTML = tip;
+  
+  const mode = index < 6 ? 'overlap-mode' : 'stretch-mode';
+  t.classList.add(mode);
+  
+  btn.appendChild(t);
+  btn.classList.add('active');
+  
+  setTimeout(() => t.classList.add('show'), 10);
 }
 
 export function showTransport(btn, id) {

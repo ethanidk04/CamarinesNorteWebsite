@@ -1968,6 +1968,9 @@ footer {
   transform: translateY(30px);
   transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+.fade-in.from-top {
+  transform: translateY(-30px); /* Starts 30px above */
+}
 .slide-left {
   opacity: 0;
   transform: translateX(-40px);
@@ -2296,3 +2299,67 @@ footer {
   border-color: var(--coral);
   font-weight: 600;
 }
+
+/* ===== PLAN PAGE ISOLATED STYLES ===== */
+
+/* Prep the button */
+#page-plan .month-btn {
+  position: relative;
+  overflow: visible !important;
+  transition: all 0.2s;
+}
+
+/* Make the active button look seamlessly connected */
+#page-plan .month-btn.active {
+  z-index: 20; 
+  background: #fff;
+  border-color: var(--coral);
+  border-bottom-color: #fff; /* Turns the bottom border white to erase the line */
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+}
+
+/* The expanding dropdown panel */
+#page-plan .month-tip {
+  position: absolute;
+  top: 100%; /* Start exactly at the bottom edge */
+  margin-top: -1px; /* Pull it up by exactly 1px to overlap the button's border */
+  left: -1px; /* Align perfectly with button's left border */
+  width: calc(100% + 2px); /* Exact width of the button, plus its 2 side borders */
+  
+  background: #fff;
+  
+  /* Create borders on left, right, and bottom. NO TOP BORDER. */
+  border-left: 1px solid var(--coral);
+  border-right: 1px solid var(--coral);
+  border-bottom: 1px solid var(--coral);
+  border-top: none; 
+  
+  border-radius: 0 0 12px 12px; /* Bottom corners rounded to match */
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--gray);
+  text-align: left;
+  z-index: 15;
+
+  /* The Wipe-Down Animation */
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: clip-path 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.2s;
+  cursor: default;
+}
+
+/* When the panel drops down */
+#page-plan .month-tip.show {
+  clip-path: inset(0); /* Reveals fully */
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Ensure the old triangle pointer is removed */
+#page-plan .month-tip::before { display: none; }

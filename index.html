@@ -1115,366 +1115,94 @@
         <div class="section-title fade-in">
           Plan Your Trip to Camarines Norte
         </div>
-
         <div class="slide-left" style="margin-bottom: 40px">
-          <h3
-            style="
-              font-size: 16px;
-              font-weight: 800;
-              color: var(--dark);
-              margin-bottom: 8px;
-            "
-          >
-            Best Time to Visit
-          </h3>
-          <p
-            style="
-              font-size: 13px;
-              color: var(--light-gray);
-              margin-bottom: 16px;
-            "
-          >
-            Click a month to see travel tips. Peak Season · Shoulder Season ·
-            Off-Peak
-          </p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">Best Time to Visit</h3>
+              <p style="font-size: 13px; color: var(--light-gray); margin: 0;">Click a month to reveal local travel tips.</p>
+            </div>
+            
+            <div class="season-legend">
+              <span class="legend-item"><span class="dot peak-dot"></span> Peak</span>
+              <span class="legend-item"><span class="dot shoulder-dot"></span> Shoulder</span>
+              <span class="legend-item"><span class="dot offpeak-dot"></span> Off-Peak</span>
+            </div>
+          </div>
+
           <div class="month-grid">
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'January',
-                  'Peak season! Excellent beach weather. Best time for island hopping and surfing at Bagasbas.',
-                )
-              "
-            >
-              Jan
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'February',
-                  'Peak season! Cool and dry. Perfect for trekking Mt. Labo and visiting heritage sites.',
-                )
-              "
-            >
-              Feb
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'March',
-                  'Peak season! Warm and sunny. Ideal for Calaguas Island and Mercedes Siete Pecados.',
-                )
-              "
-            >
-              Mar
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'April',
-                  'Peak + Bantayog Festival month! Witness the grand province-wide celebration. Book early!',
-                )
-              "
-            >
-              Apr
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'May',
-                  'Late peak season. Great weather, fewer crowds. Perfect for waterfalls and eco-tourism.',
-                )
-              "
-            >
-              May
-            </button>
-            <button
-              class="month-btn shoulder"
-              onclick="
-                showMonthTip(
-                  this,
-                  'June',
-                  'Pinyasan & Mambulawan Festivals! Some rain possible but festive atmosphere.',
-                )
-              "
-            >
-              Jun
-            </button>
-            <button
-              class="month-btn shoulder"
-              onclick="
-                showMonthTip(
-                  this,
-                  'July',
-                  'Shoulder season. Occasional rain. Kadagatan Festival in Mercedes (Aug 1-8).',
-                )
-              "
-            >
-              Jul
-            </button>
-            <button
-              class="month-btn shoulder"
-              onclick="
-                showMonthTip(
-                  this,
-                  'August',
-                  'Kadagatan Festival! Reduced hotel rates. Great for cultural tourism.',
-                )
-              "
-            >
-              Aug
-            </button>
-            <button
-              class="month-btn offpeak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'September',
-                  'Busig-on Festival in Labo! Rainy season — bring rain gear. Good for indoor heritage sites.',
-                )
-              "
-            >
-              Sep
-            </button>
-            <button
-              class="month-btn offpeak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'October',
-                  'Rahugan Festival in Basud (Oct 18-24). Off-peak but cultural events make it worthwhile.',
-                )
-              "
-            >
-              Oct
-            </button>
-            <button
-              class="month-btn offpeak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'November',
-                  'Weather transitioning. Budget-friendly rates. Pre-Christmas quiet charm.',
-                )
-              "
-            >
-              Nov
-            </button>
-            <button
-              class="month-btn peak"
-              onclick="
-                showMonthTip(
-                  this,
-                  'December',
-                  'Peak season begins! Christmas festivities, great beach weather, festive province.',
-                )
-              "
-            >
-              Dec
-            </button>
+            <button class="month-btn peak" onclick="showMonthTip(this, 'January', 'Peak season! Excellent beach weather. Best time for island hopping and surfing at Bagasbas.')">Jan</button>
+            <button class="month-btn peak" onclick="showMonthTip(this, 'February', 'Peak season! Cool and dry. Perfect for trekking Mt. Labo and visiting heritage sites.')">Feb</button>
+            <button class="month-btn peak" onclick="showMonthTip(this, 'March', 'Peak season! Warm and sunny. Ideal for Calaguas Island and Mercedes Siete Pecados.')">Mar</button>
+            <button class="month-btn peak" onclick="showMonthTip(this, 'April', 'Peak + Bantayog Festival month! Witness the grand province-wide celebration. Book early!')">Apr</button>
+            <button class="month-btn peak" onclick="showMonthTip(this, 'May', 'Late peak season. Great weather, fewer crowds. Perfect for waterfalls and eco-tourism.')">May</button>
+            <button class="month-btn shoulder" onclick="showMonthTip(this, 'June', 'Pinyasan & Mambulawan Festivals! Some rain possible but festive atmosphere.')">Jun</button>
+            <button class="month-btn shoulder" onclick="showMonthTip(this, 'July', 'Shoulder season. Occasional rain. Kadagatan Festival in Mercedes (Aug 1-8).')">Jul</button>
+            <button class="month-btn shoulder" onclick="showMonthTip(this, 'August', 'Kadagatan Festival! Reduced hotel rates. Great for cultural tourism.')">Aug</button>
+            <button class="month-btn offpeak" onclick="showMonthTip(this, 'September', 'Busig-on Festival in Labo! Rainy season — bring rain gear. Good for indoor heritage sites.')">Sep</button>
+            <button class="month-btn offpeak" onclick="showMonthTip(this, 'October', 'Rahugan Festival in Basud (Oct 18-24). Off-peak but cultural events make it worthwhile.')">Oct</button>
+            <button class="month-btn offpeak" onclick="showMonthTip(this, 'November', 'Weather transitioning. Budget-friendly rates. Pre-Christmas quiet charm.')">Nov</button>
+            <button class="month-btn peak" onclick="showMonthTip(this, 'December', 'Peak season begins! Christmas festivities, great beach weather, festive province.')">Dec</button>
           </div>
-          <div class="month-tip" id="month-tip"></div>
+          
+          <div class="month-tip" id="month-tip">
+            <i class="ti ti-info-circle"></i> <span>Select a month above to see travel recommendations.</span>
+          </div>
         </div>
 
-        <h3
-          class="fade-in"
-          style="
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 12px;
-          "
-        >
-          How to Get There
-        </h3>
+        <!-- HOW TO GET THERE SECTION -->
+        <h3 class="fade-in" style="font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 16px;">How to Get There</h3>
+
         <div class="transport-tabs fade-in">
-          <button
-            class="transport-tab active"
-            onclick="showTransport(this, 'air')"
-          >
-            <i class="ti ti-plane"></i> By Air
-          </button>
-          <button class="transport-tab" onclick="showTransport(this, 'land')">
-            <i class="ti ti-bus"></i> By Land
-          </button>
-          <button class="transport-tab" onclick="showTransport(this, 'sea')">
-            <i class="ti ti-ship"></i> By Sea
-          </button>
+          <button class="transport-tab active" onclick="showTransport(this, 'air')"><i class="ti ti-plane"></i> By Air</button>
+          <button class="transport-tab" onclick="showTransport(this, 'land')"><i class="ti ti-bus"></i> By Land</button>
+          <button class="transport-tab" onclick="showTransport(this, 'sea')"><i class="ti ti-ship"></i> By Sea</button>
         </div>
+
+        <!-- Air Route Cards -->
         <div class="transport-content active fade-in" id="transport-air">
-          <p>
-            <strong>Nearest Airport:</strong> Naga Airport (IATA: WNP) in
-            Camarines Sur, approximately 2–3 hours from Daet. Alternatively, fly
-            to Ninoy Aquino International Airport (Manila) and take a bus or van
-            to Daet.<br /><br /><strong>From Manila by Air + Land:</strong> Fly
-            to Naga (~1 hr), then take a van/bus to Daet (~2 hrs). Total travel:
-            approximately 3–4 hours.
-          </p>
+          <div class="route-card">
+            <div class="route-header">
+              <div class="route-title"><i class="ti ti-plane-arrival"></i> Fly via Naga City</div>
+              <div class="route-time">3-4 Hours</div>
+            </div>
+            <div class="route-path">Manila (MNL) <i class="ti ti-arrow-right"></i> Naga Airport (WNP) <i class="ti ti-arrow-right"></i> Daet</div>
+            <p>The fastest route. Take a 1-hour flight to Naga Airport in Camarines Sur, then catch a passenger van or bus directly to Daet (approx. 2 hours).</p>
+          </div>
         </div>
+
+        <!-- Land Route Cards -->
         <div class="transport-content fade-in" id="transport-land">
-          <p>
-            <strong>From Manila by Bus:</strong> Multiple bus companies
-            (Peñafrancia, Isarog, DLTB) operate daily trips from Cubao or Pasay
-            to Daet. Travel time: approximately 7–9 hours overnight.<br /><br /><strong
-              >From Naga City:</strong
-            >
-            Take a van or bus from Naga City Bus Terminal to Daet. Travel time:
-            approximately 1.5–2 hours. Vans depart regularly throughout the day.
-          </p>
+          <div class="route-card">
+            <div class="route-header">
+              <div class="route-title"><i class="ti ti-bus"></i> Direct Bus from Manila</div>
+              <div class="route-time">7-9 Hours</div>
+            </div>
+            <div class="route-path">Cubao / Pasay <i class="ti ti-arrow-right"></i> Daet Terminal</div>
+            <p>Multiple bus companies (Peñafrancia, Isarog, DLTB) operate daily trips. We recommend taking an overnight sleeper bus for maximum comfort.</p>
+          </div>
+          
+          <div class="route-card" style="margin-top: 12px;">
+            <div class="route-header">
+              <div class="route-title"><i class="ti ti-car"></i> Drive from Naga City</div>
+              <div class="route-time">1.5-2 Hours</div>
+            </div>
+            <div class="route-path">Naga City <i class="ti ti-arrow-right"></i> Daet</div>
+            <p>Vans and buses depart regularly from the Naga City Bus Terminal to Daet throughout the day.</p>
+          </div>
         </div>
+
+        <!-- Sea Route Cards -->
         <div class="transport-content fade-in" id="transport-sea">
-          <p>
-            <strong>Limited Sea Routes:</strong> No direct ferry service from
-            Manila to Camarines Norte currently. Sea travel is mainly used for
-            inter-island trips within the province — especially for island
-            hopping to Calaguas Island, Mercedes Islands (Siete Pecados), and
-            Parola Island.<br /><br /><strong>Island Hopping Boats:</strong>
-            Available at Mercedes Fish Port and Calaguas jump-off points. Always
-            coordinate with local boat operators in advance.
-          </p>
-        </div>
-
-        <div class="slide-right" style="margin-top: 40px; margin-bottom: 40px">
-          <h3
-            style="
-              font-size: 16px;
-              font-weight: 800;
-              color: var(--dark);
-              margin-bottom: 16px;
-            "
-          >
-            Frequently Asked Questions
-          </h3>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              Is Camarines Norte safe to visit? <i class="ti ti-plus"></i>
+          <div class="route-card">
+            <div class="route-header">
+              <div class="route-title"><i class="ti ti-speedboat"></i> Island Hopping Access</div>
+              <div class="route-time">Variable</div>
             </div>
-            <div class="faq-a">
-              <p>
-                Yes! Camarines Norte is generally safe for tourists. The local
-                government actively promotes tourism and the communities are
-                known for their warm, welcoming hospitality. As with any travel,
-                practice standard safety precautions, keep valuables secure, and
-                stay updated on local advisories.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What is the best beach in Camarines Norte?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Bagasbas Beach in Daet is the most famous — it's the Surfing
-                Capital of Bicol. For pristine white sand, Calaguas Island's
-                Mahabang Buhangin is considered world-class. For a unique
-                experience, visit Parola Island's pink sand beach in Jose
-                Panganiban.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              How far is Camarines Norte from Manila? <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Camarines Norte is approximately 400–450 km from Manila. By bus,
-                the journey takes about 7–9 hours overnight. The fastest way is
-                to fly to Naga Airport and then take a van/bus to Daet, totaling
-                about 3–4 hours.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What is Camarines Norte famous for? <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Camarines Norte is famous for: (1) Bagasbas Beach — Surfing
-                Capital of Bicol, (2) Calaguas Island — one of the most
-                beautiful beaches in the Philippines, (3) The First Rizal
-                Monument in the Philippines (in Daet), (4) Paracale's gold
-                mining heritage, (5) The Black Nazarene Shrine in Capalonga, and
-                (6) The province-wide Bantayog Festival every April.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              Do I need a guide to visit Calaguas Island?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                While not strictly required, hiring a local guide or joining an
-                organized tour is highly recommended for Calaguas Island. The
-                island is accessible only by boat and is quite remote. Local
-                tour operators in Vinzons or Daet can arrange everything — boat,
-                food, accommodations, and itinerary.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What are the must-try foods in Camarines Norte?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                Don't miss: Angko (glutinous rice cake from Vinzons),
-                Pandecillos (pili nut pastry), Sinantol (coconut milk and santol
-                fruit dish), Kinunot (shark or stingray in coconut milk),
-                Tinumok (taro leaf wrap), Tinapa of Mercedes (smoked fish), and
-                Pili Tart & Roll from Daet.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              What language do people speak in Camarines Norte?
-              <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                A unique mix of Tagalog and Bicolano. Due to its proximity to
-                Quezon province, a slight majority speaks Tagalog. Eastern towns
-                speak a distinct Bicolano variation. Filipino (Tagalog) and
-                English are widely understood, so communication is generally
-                easy for visitors.
-              </p>
-            </div>
-          </div>
-          <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-q">
-              When is the Bantayog Festival? <i class="ti ti-plus"></i>
-            </div>
-            <div class="faq-a">
-              <p>
-                The Bantayog Festival is celebrated throughout the entire month
-                of April, making it a month-long province-wide celebration. It
-                was first held in April 2005 for the 85th founding anniversary
-                of the province. Key events include the Grand Parade, Binibining
-                Camarines Norte, Street Dancing, and Parangal sa Natatanging
-                Camnorteño.
-              </p>
-            </div>
+            <p>There is no direct passenger ferry from Manila. Sea travel is strictly for local island hopping (Calaguas, Siete Pecados, Parola Island). Coordinate with local boat operators at Mercedes Fish Port or Vinzons jump-off points.</p>
           </div>
         </div>
 
-        <div class="form-card zoom-in">
+        <div class="form-card zoom-in" style="margin-top: 60px;">
           <div class="form-title">Draft Your Custom Trip</div>
           <div class="form-sub">
             Create and save a personal itinerary for your upcoming adventure in
@@ -1622,6 +1350,137 @@
           <div class="section-title">My Saved Itineraries</div>
           <div id="trips-table-wrap"></div>
         </div>
+
+        <div class="slide-right" style="margin-top: 40px; margin-bottom: 40px">
+          <h3
+            style="
+              font-size: 16px;
+              font-weight: 800;
+              color: var(--dark);
+              margin-bottom: 16px;
+            "
+          >
+            Frequently Asked Questions
+          </h3>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              Is Camarines Norte safe to visit? <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                Yes! Camarines Norte is generally safe for tourists. The local
+                government actively promotes tourism and the communities are
+                known for their warm, welcoming hospitality. As with any travel,
+                practice standard safety precautions, keep valuables secure, and
+                stay updated on local advisories.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              What is the best beach in Camarines Norte?
+              <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                Bagasbas Beach in Daet is the most famous — it's the Surfing
+                Capital of Bicol. For pristine white sand, Calaguas Island's
+                Mahabang Buhangin is considered world-class. For a unique
+                experience, visit Parola Island's pink sand beach in Jose
+                Panganiban.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              How far is Camarines Norte from Manila? <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                Camarines Norte is approximately 400–450 km from Manila. By bus,
+                the journey takes about 7–9 hours overnight. The fastest way is
+                to fly to Naga Airport and then take a van/bus to Daet, totaling
+                about 3–4 hours.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              What is Camarines Norte famous for? <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                Camarines Norte is famous for: (1) Bagasbas Beach — Surfing
+                Capital of Bicol, (2) Calaguas Island — one of the most
+                beautiful beaches in the Philippines, (3) The First Rizal
+                Monument in the Philippines (in Daet), (4) Paracale's gold
+                mining heritage, (5) The Black Nazarene Shrine in Capalonga, and
+                (6) The province-wide Bantayog Festival every April.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              Do I need a guide to visit Calaguas Island?
+              <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                While not strictly required, hiring a local guide or joining an
+                organized tour is highly recommended for Calaguas Island. The
+                island is accessible only by boat and is quite remote. Local
+                tour operators in Vinzons or Daet can arrange everything — boat,
+                food, accommodations, and itinerary.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              What are the must-try foods in Camarines Norte?
+              <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                Don't miss: Angko (glutinous rice cake from Vinzons),
+                Pandecillos (pili nut pastry), Sinantol (coconut milk and santol
+                fruit dish), Kinunot (shark or stingray in coconut milk),
+                Tinumok (taro leaf wrap), Tinapa of Mercedes (smoked fish), and
+                Pili Tart & Roll from Daet.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              What language do people speak in Camarines Norte?
+              <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                A unique mix of Tagalog and Bicolano. Due to its proximity to
+                Quezon province, a slight majority speaks Tagalog. Eastern towns
+                speak a distinct Bicolano variation. Filipino (Tagalog) and
+                English are widely understood, so communication is generally
+                easy for visitors.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-q">
+              When is the Bantayog Festival? <i class="ti ti-plus"></i>
+            </div>
+            <div class="faq-a">
+              <p>
+                The Bantayog Festival is celebrated throughout the entire month
+                of April, making it a month-long province-wide celebration. It
+                was first held in April 2005 for the 85th founding anniversary
+                of the province. Key events include the Grand Parade, Binibining
+                Camarines Norte, Street Dancing, and Parangal sa Natatanging
+                Camnorteño.
+              </p>
+            </div>
+          </div>
+        </div>
+
       </section>
     </div>
 
