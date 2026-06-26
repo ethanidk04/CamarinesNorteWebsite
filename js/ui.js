@@ -497,7 +497,7 @@ export function renderBookingsTable(containerId, records, type) {
         <td><span class="status-badge status-confirmed">${r.status || "Confirmed"}</span></td>
         <td>
           <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="openEditModal(${r.id}, 'reservation', '${r.checkIn}', '${r.checkOut}', '${r.guests}')"><i class="ti ti-edit"></i> Edit</button>
-          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'reservation')"><i class="ti ti-trash"></i> Cancel</button>
+          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'reservation')"><i class="ti ti-trash"></i> Delete</button>
         </td>
       </tr>`,
         )

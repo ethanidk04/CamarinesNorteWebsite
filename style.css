@@ -2343,3 +2343,16 @@ footer {
 #page-plan .month-tip::before {
   display: none;
 }
+
+.peak-text { 
+  color: lch(59.07% 77.65 30.66);
+  margin-left: 20px;
+}       /* Red */
+.shoulder-text { 
+  color: #ffa500; 
+  margin-left: 20px;
+}   /* Orange */
+.offpeak-text { 
+  color: #ababab; 
+  margin-left: 20px;
+}    /* Grey */
