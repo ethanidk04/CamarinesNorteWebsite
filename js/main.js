@@ -7,7 +7,7 @@ import {
   submitLogin, submitRegister, cancelBooking, checkAuthAndLockForms,
   openEditModal, submitUpdate, editTripPlan,
   goToPlanStep, planNext, planBack, startOverPlan,
-  closeAuthModal, toggleAuthView
+  closeAuthModal, toggleAuthView, togglePassVisibility
 } from './ui.js';
 
 // ======================= EVENT LISTENERS =======================
@@ -95,3 +95,4 @@ window.planBack = planBack;
 window.startOverPlan = startOverPlan;
 window.closeAuthModal = closeAuthModal;
 window.toggleAuthView = toggleAuthView;
+window.togglePassVisibility = togglePassVisibility;

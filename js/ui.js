@@ -143,6 +143,51 @@ function updateSpotCount() {
   el.textContent = count + " selected";
 }
 
+// ======================= SEASON HINT =======================
+const MONTH_SEASONS = [
+  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Excellent beach weather — ideal for island hopping & surfing." },
+  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Cool & dry — great for trekking and heritage sites." },
+  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Warm & sunny — perfect for Calaguas and Siete Pecados." },
+  { season: "peak",     label: "Peak Season 🎉",  icon: "🎊", tip: "Bantayog Festival month! Book early — it fills up fast." },
+  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Late peak with fewer crowds — great for waterfalls & eco-tourism." },
+  { season: "shoulder", label: "Shoulder Season", icon: "🌤", tip: "Pinyasan Festival! Some rain possible but still festive." },
+  { season: "shoulder", label: "Shoulder Season", icon: "🌤", tip: "Occasional rain. Kadagatan Festival coming up in August." },
+  { season: "shoulder", label: "Shoulder Season", icon: "🌤", tip: "Kadagatan Festival! Reduced hotel rates — good for cultural tourism." },
+  { season: "off-peak", label: "Off-Peak Season", icon: "🌧", tip: "Busig-on Festival in Labo. Rainy season — bring rain gear." },
+  { season: "off-peak", label: "Off-Peak Season", icon: "🌧", tip: "Rahugan Festival in Basud (Oct 18-24). Budget-friendly travel." },
+  { season: "off-peak", label: "Off-Peak Season", icon: "🌥", tip: "Quiet charm and budget rates before the Christmas rush." },
+  { season: "peak",     label: "Peak Season 🎄",  icon: "🌟", tip: "Christmas festivities begin! Great beach weather returns." },
+];
+
+function updateSeasonHint(form) {
+  const hint = document.getElementById("planSeasonHint");
+  const text = document.getElementById("planSeasonText");
+  if (!hint || !text) return;
+  const start = form.startDate.value;
+  const end   = form.endDate.value;
+  if (!start || !end) { hint.classList.add("hidden"); return; }
+  const month = new Date(start + "T00:00:00").getMonth(); // 0-indexed
+  const { season, label, icon, tip } = MONTH_SEASONS[month];
+  hint.className = "season-hint season-hint--" + season;
+  text.innerHTML = `<strong>${icon} ${label}</strong> — ${tip}`;
+}
+
+function buildNotesDraft(form) {
+  const start = form.startDate.value;
+  const end   = form.endDate.value;
+  if (!start || !end) return "";
+  const days = Math.max(1, Math.round((new Date(end) - new Date(start)) / 86400000) + 1);
+  const dest = form.destination.value || "Daet";
+  const templates = [
+    `Day 1: Arrive in ${dest}. Check in to hotel. Explore the town and grab dinner at a local carinderia.`,
+    `Day 2: Full-day island hopping or nature tour. Pack sunscreen and extra clothes.`,
+    `Day 3: Visit heritage sites or waterfalls in the morning. Afternoon leisure.`,
+    `Day 4: Surf session at Bagasbas Beach (or beach day). Pack up and head home.`,
+    `Day 5: Optional extension — explore a nearby municipality.`,
+  ];
+  return Array.from({ length: days }, (_, i) => templates[i] || `Day ${i + 1}: ` ).join("\n");
+}
+
 function initPlanStepper() {
   const form = document.getElementById("planForm");
   if (!form) return;
@@ -164,6 +209,15 @@ function initPlanStepper() {
   // End date can't be earlier than the start date
   form.startDate.addEventListener("change", () => {
     form.endDate.setAttribute("min", form.startDate.value);
+    updateSeasonHint(form);
+    prefillNotes(form);
+  });
+  form.endDate.addEventListener("change", () => {
+    updateSeasonHint(form);
+    prefillNotes(form);
+  });
+  form.destination.addEventListener("change", () => {
+    prefillNotes(form);
   });
 
   // Keep the draft in the browser so nothing is lost on reload or login
@@ -172,6 +226,17 @@ function initPlanStepper() {
 
   const draft = readPlanDraft();
   if (draft) applyPlanDraft(draft);
+}
+
+function prefillNotes(form) {
+  // Only pre-fill if the notes field is empty or still contains the old auto-draft
+  const notes = form.notes;
+  const draft = buildNotesDraft(form);
+  if (draft && (!notes.value.trim() || notes.dataset.autofilled === "1")) {
+    notes.value = draft;
+    notes.dataset.autofilled = "1";
+    savePlanDraft();
+  }
 }
 
 // ======================= TRIP PLAN DRAFT (localStorage) =======================
@@ -1012,16 +1077,62 @@ export function toggleAuthView(el) {
     .forEach((v) => v.classList.toggle("hidden"));
 }
 
+// ======================= REGISTER FIELD ERRORS =======================
+function clearRegErrors() {
+  document.querySelectorAll(".field-error").forEach((el) => {
+    el.textContent = "";
+    el.classList.remove("visible");
+  });
+  document.querySelectorAll(".form-input.invalid").forEach((el) => {
+    el.classList.remove("invalid");
+  });
+}
+
+function showRegFieldError(fieldName, message) {
+  const errEl = document.getElementById("reg-err-" + fieldName);
+  const form = document.getElementById("registerForm");
+  const input = form ? form[fieldName] : null;
+  if (errEl) { errEl.textContent = message; errEl.classList.add("visible"); }
+  if (input) input.classList.add("invalid");
+}
+
+export function togglePassVisibility(btn) {
+  const input = btn.closest(".input-with-toggle").querySelector("input");
+  const icon = btn.querySelector("i");
+  if (input.type === "password") {
+    input.type = "text";
+    icon.className = "ti ti-eye-off";
+    btn.setAttribute("aria-label", "Hide password");
+  } else {
+    input.type = "password";
+    icon.className = "ti ti-eye";
+    btn.setAttribute("aria-label", "Show password");
+  }
+}
+
 export function submitRegister(e) {
   e.preventDefault();
+  clearRegErrors();
   const form = e.target;
+
+  // Client-side validation
+  let hasError = false;
+  if (!form.firstName.value.trim()) { showRegFieldError("firstName", "First name is required."); hasError = true; }
+  if (!form.lastName.value.trim())  { showRegFieldError("lastName",  "Last name is required.");  hasError = true; }
+  if (!form.email.value.trim())     { showRegFieldError("email",     "Email is required.");      hasError = true; }
+  if (!form.password.value)         { showRegFieldError("password",  "Password is required.");   hasError = true; }
+  else if (form.password.value.length < 8) { showRegFieldError("password", "Password must be at least 8 characters."); hasError = true; }
+  if (!form.phone.value.trim())     { showRegFieldError("phone",     "Phone number is required."); hasError = true; }
+  if (!form.govId.value.trim())     { showRegFieldError("govId",     "Gov ID / Passport is required."); hasError = true; }
+  if (hasError) return;
+
   const data = {
-    firstName: form.firstName.value,
-    lastName: form.lastName.value,
-    email: form.email.value,
-    password: form.password.value,
-    phone: form.phone.value,
-    govId: form.govId.value,
+    firstName:   form.firstName.value,
+    lastName:    form.lastName.value,
+    email:       form.email.value,
+    password:    form.password.value,
+    phone:       form.phone.value,
+    govId:       form.govId.value,
     nationality: form.nationality.value || "Filipino",
   };
 
@@ -1030,6 +1141,7 @@ export function submitRegister(e) {
       // Log the new user straight in so they don't have to type it all again
       const creds = { email: data.email, password: data.password };
       form.reset();
+      clearRegErrors();
       ajaxPost("api/login.php", creds, (err, loginRes) => {
         if (loginRes && loginRes.success) {
           onLoginSuccess();
@@ -1039,7 +1151,8 @@ export function submitRegister(e) {
         }
       });
     } else {
-      showToast(res ? res.message : "Registration failed", "error");
+      // Show the server error under the email field (most common: duplicate email)
+      showRegFieldError("email", res ? res.message : "Registration failed. Please try again.");
     }
   });
 }

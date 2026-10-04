@@ -435,31 +435,49 @@
 
           <div id="register-view" class="auth-view hidden">
             <div class="form-title" style="font-size: 22px">New User? Create Account</div>
-            <form id="registerForm" onsubmit="submitRegister(event)" style="margin-top: 14px">
+            <form id="registerForm" onsubmit="submitRegister(event)" style="margin-top: 14px" novalidate>
               <div class="form-grid">
                 <div class="form-group">
-                  <input class="form-input" type="text" name="firstName" placeholder="First Name" required />
+                  <label class="form-label">First Name *</label>
+                  <input class="form-input" type="text" name="firstName" placeholder="e.g. Juan" required />
+                  <span class="field-error" id="reg-err-firstName"></span>
                 </div>
                 <div class="form-group">
-                  <input class="form-input" type="text" name="lastName" placeholder="Last Name" required />
+                  <label class="form-label">Last Name *</label>
+                  <input class="form-input" type="text" name="lastName" placeholder="e.g. Dela Cruz" required />
+                  <span class="field-error" id="reg-err-lastName"></span>
                 </div>
               </div>
               <div class="form-group" style="margin-top: 14px">
-                <input class="form-input" type="email" name="email" placeholder="Email" required />
+                <label class="form-label">Email Address *</label>
+                <input class="form-input" type="email" name="email" placeholder="juan@email.com" required />
+                <span class="field-error" id="reg-err-email"></span>
               </div>
               <div class="form-group" style="margin-top: 14px">
-                <input class="form-input" type="password" name="password" placeholder="Password" required />
+                <label class="form-label">Password *</label>
+                <div class="input-with-toggle">
+                  <input class="form-input" type="password" name="password" placeholder="Min. 8 characters" required />
+                  <button type="button" class="show-pass-btn" onclick="togglePassVisibility(this)" aria-label="Show password">
+                    <i class="ti ti-eye"></i>
+                  </button>
+                </div>
+                <span class="field-error" id="reg-err-password"></span>
               </div>
               <div class="form-grid" style="margin-top: 14px">
                 <div class="form-group">
-                  <input class="form-input" type="tel" name="phone" placeholder="Phone Number" required />
+                  <label class="form-label">Phone Number *</label>
+                  <input class="form-input" type="tel" name="phone" placeholder="09XXXXXXXXX" required />
+                  <span class="field-error" id="reg-err-phone"></span>
                 </div>
                 <div class="form-group">
-                  <input class="form-input" type="text" name="govId" placeholder="Gov ID / Passport" required />
+                  <label class="form-label">Gov ID / Passport *</label>
+                  <input class="form-input" type="text" name="govId" placeholder="e.g. PhilSys ID" required />
+                  <span class="field-error" id="reg-err-govId"></span>
                 </div>
               </div>
               <div class="form-group" style="margin-top: 14px">
-                <input class="form-input" type="text" name="nationality" placeholder="Nationality (e.g. Filipino)" />
+                <label class="form-label">Nationality</label>
+                <input class="form-input" type="text" name="nationality" placeholder="e.g. Filipino" />
               </div>
               <button type="submit" class="btn-outline" style="width: 100%; margin-top: 14px; color: var(--coral); border-color: var(--coral); justify-content: center;">
                 Register
@@ -1254,6 +1272,10 @@
                       required
                     />
                   </div>
+                </div>
+                <div class="season-hint hidden" id="planSeasonHint">
+                  <i class="ti ti-calendar-event"></i>
+                  <span id="planSeasonText"></span>
                 </div>
               </div>
 
