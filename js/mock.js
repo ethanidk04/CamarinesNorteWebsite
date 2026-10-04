@@ -70,19 +70,31 @@ function handle(file, body) {
 
   switch (file) {
     case "check_session.php":
-      out = { loggedIn: db.loggedIn };
+      out = { loggedIn: db.loggedIn, user: db.user };
       break;
     case "login.php":
       db.loggedIn = true;
-      out = { success: true };
+      if (body && body.email) {
+        db.user.email = body.email;
+        if (!db.user.firstName || db.user.firstName === "Juan") {
+          const namePart = body.email.split("@")[0];
+          db.user.firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        }
+      }
+      saveDb(db);
+      out = { success: true, user: db.user };
       break;
     case "register.php":
-      db.user.firstName = body.firstName || db.user.firstName;
-      db.user.lastName = body.lastName || db.user.lastName;
-      out = { success: true };
+      db.loggedIn = true;
+      db.user.firstName = (body && body.firstName) || db.user.firstName;
+      db.user.lastName = (body && body.lastName) || db.user.lastName;
+      db.user.email = (body && body.email) || db.user.email || "user@example.com";
+      saveDb(db);
+      out = { success: true, user: db.user };
       break;
     case "logout.php":
       db.loggedIn = false;
+      saveDb(db);
       out = { success: true };
       break;
     case "get_bookings.php":

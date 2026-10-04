@@ -22,153 +22,150 @@
           <div class="nav-logo-sub">Region V</div>
         </div>
       </div>
+
       <div class="nav-links">
-        <button class="nav-link active" onclick="showPage('home')">Home</button>
-        <button class="nav-link" onclick="showPage('explore')">Explore</button>
-        <button class="nav-link" onclick="showPage('food')">Food</button>
-        <button class="nav-link" onclick="showPage('festivals')">
-          Festivals
-        </button>
-        <button class="nav-link" onclick="showPage('about')">About</button>
-        <button class="nav-link" onclick="showPage('plan')">Plan Trip</button>
-        <button class="nav-link" onclick="showPage('bookings')">
-          My Bookings
-        </button>
-        <button class="nav-link" onclick="showPage('contact')">Contact</button>
-        <button
-          class="nav-link"
-          style="color: var(--coral); font-weight: 700"
-          onclick="showPage('auth')"
-        >
-          Account
-        </button>
+        <button class="nav-link active" data-page="home" onclick="showPage('home')">Home</button>
+
+        <!-- Explore Dropdown -->
+        <div class="nav-dropdown" id="exploreDropdown">
+          <button class="nav-link nav-dropdown-toggle" id="exploreDropdownBtn" data-page="explore" onclick="toggleDropdown('exploreDropdown', event)">
+            <span>Explore</span>
+            <i class="ti ti-chevron-down nav-caret"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <button class="nav-dropdown-item" data-page="explore" onclick="showPage('explore')">
+              <div class="dropdown-item-title">Destinations</div>
+              <div class="dropdown-item-desc">Islands, beaches & waterfalls</div>
+            </button>
+            <button class="nav-dropdown-item" data-page="food" onclick="showPage('food')">
+              <div class="dropdown-item-title">Food & Delicacies</div>
+              <div class="dropdown-item-desc">Queen Pineapple & Bicol flavors</div>
+            </button>
+            <button class="nav-dropdown-item" data-page="festivals" onclick="showPage('festivals')">
+              <div class="dropdown-item-title">Festivals</div>
+              <div class="dropdown-item-desc">Bantayog & cultural celebrations</div>
+            </button>
+          </div>
+        </div>
+
+        <button class="nav-link" data-page="plan" onclick="showPage('plan')">Plan Trip</button>
+        <button class="nav-link" data-page="about" onclick="showPage('about')">About</button>
       </div>
-      <button class="nav-cta" onclick="showPage('reserve')">Book Now</button>
-      <div class="hamburger" onclick="openDrawer()" aria-label="Menu">
-        <span></span><span></span><span></span>
+
+      <!-- Right Navigation Actions -->
+      <div class="nav-actions">
+        <!-- Logged Out Account Button -->
+        <button class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal('navbar')">
+          <span>Sign In</span>
+        </button>
+
+        <!-- Logged In User Pill Dropdown -->
+        <div class="nav-user-dropdown hidden" id="navUserDropdown">
+          <button class="nav-user-pill" id="navUserPill" onclick="toggleDropdown('navUserDropdown', event)" aria-label="User menu">
+            <span class="user-avatar" id="navUserAvatar">CN</span>
+            <span class="user-name" id="navUserName">My Account</span>
+            <i class="ti ti-chevron-down nav-caret"></i>
+          </button>
+          <div class="nav-dropdown-menu user-menu" id="userMenuDropdown">
+            <div class="user-menu-header">
+              <div class="user-menu-greeting">Signed in as</div>
+              <div class="user-menu-email" id="userMenuEmail">user@example.com</div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="nav-dropdown-item" onclick="showPage('bookings')">
+              <div class="dropdown-item-title">My Bookings & Trips</div>
+              <div class="dropdown-item-desc">View and manage your reservations</div>
+            </button>
+            <button class="nav-dropdown-item" onclick="showPage('plan')">
+              <div class="dropdown-item-title">Custom Itinerary</div>
+              <div class="dropdown-item-desc">Draft or review your travel plan</div>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="nav-dropdown-item text-danger" onclick="logoutUser()">
+              <div class="dropdown-item-title">Log Out</div>
+            </button>
+          </div>
+        </div>
+
+        <button class="nav-cta" onclick="showPage('reserve')">Book Now</button>
+
+        <div class="hamburger" onclick="openDrawer()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </div>
       </div>
     </nav>
 
+    <!-- Mobile Drawer -->
     <div class="drawer" id="drawer">
-      <button class="drawer-close" onclick="closeDrawer()">
-        <i class="ti ti-x"></i>
-      </button>
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 4px;
-        "
-      >
+      <div class="drawer-header">
         <div>
-          <div style="font-size: 14px; font-weight: 800; color: var(--dark)">
+          <div style="font-size: 15px; font-weight: 800; color: var(--dark)">
             Camarines Norte
           </div>
-          <div
-            style="
-              font-size: 9px;
-              color: var(--light-gray);
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-            "
-          >
-            Region V
+          <div style="font-size: 10px; color: var(--light-gray); text-transform: uppercase; letter-spacing: 0.5px;">
+            Region V · Gateway to Bicol
+          </div>
+        </div>
+        <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <!-- Drawer Account Banner -->
+      <div class="drawer-account-box">
+        <button class="drawer-auth-btn" id="drawerAuthBtn" onclick="openAuthModal('drawer'); closeDrawer();">
+          <span>Sign In / Register</span>
+        </button>
+
+        <div class="drawer-user-profile hidden" id="drawerUserProfile">
+          <div class="drawer-user-avatar" id="drawerUserAvatar">CN</div>
+          <div class="drawer-user-info">
+            <div class="drawer-user-name" id="drawerUserName">My Account</div>
+            <div class="drawer-user-email" id="drawerUserEmail">user@example.com</div>
           </div>
         </div>
       </div>
+
       <div class="drawer-links">
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('home');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-home" style="margin-right: 8px"></i>Home
+        <div class="drawer-section-label">EXPLORE</div>
+        <button class="drawer-link" onclick="showPage('home'); closeDrawer();">
+          <i class="ti ti-home"></i>Home
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('explore');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-compass" style="margin-right: 8px"></i>Explore
+        <button class="drawer-link" onclick="showPage('explore'); closeDrawer();">
+          <i class="ti ti-compass"></i>Destinations
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('food');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-tools-kitchen-2" style="margin-right: 8px"></i>Food
+        <button class="drawer-link" onclick="showPage('food'); closeDrawer();">
+          <i class="ti ti-tools-kitchen-2"></i>Food & Delicacies
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('festivals');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-confetti" style="margin-right: 8px"></i>Festivals
+        <button class="drawer-link" onclick="showPage('festivals'); closeDrawer();">
+          <i class="ti ti-confetti"></i>Festivals
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('about');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-info-circle" style="margin-right: 8px"></i>About
+
+        <div class="drawer-section-label">TRAVEL & BOOKINGS</div>
+        <button class="drawer-link" onclick="showPage('plan'); closeDrawer();">
+          <i class="ti ti-calendar"></i>Plan Trip
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('plan');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-calendar" style="margin-right: 8px"></i>Plan Trip
+        <button class="drawer-link" onclick="showPage('reserve'); closeDrawer();">
+          <i class="ti ti-building"></i>Book Hotel
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('reserve');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-building" style="margin-right: 8px"></i>Book Hotel
+        <button class="drawer-link hidden" id="drawerBookingsItem" onclick="showPage('bookings'); closeDrawer();">
+          <i class="ti ti-list-check"></i>My Bookings
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('bookings');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-list" style="margin-right: 8px"></i>My Bookings
+
+        <div class="drawer-section-label">INFORMATION</div>
+        <button class="drawer-link" onclick="showPage('about'); closeDrawer();">
+          <i class="ti ti-info-circle"></i>About Province
         </button>
-        <button
-          class="drawer-link"
-          onclick="
-            showPage('contact');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-mail" style="margin-right: 8px"></i>Contact
+        <button class="drawer-link" onclick="showPage('contact'); closeDrawer();">
+          <i class="ti ti-mail"></i>Contact Us
         </button>
-        <button
-          class="drawer-link"
-          style="color: var(--coral)"
-          onclick="
-            showPage('auth');
-            closeDrawer();
-          "
-        >
-          <i class="ti ti-user" style="margin-right: 8px"></i>Account
-        </button>
+
+        <div class="drawer-logout-wrap hidden" id="drawerLogoutItem">
+          <div class="dropdown-divider" style="margin: 12px 0;"></div>
+          <button class="drawer-link text-danger" onclick="logoutUser()">
+            <i class="ti ti-logout"></i>Log Out
+          </button>
+        </div>
       </div>
     </div>
     <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
@@ -1801,17 +1798,119 @@
       </div>
     </div>
 
-    <!-- Login / register popup shown when saving a trip while logged out -->
+    <!-- User Friendly Auth Modal (Sign In & Register) -->
     <div class="modal-overlay" id="authModal" onclick="if (event.target === this) closeAuthModal()">
-      <div class="modal modal-wrap" style="max-width: 420px; padding: 24px">
-        <button class="modal-close" onclick="closeAuthModal()">
+      <div class="modal modal-wrap" style="max-width: 440px; padding: 28px 24px">
+        <button class="modal-close" onclick="closeAuthModal()" aria-label="Close">
           <i class="ti ti-x"></i>
         </button>
-        <div class="auth-modal-note">
-          <i class="ti ti-device-floppy"></i> Log in or create an account to save this trip. Your draft stays as it is.
+
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div class="form-title" style="margin-bottom: 4px; font-size: 22px;">Camarines Norte Account</div>
+          <p style="font-size: 13px; color: var(--light-gray); margin: 0;">Access your reservations and custom itineraries</p>
         </div>
-        <!-- Filled by JS with a copy of the Account page forms -->
-        <div id="authModalBody"></div>
+
+        <!-- Notification shown specifically when saving a trip while logged out -->
+        <div class="auth-modal-note hidden" id="authSaveNote">
+          <i class="ti ti-device-floppy"></i> Log in or create an account to save your trip. Your draft stays safe!
+        </div>
+
+        <!-- Segmented Tab Switcher -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" id="modalTabBtnLogin" onclick="switchAuthTab('login')">
+            Log In
+          </button>
+          <button type="button" class="auth-tab" id="modalTabBtnRegister" onclick="switchAuthTab('register')">
+            Create Account
+          </button>
+        </div>
+
+        <!-- Login View -->
+        <div id="modal-login-view" class="auth-view">
+          <form id="modalLoginForm" onsubmit="submitLogin(event)">
+            <div class="form-group" style="margin-bottom: 14px">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" type="email" name="email" placeholder="juan@email.com" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 14px">
+              <label class="form-label">Password</label>
+              <div class="input-with-toggle">
+                <input class="form-input" type="password" name="password" placeholder="Enter your password" required />
+                <button type="button" class="show-pass-btn" onclick="togglePassVisibility(this)" aria-label="Show password">
+                  <i class="ti ti-eye"></i>
+                </button>
+              </div>
+            </div>
+            <button type="submit" class="form-submit" style="width: 100%; margin-top: 10px;">
+              Log In
+            </button>
+          </form>
+          <div style="text-align: center; margin-top: 16px; font-size: 13px; color: var(--gray);">
+            Don't have an account? 
+            <span style="color: var(--coral); cursor: pointer; font-weight: 700;" onclick="switchAuthTab('register')">
+              Create one now
+            </span>
+          </div>
+        </div>
+
+        <!-- Register View -->
+        <div id="modal-register-view" class="auth-view hidden">
+          <form id="modalRegisterForm" onsubmit="submitRegister(event)" novalidate>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">First Name *</label>
+                <input class="form-input" type="text" name="firstName" placeholder="e.g. Juan" required />
+                <span class="field-error" data-field="firstName"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name *</label>
+                <input class="form-input" type="text" name="lastName" placeholder="e.g. Dela Cruz" required />
+                <span class="field-error" data-field="lastName"></span>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 12px">
+              <label class="form-label">Email Address *</label>
+              <input class="form-input" type="email" name="email" placeholder="juan@email.com" required />
+              <span class="field-error" data-field="email"></span>
+            </div>
+            <div class="form-group" style="margin-top: 12px">
+              <label class="form-label">Password *</label>
+              <div class="input-with-toggle">
+                <input class="form-input" type="password" name="password" placeholder="Min. 8 characters" required />
+                <button type="button" class="show-pass-btn" onclick="togglePassVisibility(this)" aria-label="Show password">
+                  <i class="ti ti-eye"></i>
+                </button>
+              </div>
+              <span class="field-error" data-field="password"></span>
+            </div>
+            <div class="form-grid" style="margin-top: 12px">
+              <div class="form-group">
+                <label class="form-label">Phone *</label>
+                <input class="form-input" type="tel" name="phone" placeholder="09XXXXXXXXX" required />
+                <span class="field-error" data-field="phone"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Gov ID / Passport *</label>
+                <input class="form-input" type="text" name="govId" placeholder="e.g. PhilSys ID" required />
+                <span class="field-error" data-field="govId"></span>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 12px">
+              <label class="form-label">Nationality</label>
+              <input class="form-input" type="text" name="nationality" placeholder="e.g. Filipino" value="Filipino" />
+            </div>
+            <button type="submit" class="form-submit" style="width: 100%; margin-top: 16px;">
+              Create Account
+            </button>
+          </form>
+          <div style="text-align: center; margin-top: 16px; font-size: 13px; color: var(--gray);">
+            Already have an account? 
+            <span style="color: var(--coral); cursor: pointer; font-weight: 700;" onclick="switchAuthTab('login')">
+              Log In here
+            </span>
+          </div>
+        </div>
+
       </div>
     </div>
 

@@ -531,6 +531,11 @@ export function closeModal(e) {
 }
 
 export function showPage(id) {
+  if (id === "auth") {
+    openAuthModal();
+    return;
+  }
+
   document
     .querySelectorAll(".page")
     .forEach((p) => p.classList.remove("active"));
@@ -541,21 +546,20 @@ export function showPage(id) {
   }
 
   document
-    .querySelectorAll(".nav-link")
+    .querySelectorAll(".nav-link, .nav-dropdown-item")
     .forEach((l) => l.classList.remove("active"));
-  const pages = [
-    "home",
-    "explore",
-    "food",
-    "festivals",
-    "about",
-    "plan",
-    "bookings",
-    "contact",
-  ];
-  const idx = pages.indexOf(id);
-  const links = document.querySelectorAll(".nav-link");
-  if (idx >= 0 && links[idx]) links[idx].classList.add("active");
+
+  const directLink = document.querySelector(`.nav-link[data-page="${id}"]`);
+  if (directLink) directLink.classList.add("active");
+
+  if (id === "explore" || id === "food" || id === "festivals") {
+    const exploreBtn = document.getElementById("exploreDropdownBtn");
+    if (exploreBtn) exploreBtn.classList.add("active");
+    const activeItem = document.querySelector(`.nav-dropdown-menu [data-page="${id}"]`);
+    if (activeItem) activeItem.classList.add("active");
+  }
+
+  closeAllDropdowns();
 
   const nb = document.getElementById("navbar");
 
@@ -1038,36 +1042,90 @@ export function submitLogin(e) {
 
 function onLoginSuccess() {
   showToast("Logged in successfully!", "success");
+  closeAuthModal();
+  checkAuthAndLockForms();
 
   // Logged in from the Save popup: stay on the page and finish saving the trip
   if (pendingPlanSave) {
-    closeAuthModal();
-    applyAuthState(true);
     document.getElementById("planForm").requestSubmit();
     return;
   }
 
-  // Refresh the page so the forms unlock!
-  setTimeout(() => {
-    window.location.reload();
-  }, 1000);
+  loadBookings();
 }
 
-function openAuthModal() {
-  const body = document.getElementById("authModalBody");
+export function openAuthModal(source) {
+  const modal = document.getElementById("authModal");
+  if (!modal) return;
 
-  // First use: copy the Account page forms so there is only one version to maintain
-  if (!body.firstChild) {
-    const card = document.querySelector("#page-auth .form-card").cloneNode(true);
-    card.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
-    body.append(...card.children);
+  const saveNote = document.getElementById("authSaveNote");
+  if (saveNote) {
+    if (pendingPlanSave || source === "draft") {
+      saveNote.classList.remove("hidden");
+    } else {
+      saveNote.classList.add("hidden");
+    }
   }
-  document.getElementById("authModal").classList.add("show");
+
+  switchAuthTab("login");
+  modal.classList.add("show");
 }
 
 export function closeAuthModal() {
+  const modal = document.getElementById("authModal");
+  if (modal) modal.classList.remove("show");
   pendingPlanSave = false;
-  document.getElementById("authModal").classList.remove("show");
+  clearRegErrors();
+}
+
+export function switchAuthTab(tab) {
+  const loginBtn = document.getElementById("modalTabBtnLogin");
+  const regBtn = document.getElementById("modalTabBtnRegister");
+  const loginView = document.getElementById("modal-login-view");
+  const regView = document.getElementById("modal-register-view");
+
+  clearRegErrors();
+
+  if (tab === "register") {
+    if (loginBtn) loginBtn.classList.remove("active");
+    if (regBtn) regBtn.classList.add("active");
+    if (loginView) loginView.classList.add("hidden");
+    if (regView) regView.classList.remove("hidden");
+  } else {
+    if (loginBtn) loginBtn.classList.add("active");
+    if (regBtn) regBtn.classList.remove("active");
+    if (loginView) loginView.classList.remove("hidden");
+    if (regView) regView.classList.add("hidden");
+  }
+}
+
+export function toggleDropdown(id, event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  const el = document.getElementById(id);
+  if (!el) return;
+  const wasOpen = el.classList.contains("open");
+  closeAllDropdowns();
+  if (!wasOpen) {
+    el.classList.add("open");
+  }
+}
+
+export function closeAllDropdowns() {
+  document
+    .querySelectorAll(".nav-dropdown.open, .nav-user-dropdown.open")
+    .forEach((el) => el.classList.remove("open"));
+}
+
+export function logoutUser() {
+  fetch("api/logout.php")
+    .then(() => {
+      showToast("Logged out successfully", "info");
+      setTimeout(() => window.location.reload(), 300);
+    })
+    .catch(() => window.location.reload());
 }
 
 // Switches between the Login and Register views (Account page and popup)
@@ -1088,11 +1146,20 @@ function clearRegErrors() {
   });
 }
 
-function showRegFieldError(fieldName, message) {
-  const errEl = document.getElementById("reg-err-" + fieldName);
-  const form = document.getElementById("registerForm");
-  const input = form ? form[fieldName] : null;
-  if (errEl) { errEl.textContent = message; errEl.classList.add("visible"); }
+function showRegFieldError(fieldName, message, form) {
+  const targetForm =
+    form ||
+    document.getElementById("modalRegisterForm") ||
+    document.getElementById("registerForm");
+  const errEl = targetForm
+    ? targetForm.querySelector(`.field-error[data-field='${fieldName}']`) ||
+      targetForm.querySelector("#reg-err-" + fieldName)
+    : document.getElementById("reg-err-" + fieldName);
+  const input = targetForm ? targetForm[fieldName] : null;
+  if (errEl) {
+    errEl.textContent = message;
+    errEl.classList.add("visible");
+  }
   if (input) input.classList.add("invalid");
 }
 
@@ -1117,13 +1184,13 @@ export function submitRegister(e) {
 
   // Client-side validation
   let hasError = false;
-  if (!form.firstName.value.trim()) { showRegFieldError("firstName", "First name is required."); hasError = true; }
-  if (!form.lastName.value.trim())  { showRegFieldError("lastName",  "Last name is required.");  hasError = true; }
-  if (!form.email.value.trim())     { showRegFieldError("email",     "Email is required.");      hasError = true; }
-  if (!form.password.value)         { showRegFieldError("password",  "Password is required.");   hasError = true; }
-  else if (form.password.value.length < 8) { showRegFieldError("password", "Password must be at least 8 characters."); hasError = true; }
-  if (!form.phone.value.trim())     { showRegFieldError("phone",     "Phone number is required."); hasError = true; }
-  if (!form.govId.value.trim())     { showRegFieldError("govId",     "Gov ID / Passport is required."); hasError = true; }
+  if (!form.firstName.value.trim()) { showRegFieldError("firstName", "First name is required.", form); hasError = true; }
+  if (!form.lastName.value.trim())  { showRegFieldError("lastName",  "Last name is required.", form);  hasError = true; }
+  if (!form.email.value.trim())     { showRegFieldError("email",     "Email is required.", form);      hasError = true; }
+  if (!form.password.value)         { showRegFieldError("password",  "Password is required.", form);   hasError = true; }
+  else if (form.password.value.length < 8) { showRegFieldError("password", "Password must be at least 8 characters.", form); hasError = true; }
+  if (!form.phone.value.trim())     { showRegFieldError("phone",     "Phone number is required.", form); hasError = true; }
+  if (!form.govId.value.trim())     { showRegFieldError("govId",     "Gov ID / Passport is required.", form); hasError = true; }
   if (hasError) return;
 
   const data = {
@@ -1152,7 +1219,7 @@ export function submitRegister(e) {
       });
     } else {
       // Show the server error under the email field (most common: duplicate email)
-      showRegFieldError("email", res ? res.message : "Registration failed. Please try again.");
+      showRegFieldError("email", res ? res.message : "Registration failed. Please try again.", form);
     }
   });
 }
@@ -1179,36 +1246,80 @@ let pendingPlanSave = false; // true while the Save popup is waiting for a login
 
 export function checkAuthAndLockForms() {
   ajaxGet("api/check_session.php", (err, res) => {
-    applyAuthState(!!(res && res.loggedIn));
+    applyAuthState(!!(res && res.loggedIn), res ? res.user : null);
   });
 }
 
-function applyAuthState(loggedIn) {
+function applyAuthState(loggedIn, user) {
   isLoggedIn = loggedIn;
   const resWrap = document.getElementById("reserve-form-wrap");
   const lock = document.getElementById("reserve-lock");
 
-  if (loggedIn) {
-    // Change the "Account" buttons to say "Logout"
-    document.querySelectorAll(".nav-link, .drawer-link").forEach((btn) => {
-      if (btn.textContent.includes("Account")) {
-        btn.innerHTML = btn.innerHTML.replace("Account", "Logout");
-        btn.onclick = () => {
-          fetch("api/logout.php").then(() => window.location.reload());
-        };
-      }
-    });
+  // Desktop nav elements
+  const navAuthBtn = document.getElementById("navAuthBtn");
+  const navUserDropdown = document.getElementById("navUserDropdown");
+  const navUserName = document.getElementById("navUserName");
+  const navUserAvatar = document.getElementById("navUserAvatar");
+  const userMenuEmail = document.getElementById("userMenuEmail");
 
-    // Unlock the Hotel Booking Form (when logging in without a page reload)
+  // Mobile drawer elements
+  const drawerAuthBtn = document.getElementById("drawerAuthBtn");
+  const drawerUserProfile = document.getElementById("drawerUserProfile");
+  const drawerUserName = document.getElementById("drawerUserName");
+  const drawerUserAvatar = document.getElementById("drawerUserAvatar");
+  const drawerUserEmail = document.getElementById("drawerUserEmail");
+  const drawerBookingsItem = document.getElementById("drawerBookingsItem");
+  const drawerLogoutItem = document.getElementById("drawerLogoutItem");
+
+  if (loggedIn) {
+    const fullName =
+      user && (user.firstName || user.lastName)
+        ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
+        : "My Account";
+    const displayName =
+      user && user.firstName
+        ? user.firstName + (user.lastName ? ` ${user.lastName.charAt(0)}.` : "")
+        : "My Account";
+    const initials =
+      user && user.firstName
+        ? (
+            user.firstName.charAt(0) +
+            (user.lastName ? user.lastName.charAt(0) : "")
+          ).toUpperCase()
+        : "CN";
+    const email = (user && user.email) || "Member";
+
+    if (navAuthBtn) navAuthBtn.classList.add("hidden");
+    if (navUserDropdown) navUserDropdown.classList.remove("hidden");
+    if (navUserName) navUserName.textContent = displayName;
+    if (navUserAvatar) navUserAvatar.textContent = initials;
+    if (userMenuEmail) userMenuEmail.textContent = email;
+
+    if (drawerAuthBtn) drawerAuthBtn.classList.add("hidden");
+    if (drawerUserProfile) drawerUserProfile.classList.remove("hidden");
+    if (drawerUserName) drawerUserName.textContent = fullName;
+    if (drawerUserAvatar) drawerUserAvatar.textContent = initials;
+    if (drawerUserEmail) drawerUserEmail.textContent = email;
+    if (drawerBookingsItem) drawerBookingsItem.classList.remove("hidden");
+    if (drawerLogoutItem) drawerLogoutItem.classList.remove("hidden");
+
+    // Unlock the Hotel Booking Form
     if (lock) {
       lock.remove();
-      resWrap.classList.remove("hidden");
+      if (resWrap) resWrap.classList.remove("hidden");
     }
 
-    // FIX: Pre-load the user's data in the background immediately!
     loadBookings();
   } else {
-    // Lock the Hotel Booking Form (hidden, not removed, so it can be unlocked later)
+    if (navAuthBtn) navAuthBtn.classList.remove("hidden");
+    if (navUserDropdown) navUserDropdown.classList.add("hidden");
+
+    if (drawerAuthBtn) drawerAuthBtn.classList.remove("hidden");
+    if (drawerUserProfile) drawerUserProfile.classList.add("hidden");
+    if (drawerBookingsItem) drawerBookingsItem.classList.add("hidden");
+    if (drawerLogoutItem) drawerLogoutItem.classList.add("hidden");
+
+    // Lock the Hotel Booking Form
     if (resWrap && !lock) {
       resWrap.classList.add("hidden");
       resWrap.insertAdjacentHTML(
@@ -1217,12 +1328,11 @@ function applyAuthState(loggedIn) {
               <i class="ti ti-lock" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px; display:inline-block;"></i>
               <h3 style="margin-bottom: 8px;">Authentication Required</h3>
               <p style="color:var(--gray); margin-bottom: 24px;">You must be logged in to your account to book a hotel reservation.</p>
-              <button class="btn-primary" onclick="showPage('auth')">Go to Login</button>
+              <button class="btn-primary" onclick="openAuthModal()">Go to Login</button>
             </div>`,
       );
     }
 
-    // The Trip Plan Form stays open: anyone can draft, login is asked for at Save
     renderBookingsTable("trips-table-wrap", [], "trip");
   }
 }

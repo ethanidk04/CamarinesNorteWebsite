@@ -7,7 +7,8 @@ import {
   submitLogin, submitRegister, cancelBooking, checkAuthAndLockForms,
   openEditModal, submitUpdate, editTripPlan,
   goToPlanStep, planNext, planBack, startOverPlan,
-  closeAuthModal, toggleAuthView, togglePassVisibility
+  openAuthModal, closeAuthModal, switchAuthTab, toggleAuthView, togglePassVisibility,
+  toggleDropdown, closeAllDropdowns, logoutUser
 } from './ui.js';
 
 // ======================= EVENT LISTENERS =======================
@@ -18,6 +19,25 @@ window.addEventListener("scroll", () => {
   const st = document.getElementById("scrollTop");
   if (window.scrollY > 300) st.classList.add("show");
   else st.classList.remove("show");
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".nav-dropdown") && !e.target.closest(".nav-user-dropdown")) {
+    closeAllDropdowns();
+  }
+});
+
+// Escape key closes modals and dropdowns
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeAllDropdowns();
+    closeAuthModal();
+    const destModal = document.getElementById("destModal");
+    if (destModal) destModal.classList.remove("show");
+    const editModal = document.getElementById("editModal");
+    if (editModal) editModal.classList.remove("show");
+  }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -93,6 +113,11 @@ window.goToPlanStep = goToPlanStep;
 window.planNext = planNext;
 window.planBack = planBack;
 window.startOverPlan = startOverPlan;
+window.openAuthModal = openAuthModal;
 window.closeAuthModal = closeAuthModal;
+window.switchAuthTab = switchAuthTab;
 window.toggleAuthView = toggleAuthView;
-window.togglePassVisibility = togglePassVisibility;
+window.togglePassVisibility = togglePassVisibility;
+window.toggleDropdown = toggleDropdown;
+window.closeAllDropdowns = closeAllDropdowns;
+window.logoutUser = logoutUser;
