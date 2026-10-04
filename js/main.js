@@ -1,4 +1,5 @@
-import { 
+import './mock.js'; // Dev-only: fakes the PHP backend when opened with ?mock=1
+import {
   initRender, filterDest, openDestModal, openGenericModal, closeModal, 
   showPage, openDrawer, closeDrawer, countUp, observeFadeIns, showMonthTip, 
   showTransport, toggleFaq, submitReservation, submitTripPlan, submitContact, 
