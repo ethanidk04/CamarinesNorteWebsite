@@ -5,7 +5,9 @@ import {
   showTransport, toggleFaq, submitReservation, submitTripPlan, submitContact, 
   resetForm, loadBookings, switchBookingTab, setMinDates, fetchLiveWeather,
   submitLogin, submitRegister, cancelBooking, checkAuthAndLockForms,
-  openEditModal, submitUpdate, editTripPlan
+  openEditModal, submitUpdate, editTripPlan,
+  goToPlanStep, planNext, planBack, startOverPlan,
+  closeAuthModal, toggleAuthView
 } from './ui.js';
 
 // ======================= EVENT LISTENERS =======================
@@ -87,3 +89,9 @@ window.cancelBooking = cancelBooking;
 window.openEditModal = openEditModal;
 window.submitUpdate = submitUpdate;
 window.editTripPlan = editTripPlan;
+window.goToPlanStep = goToPlanStep;
+window.planNext = planNext;
+window.planBack = planBack;
+window.startOverPlan = startOverPlan;
+window.closeAuthModal = closeAuthModal;
+window.toggleAuthView = toggleAuthView;

@@ -114,11 +114,300 @@ export function initRender() {
         ).map((el) => el.dataset.name);
         document.getElementById("touristSpotsInput").value =
           selected.join(", ");
+        updateSpotCount();
+        savePlanDraft();
       });
     });
   }
 
+  initPlanStepper();
   observeFadeIns();
+}
+
+// ======================= TRIP PLAN STEPPER =======================
+const PLAN_STEP_COUNT = 4;
+let planStep = 1;
+
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function updateSpotCount() {
+  const el = document.getElementById("planSpotCount");
+  if (!el) return;
+  const count = document.querySelectorAll(".spot-chip.selected").length;
+  el.textContent = count + " selected";
+}
+
+function initPlanStepper() {
+  const form = document.getElementById("planForm");
+  if (!form) return;
+
+  // Enter moves to the next step instead of submitting a half-filled form
+  form.addEventListener("keydown", (e) => {
+    const tag = e.target.tagName;
+    if (
+      e.key === "Enter" &&
+      tag !== "TEXTAREA" &&
+      tag !== "BUTTON" &&
+      planStep < PLAN_STEP_COUNT
+    ) {
+      e.preventDefault();
+      planNext();
+    }
+  });
+
+  // End date can't be earlier than the start date
+  form.startDate.addEventListener("change", () => {
+    form.endDate.setAttribute("min", form.startDate.value);
+  });
+
+  // Keep the draft in the browser so nothing is lost on reload or login
+  form.addEventListener("input", savePlanDraft);
+  form.addEventListener("change", savePlanDraft);
+
+  const draft = readPlanDraft();
+  if (draft) applyPlanDraft(draft);
+}
+
+// ======================= TRIP PLAN DRAFT (localStorage) =======================
+const PLAN_DRAFT_KEY = "cnTripDraft";
+const PLAN_FIELDS = [
+  "tripName",
+  "destination",
+  "travelers",
+  "startDate",
+  "endDate",
+  "touristSpots",
+  "transportMode",
+  "budget",
+  "notes",
+];
+const PLAN_SAVE_LABEL = '<i class="ti ti-device-floppy"></i> Save to My Itinerary';
+
+function readPlanDraft() {
+  try {
+    return JSON.parse(localStorage.getItem(PLAN_DRAFT_KEY));
+  } catch {
+    return null;
+  }
+}
+
+function savePlanDraft() {
+  const form = document.getElementById("planForm");
+  // Editing a saved itinerary is not a draft
+  if (!form || form.planId.value) return updatePlanDraftNote();
+
+  const fields = {};
+  PLAN_FIELDS.forEach((name) => (fields[name] = form[name].value));
+
+  // Transport and budget always have a default, so they don't count as "started"
+  const started = PLAN_FIELDS.some(
+    (name) => name !== "transportMode" && name !== "budget" && fields[name],
+  );
+
+  try {
+    if (started) {
+      localStorage.setItem(
+        PLAN_DRAFT_KEY,
+        JSON.stringify({ fields, step: planStep }),
+      );
+    } else {
+      localStorage.removeItem(PLAN_DRAFT_KEY);
+    }
+  } catch {}
+  updatePlanDraftNote();
+}
+
+function applyPlanDraft(draft) {
+  const form = document.getElementById("planForm");
+  PLAN_FIELDS.forEach((name) => {
+    if (draft.fields && draft.fields[name] != null) {
+      form[name].value = draft.fields[name];
+    }
+  });
+
+  const selectedSpots = form.touristSpots.value
+    ? form.touristSpots.value.split(", ")
+    : [];
+  document.querySelectorAll(".spot-chip").forEach((chip) => {
+    chip.classList.toggle("selected", selectedSpots.includes(chip.dataset.name));
+  });
+  updateSpotCount();
+  goToPlanStep(draft.step || 1, false);
+}
+
+function updatePlanDraftNote() {
+  const form = document.getElementById("planForm");
+  const note = document.getElementById("planDraftNote");
+  if (!form || !note) return;
+
+  const editing = !!form.planId.value;
+  const hasDraft = !!readPlanDraft();
+  note.classList.toggle("hidden", !editing && !hasDraft);
+  document.getElementById("planDraftText").textContent = editing
+    ? "Editing a saved itinerary."
+    : "Draft saved on this device.";
+  document.getElementById("planDraftBtn").textContent = editing
+    ? "Cancel edit"
+    : "Start over";
+}
+
+// Empties the form. If we were editing a saved itinerary, the unsaved draft comes back.
+function clearPlanForm() {
+  const form = document.getElementById("planForm");
+  const draft = form.planId.value ? readPlanDraft() : null;
+
+  form.reset();
+  form.planId.value = "";
+  document
+    .querySelectorAll(".spot-chip")
+    .forEach((c) => c.classList.remove("selected"));
+  document.getElementById("touristSpotsInput").value = "";
+  updateSpotCount();
+  document.getElementById("planBtn").innerHTML = PLAN_SAVE_LABEL;
+  goToPlanStep(1, false);
+
+  if (draft) applyPlanDraft(draft);
+}
+
+export function startOverPlan() {
+  clearPlanForm();
+}
+
+// Returns the first field in a step that fails validation, or null if the step is OK
+function firstInvalidPlanField(step) {
+  const form = document.getElementById("planForm");
+  const panel = form.querySelector(`.plan-panel[data-step="${step}"]`);
+
+  if (step === 1) {
+    const start = form.startDate.value;
+    const end = form.endDate.value;
+    form.endDate.setCustomValidity(
+      start && end && end < start
+        ? "End date can't be before the start date."
+        : "",
+    );
+  }
+
+  return (
+    [...panel.querySelectorAll("input, select, textarea")].find(
+      (f) => !f.checkValidity(),
+    ) || null
+  );
+}
+
+// interactive = false: a silent jump (restore/reset) with no scrolling or error bubbles
+export function goToPlanStep(target, interactive = true) {
+  const form = document.getElementById("planForm");
+  if (!form) return;
+
+  // Every step before the target must be valid; otherwise stop at the first bad one
+  let invalid = null;
+  for (let s = 1; s < target && !invalid; s++) {
+    invalid = firstInvalidPlanField(s);
+    if (invalid) target = s;
+  }
+  planStep = target;
+
+  form.querySelectorAll(".plan-panel").forEach((p) => {
+    p.classList.toggle("active", Number(p.dataset.step) === planStep);
+  });
+  form.querySelectorAll(".plan-steps li").forEach((li) => {
+    const n = Number(li.dataset.step);
+    li.classList.toggle("active", n === planStep);
+    li.classList.toggle("done", n < planStep);
+  });
+
+  const isLast = planStep === PLAN_STEP_COUNT;
+  document.getElementById("planBackBtn").classList.toggle("hidden", planStep === 1);
+  document.getElementById("planNextBtn").classList.toggle("hidden", isLast);
+  document.getElementById("planBtn").classList.toggle("hidden", !isLast);
+
+  if (isLast) renderPlanReview();
+
+  // Keep the top of the form in view when the step height changes
+  const card = form.closest(".form-card");
+  const top = card.getBoundingClientRect().top;
+  if (interactive && top < 0) {
+    window.scrollTo({ top: top + window.scrollY - 100, behavior: "smooth" });
+  }
+
+  if (invalid && interactive) invalid.reportValidity();
+  savePlanDraft();
+}
+
+export function planNext() {
+  goToPlanStep(planStep + 1);
+}
+
+export function planBack() {
+  goToPlanStep(planStep - 1);
+}
+
+function renderPlanReview() {
+  const form = document.getElementById("planForm");
+  const fmtDate = (v) =>
+    new Date(v + "T00:00:00").toLocaleDateString("en-PH", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+
+  const start = form.startDate.value;
+  const end = form.endDate.value;
+  const days =
+    Math.round((new Date(end) - new Date(start)) / 86400000) + 1;
+  const spots = form.touristSpots.value
+    ? form.touristSpots.value.split(", ")
+    : [];
+
+  const row = (label, value) =>
+    `<div class="plan-review-row"><span class="plan-review-label">${label}</span><span class="plan-review-value">${value}</span></div>`;
+  const block = (title, step, body) =>
+    `<div class="plan-review-block">
+      <div class="plan-review-head">
+        <div class="plan-review-title">${title}</div>
+        <button type="button" class="plan-review-edit" onclick="goToPlanStep(${step})"><i class="ti ti-edit"></i> Edit</button>
+      </div>
+      ${body}
+    </div>`;
+
+  document.getElementById("planReview").innerHTML =
+    block(
+      "Basics",
+      1,
+      row("Trip name", escapeHtml(form.tripName.value)) +
+        row("Destination", escapeHtml(form.destination.value)) +
+        row(
+          "Dates",
+          `${fmtDate(start)} to ${fmtDate(end)} (${days} ${days === 1 ? "day" : "days"})`,
+        ) +
+        row("Travelers", escapeHtml(form.travelers.value) + " Pax"),
+    ) +
+    block(
+      "Attractions",
+      2,
+      spots.length
+        ? `<div class="plan-review-chips">${spots.map((s) => `<span class="spot-chip selected">${escapeHtml(s)}</span>`).join("")}</div>`
+        : `<div class="plan-review-empty">None selected yet.</div>`,
+    ) +
+    block(
+      "Details",
+      3,
+      row("Transport", escapeHtml(form.transportMode.value)) +
+        row("Budget", escapeHtml(form.budget.value)) +
+        row(
+          "Notes",
+          form.notes.value.trim()
+            ? escapeHtml(form.notes.value)
+            : `<span class="plan-review-empty">No notes yet.</span>`,
+        ),
+    );
 }
 
 // ======================= UI INTERACTIONS =======================
@@ -362,6 +651,17 @@ export function submitTripPlan(e) {
   const btn = document.getElementById("planBtn");
   const spots = form.touristSpots.value;
 
+  // The form is novalidate (hidden steps can't show browser errors), so re-check every step here
+  goToPlanStep(PLAN_STEP_COUNT);
+  if (planStep !== PLAN_STEP_COUNT) return;
+
+  // Anyone can draft a trip; an account is only needed to save it
+  if (!isLoggedIn) {
+    pendingPlanSave = true;
+    openAuthModal();
+    return;
+  }
+
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Saving...';
 
@@ -389,23 +689,20 @@ export function submitTripPlan(e) {
 
   ajaxPost(endpoint, data, (err, res) => {
     btn.disabled = false;
-    btn.innerHTML = '<i class="ti ti-device-floppy"></i> Save to My Itinerary';
+    btn.innerHTML = planId
+      ? '<i class="ti ti-device-floppy"></i> Update Itinerary'
+      : PLAN_SAVE_LABEL;
 
     if (res && res.success) {
       if (planId) {
         showToast("Itinerary updated successfully!", "success");
-        form.planId.value = ""; // Reset hidden ID
       } else {
         document.getElementById("plan-form-wrap").classList.add("hidden");
         document.getElementById("plan-success").classList.remove("hidden");
       }
 
-      // Reset form and chips
-      form.reset();
-      document
-        .querySelectorAll(".spot-chip")
-        .forEach((c) => c.classList.remove("selected"));
-      document.getElementById("touristSpotsInput").value = "";
+      // Reset form, chips and the saved draft
+      clearPlanForm();
 
       loadBookings(); // Refresh the table
     } else {
@@ -444,6 +741,7 @@ export function resetForm(formId, wrapId, successId) {
   document.getElementById(formId).reset();
   document.getElementById(wrapId).classList.remove("hidden");
   document.getElementById(successId).classList.add("hidden");
+  if (formId === "planForm") goToPlanStep(1, false);
 }
 
 export function loadBookings() {
@@ -558,6 +856,8 @@ export function editTripPlan(id) {
       chip.classList.remove("selected");
     }
   });
+  updateSpotCount();
+  goToPlanStep(1, false);
 
   // Change button text to reflect an update
   const btn = document.getElementById("planBtn");
@@ -664,15 +964,52 @@ export function submitLogin(e) {
   };
   ajaxPost("api/login.php", data, (err, res) => {
     if (res && res.success) {
-      showToast("Logged in successfully!", "success");
-      // Refresh the page so the forms unlock!
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      onLoginSuccess();
     } else {
       showToast(res ? res.message : "Login failed", "error");
     }
   });
+}
+
+function onLoginSuccess() {
+  showToast("Logged in successfully!", "success");
+
+  // Logged in from the Save popup: stay on the page and finish saving the trip
+  if (pendingPlanSave) {
+    closeAuthModal();
+    applyAuthState(true);
+    document.getElementById("planForm").requestSubmit();
+    return;
+  }
+
+  // Refresh the page so the forms unlock!
+  setTimeout(() => {
+    window.location.reload();
+  }, 1000);
+}
+
+function openAuthModal() {
+  const body = document.getElementById("authModalBody");
+
+  // First use: copy the Account page forms so there is only one version to maintain
+  if (!body.firstChild) {
+    const card = document.querySelector("#page-auth .form-card").cloneNode(true);
+    card.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+    body.append(...card.children);
+  }
+  document.getElementById("authModal").classList.add("show");
+}
+
+export function closeAuthModal() {
+  pendingPlanSave = false;
+  document.getElementById("authModal").classList.remove("show");
+}
+
+// Switches between the Login and Register views (Account page and popup)
+export function toggleAuthView(el) {
+  el.closest(".auth-view")
+    .parentElement.querySelectorAll(".auth-view")
+    .forEach((v) => v.classList.toggle("hidden"));
 }
 
 export function submitRegister(e) {
@@ -690,8 +1027,17 @@ export function submitRegister(e) {
 
   ajaxPost("api/register.php", data, (err, res) => {
     if (res && res.success) {
-      showToast("Account created! Please log in.", "success");
+      // Log the new user straight in so they don't have to type it all again
+      const creds = { email: data.email, password: data.password };
       form.reset();
+      ajaxPost("api/login.php", creds, (err, loginRes) => {
+        if (loginRes && loginRes.success) {
+          onLoginSuccess();
+        } else {
+          showToast("Account created! Please log in.", "success");
+          toggleAuthView(form);
+        }
+      });
     } else {
       showToast(res ? res.message : "Registration failed", "error");
     }
@@ -715,47 +1061,57 @@ export function cancelBooking(id, targetType) {
   );
 }
 
+let isLoggedIn = false;
+let pendingPlanSave = false; // true while the Save popup is waiting for a login
+
 export function checkAuthAndLockForms() {
   ajaxGet("api/check_session.php", (err, res) => {
-    if (res && res.loggedIn) {
-      // Change the "Account" buttons to say "Logout"
-      document.querySelectorAll(".nav-link, .drawer-link").forEach((btn) => {
-        if (btn.textContent.includes("Account")) {
-          btn.innerHTML = btn.innerHTML.replace("Account", "Logout");
-          btn.onclick = () => {
-            fetch("api/logout.php").then(() => window.location.reload());
-          };
-        }
-      });
+    applyAuthState(!!(res && res.loggedIn));
+  });
+}
 
-      // FIX: Pre-load the user's data in the background immediately!
-      loadBookings();
-    } else {
-      // Lock the Hotel Booking Form
-      const resWrap = document.getElementById("reserve-form-wrap");
-      if (resWrap) {
-        resWrap.innerHTML = `
-            <div style="text-align:center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: var(--shadow);">
+function applyAuthState(loggedIn) {
+  isLoggedIn = loggedIn;
+  const resWrap = document.getElementById("reserve-form-wrap");
+  const lock = document.getElementById("reserve-lock");
+
+  if (loggedIn) {
+    // Change the "Account" buttons to say "Logout"
+    document.querySelectorAll(".nav-link, .drawer-link").forEach((btn) => {
+      if (btn.textContent.includes("Account")) {
+        btn.innerHTML = btn.innerHTML.replace("Account", "Logout");
+        btn.onclick = () => {
+          fetch("api/logout.php").then(() => window.location.reload());
+        };
+      }
+    });
+
+    // Unlock the Hotel Booking Form (when logging in without a page reload)
+    if (lock) {
+      lock.remove();
+      resWrap.classList.remove("hidden");
+    }
+
+    // FIX: Pre-load the user's data in the background immediately!
+    loadBookings();
+  } else {
+    // Lock the Hotel Booking Form (hidden, not removed, so it can be unlocked later)
+    if (resWrap && !lock) {
+      resWrap.classList.add("hidden");
+      resWrap.insertAdjacentHTML(
+        "beforebegin",
+        `<div id="reserve-lock" style="text-align:center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: var(--shadow);">
               <i class="ti ti-lock" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px; display:inline-block;"></i>
               <h3 style="margin-bottom: 8px;">Authentication Required</h3>
               <p style="color:var(--gray); margin-bottom: 24px;">You must be logged in to your account to book a hotel reservation.</p>
               <button class="btn-primary" onclick="showPage('auth')">Go to Login</button>
-            </div>`;
-      }
-
-      // Lock the Trip Plan Form
-      const planWrap = document.getElementById("plan-form-wrap");
-      if (planWrap) {
-        planWrap.innerHTML = `
-            <div style="text-align:center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: var(--shadow);">
-              <i class="ti ti-lock" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px; display:inline-block;"></i>
-              <h3 style="margin-bottom: 8px;">Authentication Required</h3>
-              <p style="color:var(--gray); margin-bottom: 24px;">You must be logged in to your account to create a trip plan.</p>
-              <button class="btn-primary" onclick="showPage('auth')">Go to Login</button>
-            </div>`;
-      }
+            </div>`,
+      );
     }
-  });
+
+    // The Trip Plan Form stays open: anyone can draft, login is asked for at Save
+    renderBookingsTable("trips-table-wrap", [], "trip");
+  }
 }
 
 export function openEditModal(id, target, val1, val2, val3) {

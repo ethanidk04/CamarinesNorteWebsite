@@ -1763,6 +1763,7 @@ button {
   transition: all 0.25s;
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   will-change: transform;
 }
 .footer-soc {
@@ -2256,6 +2257,235 @@ footer {
   color: white;
   border-color: var(--coral);
   font-weight: 600;
+}
+
+/* ===== TRIP PLAN STEPPER ===== */
+.plan-steps {
+  display: flex;
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+}
+.plan-steps li {
+  flex: 1;
+  position: relative;
+}
+/* Connector line running from the previous step's circle to this one */
+.plan-steps li + li::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  transition: background 0.25s;
+}
+.plan-steps li.active::before,
+.plan-steps li.done::before {
+  background: var(--coral);
+}
+.plan-step-tab {
+  position: relative;
+  z-index: 1; /* Keeps the circles above the connector lines */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.plan-step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid var(--border);
+  color: var(--light-gray);
+  font-size: 14px;
+  font-weight: 800;
+  transition: all 0.25s;
+}
+.plan-step-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--light-gray);
+  transition: color 0.25s;
+}
+.plan-steps li.done .plan-step-num {
+  background: var(--coral-light);
+  border-color: var(--coral);
+  color: var(--coral);
+}
+.plan-steps li.active .plan-step-num {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--coral-light);
+}
+.plan-steps li.active .plan-step-name,
+.plan-steps li.done .plan-step-name {
+  color: var(--dark);
+}
+.plan-panel {
+  display: none;
+}
+.plan-panel.active {
+  display: block;
+  animation: planPanelIn 0.25s ease;
+}
+@keyframes planPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.plan-panel .spots-chip-container {
+  max-height: 320px;
+}
+.plan-spot-count {
+  margin-left: 8px;
+  color: var(--coral);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.plan-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.plan-nav .form-submit {
+  flex: 1;
+  width: auto;
+  margin-top: 0;
+}
+.plan-back {
+  padding: 14px 24px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--gray);
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.plan-back:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+.plan-review-block {
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.plan-review-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.plan-review-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--dark);
+}
+.plan-review-edit {
+  background: none;
+  border: none;
+  color: var(--coral);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.plan-review-edit:hover {
+  text-decoration: underline;
+}
+.plan-review-row {
+  display: flex;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 14px;
+}
+.plan-review-label {
+  flex: 0 0 96px;
+  color: var(--light-gray);
+}
+.plan-review-value {
+  color: var(--dark);
+  font-weight: 600;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.plan-review-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.plan-review-chips .spot-chip {
+  cursor: default;
+}
+.plan-review-empty {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--light-gray);
+}
+.plan-draft-note {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--light-gray);
+}
+.plan-draft-note button {
+  margin-left: 6px;
+  background: none;
+  border: none;
+  color: var(--coral);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.plan-draft-note button:hover {
+  text-decoration: underline;
+}
+.auth-modal-note {
+  margin: 0 40px 18px 0; /* leaves room for the close button */
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--coral-light);
+  color: var(--coral-dark);
+  font-size: 13px;
+  font-weight: 600;
+}
+@media (max-width: 640px) {
+  .plan-step-name {
+    font-size: 11px;
+  }
+  .plan-nav {
+    flex-direction: column-reverse;
+  }
+  .plan-back {
+    justify-content: center;
+  }
+  .plan-review-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .plan-review-label {
+    flex: none;
+  }
 }
 
 .hero-figure {

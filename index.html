@@ -408,7 +408,7 @@
       <section class="section">
         <div class="form-card zoom-in" style="max-width: 400px; margin: 0 auto">
           
-          <div id="login-view">
+          <div id="login-view" class="auth-view">
             <div class="form-title">Login to Your Account</div>
             <form id="loginForm" onsubmit="submitLogin(event)">
               <div class="form-group" style="margin-bottom: 14px">
@@ -427,13 +427,13 @@
             <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--gray);">
               Don't have an account? 
               <span style="color: var(--coral); cursor: pointer; font-weight: 700;" 
-                    onclick="document.getElementById('login-view').classList.add('hidden'); document.getElementById('register-view').classList.remove('hidden');">
+                    onclick="toggleAuthView(this)">
                 Click to Register
               </span>
             </div>
           </div>
 
-          <div id="register-view" class="hidden">
+          <div id="register-view" class="auth-view hidden">
             <div class="form-title" style="font-size: 22px">New User? Create Account</div>
             <form id="registerForm" onsubmit="submitRegister(event)" style="margin-top: 14px">
               <div class="form-grid">
@@ -469,7 +469,7 @@
             <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--gray);">
               Already have an account? 
               <span style="color: var(--coral); cursor: pointer; font-weight: 700;" 
-                    onclick="document.getElementById('register-view').classList.add('hidden'); document.getElementById('login-view').classList.remove('hidden');">
+                    onclick="toggleAuthView(this)">
                 Login here
               </span>
             </div>
@@ -1163,88 +1163,108 @@
             Camarines Norte.
           </div>
           <div id="plan-form-wrap">
-            <form id="planForm" onsubmit="submitTripPlan(event)">
+            <form id="planForm" onsubmit="submitTripPlan(event)" novalidate>
               <input type="hidden" name="planId" id="planId" value="" />
-              <div class="form-grid">
-                <div class="form-group full">
-                  <label class="form-label">Trip Name *</label>
-                  <input
-                    class="form-input"
-                    type="text"
-                    name="tripName"
-                    placeholder="e.g. Summer Barkada Getaway"
-                    required
-                  />
+
+              <ol class="plan-steps" id="planSteps">
+                <li class="active" data-step="1">
+                  <button type="button" class="plan-step-tab" onclick="goToPlanStep(1)">
+                    <span class="plan-step-num">1</span>
+                    <span class="plan-step-name">Basics</span>
+                  </button>
+                </li>
+                <li data-step="2">
+                  <button type="button" class="plan-step-tab" onclick="goToPlanStep(2)">
+                    <span class="plan-step-num">2</span>
+                    <span class="plan-step-name">Attractions</span>
+                  </button>
+                </li>
+                <li data-step="3">
+                  <button type="button" class="plan-step-tab" onclick="goToPlanStep(3)">
+                    <span class="plan-step-num">3</span>
+                    <span class="plan-step-name">Details</span>
+                  </button>
+                </li>
+                <li data-step="4">
+                  <button type="button" class="plan-step-tab" onclick="goToPlanStep(4)">
+                    <span class="plan-step-num">4</span>
+                    <span class="plan-step-name">Review</span>
+                  </button>
+                </li>
+              </ol>
+
+              <!-- STEP 1: Basics -->
+              <div class="plan-panel active" data-step="1">
+                <div class="form-section-label">Step 1 of 4 · Where and when?</div>
+                <div class="form-grid">
+                  <div class="form-group full">
+                    <label class="form-label">Trip Name *</label>
+                    <input
+                      class="form-input"
+                      type="text"
+                      name="tripName"
+                      placeholder="e.g. Summer Barkada Getaway"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Primary Destination *</label>
+                    <select
+                      class="form-input form-select"
+                      name="destination"
+                      required
+                    >
+                      <option value="">Select Base Municipality</option>
+                      <option>Daet</option>
+                      <option>Mercedes</option>
+                      <option>Vinzons</option>
+                      <option>Paracale</option>
+                      <option>Jose Panganiban</option>
+                      <option>Labo</option>
+                      <option>Multiple Towns</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Number of Travelers *</label>
+                    <input
+                      class="form-input"
+                      type="number"
+                      name="travelers"
+                      min="1"
+                      max="50"
+                      placeholder="4"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Start Date *</label>
+                    <input
+                      class="form-input"
+                      type="date"
+                      name="startDate"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">End Date *</label>
+                    <input
+                      class="form-input"
+                      type="date"
+                      name="endDate"
+                      required
+                    />
+                  </div>
                 </div>
+              </div>
+
+              <!-- STEP 2: Attractions -->
+              <div class="plan-panel" data-step="2">
+                <div class="form-section-label">Step 2 of 4 · What do you want to see?</div>
                 <div class="form-group">
-                  <label class="form-label">Primary Destination *</label>
-                  <select
-                    class="form-input form-select"
-                    name="destination"
-                    required
-                  >
-                    <option value="">Select Base Municipality</option>
-                    <option>Daet</option>
-                    <option>Mercedes</option>
-                    <option>Vinzons</option>
-                    <option>Paracale</option>
-                    <option>Jose Panganiban</option>
-                    <option>Labo</option>
-                    <option>Multiple Towns</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Mode of Transport</label>
-                  <select class="form-input form-select" name="transportMode">
-                    <option>Private Vehicle</option>
-                    <option>Public Commute (Bus/Van)</option>
-                    <option>Flying in via Naga</option>
-                    <option>Rented Van</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Start Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="startDate"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">End Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="endDate"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Number of Travelers *</label>
-                  <input
-                    class="form-input"
-                    type="number"
-                    name="travelers"
-                    min="1"
-                    max="50"
-                    placeholder="4"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Budget Range</label>
-                  <select class="form-input form-select" name="budget">
-                    <option>Budget (₱1,000–₱3,000/day)</option>
-                    <option selected>Mid-Range (₱3,000–₱7,000/day)</option>
-                    <option>Premium (₱7,000–₱15,000/day)</option>
-                    <option>Luxury (₱15,000+/day)</option>
-                  </select>
-                </div>
-                <div class="form-group full">
-                  <label class="form-label"
-                    >Select Attractions (Click to add)</label
-                  >
+                  <label class="form-label">
+                    Select Attractions (Click to add)
+                    <span class="plan-spot-count" id="planSpotCount">0 selected</span>
+                  </label>
                   <div
                     id="dynamic-spots-container"
                     class="spots-chip-container"
@@ -1259,18 +1279,63 @@
                     value=""
                   />
                 </div>
-                <div class="form-group full">
-                  <label class="form-label">Day-by-Day Plan & Notes</label>
-                  <textarea
-                    class="form-input form-textarea"
-                    name="notes"
-                    placeholder="Draft your schedule here (e.g., Day 1: Arrive in Daet, surf Bagasbas. Day 2: Boat to Calaguas...)"
-                  ></textarea>
+              </div>
+
+              <!-- STEP 3: Details -->
+              <div class="plan-panel" data-step="3">
+                <div class="form-section-label">Step 3 of 4 · How are you travelling?</div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">Mode of Transport</label>
+                    <select class="form-input form-select" name="transportMode">
+                      <option>Private Vehicle</option>
+                      <option>Public Commute (Bus/Van)</option>
+                      <option>Flying in via Naga</option>
+                      <option>Rented Van</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Budget Range</label>
+                    <select class="form-input form-select" name="budget">
+                      <option>Budget (₱1,000–₱3,000/day)</option>
+                      <option selected>Mid-Range (₱3,000–₱7,000/day)</option>
+                      <option>Premium (₱7,000–₱15,000/day)</option>
+                      <option>Luxury (₱15,000+/day)</option>
+                    </select>
+                  </div>
+                  <div class="form-group full">
+                    <label class="form-label">Day-by-Day Plan & Notes</label>
+                    <textarea
+                      class="form-input form-textarea"
+                      name="notes"
+                      placeholder="Draft your schedule here (e.g., Day 1: Arrive in Daet, surf Bagasbas. Day 2: Boat to Calaguas...)"
+                    ></textarea>
+                  </div>
                 </div>
               </div>
-              <button type="submit" class="form-submit" id="planBtn">
-                <i class="ti ti-device-floppy"></i> Save to My Itinerary
-              </button>
+
+              <!-- STEP 4: Review -->
+              <div class="plan-panel" data-step="4">
+                <div class="form-section-label">Step 4 of 4 · Check your plan</div>
+                <div id="planReview"></div>
+              </div>
+
+              <div class="plan-nav">
+                <button type="button" class="plan-back hidden" id="planBackBtn" onclick="planBack()">
+                  <i class="ti ti-arrow-left"></i> Back
+                </button>
+                <button type="button" class="form-submit" id="planNextBtn" onclick="planNext()">
+                  Next <i class="ti ti-arrow-right"></i>
+                </button>
+                <button type="submit" class="form-submit hidden" id="planBtn">
+                  <i class="ti ti-device-floppy"></i> Save to My Itinerary
+                </button>
+              </div>
+
+              <div class="plan-draft-note hidden" id="planDraftNote">
+                <span id="planDraftText"></span>
+                <button type="button" id="planDraftBtn" onclick="startOverPlan()"></button>
+              </div>
             </form>
           </div>
           <div id="plan-success" class="success-screen hidden">
@@ -1711,6 +1776,20 @@
             <i class="ti ti-device-floppy"></i> Save Changes
           </button>
         </form>
+      </div>
+    </div>
+
+    <!-- Login / register popup shown when saving a trip while logged out -->
+    <div class="modal-overlay" id="authModal" onclick="if (event.target === this) closeAuthModal()">
+      <div class="modal modal-wrap" style="max-width: 420px; padding: 24px">
+        <button class="modal-close" onclick="closeAuthModal()">
+          <i class="ti ti-x"></i>
+        </button>
+        <div class="auth-modal-note">
+          <i class="ti ti-device-floppy"></i> Log in or create an account to save this trip. Your draft stays as it is.
+        </div>
+        <!-- Filled by JS with a copy of the Account page forms -->
+        <div id="authModalBody"></div>
       </div>
     </div>
 
