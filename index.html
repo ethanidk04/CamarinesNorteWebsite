@@ -931,16 +931,26 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="resGuests">Number of Guests *</label>
-                  <input
-                    class="form-input"
-                    id="resGuests"
-                    type="number"
-                    name="guests"
-                    min="1"
-                    max="20"
-                    placeholder="2"
-                    required
-                  />
+                  <div class="stepper">
+                    <button type="button" class="stepper-btn" onclick="stepNumber(this, -1)" aria-label="Fewer guests">
+                      <i class="ti ti-minus"></i>
+                    </button>
+                    <input
+                      class="form-input stepper-input"
+                      id="resGuests"
+                      type="number"
+                      name="guests"
+                      min="1"
+                      max="20"
+                      value="1"
+                      inputmode="numeric"
+                      onchange="clampNumber(this)"
+                      required
+                    />
+                    <button type="button" class="stepper-btn" onclick="stepNumber(this, 1)" aria-label="More guests">
+                      <i class="ti ti-plus"></i>
+                    </button>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="resCheckIn">Check-In Date *</label>
@@ -1094,16 +1104,27 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label">Number of Travelers *</label>
-                    <input
-                      class="form-input"
-                      type="number"
-                      name="travelers"
-                      min="1"
-                      max="50"
-                      placeholder="4"
-                      required
-                    />
+                    <label class="form-label" for="planTravelers">Number of Travelers *</label>
+                    <div class="stepper">
+                      <button type="button" class="stepper-btn" onclick="stepNumber(this, -1)" aria-label="Fewer travelers">
+                        <i class="ti ti-minus"></i>
+                      </button>
+                      <input
+                        class="form-input stepper-input"
+                        id="planTravelers"
+                        type="number"
+                        name="travelers"
+                        min="1"
+                        max="50"
+                        value="1"
+                        inputmode="numeric"
+                        onchange="clampNumber(this)"
+                        required
+                      />
+                      <button type="button" class="stepper-btn" onclick="stepNumber(this, 1)" aria-label="More travelers">
+                        <i class="ti ti-plus"></i>
+                      </button>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label class="form-label">Start Date *</label>

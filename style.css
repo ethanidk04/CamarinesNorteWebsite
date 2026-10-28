@@ -3201,6 +3201,56 @@ footer {
   margin-top: 24px;
 }
 
+/* Number stepper: [ − ] 2 [ + ] */
+.stepper {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+.stepper-input.form-input {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.stepper-input::-webkit-outer-spin-button,
+.stepper-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.stepper-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--gray);
+  font-size: 16px;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.1s;
+}
+.stepper-btn:hover {
+  border-color: var(--coral);
+  color: var(--coral-dark);
+  background: var(--coral-light);
+}
+.stepper-btn:active {
+  transform: scale(0.94);
+}
+.stepper-btn:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
 /* My reservations */
 .bookings-page {
   min-height: 60vh;

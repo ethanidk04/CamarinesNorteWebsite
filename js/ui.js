@@ -270,10 +270,12 @@ function savePlanDraft() {
   const fields = {};
   PLAN_FIELDS.forEach((name) => (fields[name] = form[name].value));
 
-  // Transport and budget always have a default, so they don't count as "started"
-  const started = PLAN_FIELDS.some(
-    (name) => name !== "transportMode" && name !== "budget" && fields[name],
-  );
+  // Transport, budget and travelers always have a default, so those don't count as "started"
+  const started = PLAN_FIELDS.some((name) => {
+    if (name === "transportMode" || name === "budget") return false;
+    if (name === "travelers") return fields[name] !== form.travelers.defaultValue;
+    return fields[name];
+  });
 
   try {
     if (started) {
@@ -824,6 +826,24 @@ export function resetForm(formId, wrapId, successId) {
   document.getElementById(successId).classList.add("hidden");
   if (formId === "planForm") goToPlanStep(1, false);
   if (formId === "reserveForm") updateStaySummary();
+}
+
+// ======================= NUMBER STEPPER =======================
+// Keeps a typed number inside the input's min/max (empty or junk goes back to min)
+export function clampNumber(input) {
+  const min = Number(input.min) || 1;
+  const max = Number(input.max) || Infinity;
+  const n = Math.round(Number(input.value));
+  input.value = Number.isFinite(n) && input.value !== "" ? Math.min(max, Math.max(min, n)) : min;
+}
+
+export function stepNumber(btn, delta) {
+  const input = btn.parentElement.querySelector("input");
+  const before = input.value;
+  input.value = (Number(input.value) || 0) + delta;
+  clampNumber(input);
+  // Let the form's own listeners (draft save, stay summary) see the change
+  if (input.value !== before) input.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 // ======================= DATE / TEXT HELPERS =======================
