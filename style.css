@@ -2926,11 +2926,25 @@ footer {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
   gap: 48px;
-  align-items: start;
+  align-items: stretch;
 }
+/* The card stretches to the sidebar's height, so both columns end on one line.
+   Back/Next sit at the bottom of the card and stay put between steps. */
 .plan-card.form-card {
+  display: flex;
+  flex-direction: column;
   max-width: none;
   margin: 0;
+}
+.plan-card #plan-form-wrap,
+.plan-card #planForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.plan-card .plan-nav {
+  margin-top: auto;
+  padding-top: 24px;
 }
 .plan-aside {
   padding-top: 8px;
@@ -2997,6 +3011,15 @@ footer {
   font-size: 12px;
   padding: 10px 4px;
 }
+/* Tall enough for the longest month tip, so picking a month doesn't shift the page */
+.plan-aside .month-tip {
+  min-height: 100px;
+}
+@media (max-width: 640px) {
+  .plan-aside .month-tip {
+    min-height: 122px;
+  }
+}
 .plan-aside .month-btn.shoulder {
   color: #92400e;
 }
@@ -3031,10 +3054,25 @@ footer {
   justify-content: center;
   padding: 9px 10px;
 }
+/* All three route panels share one grid cell, so the block is always as tall as
+   the longest one and switching tabs doesn't push the content below it around */
+.plan-routes {
+  display: grid;
+}
+.plan-routes .transport-content {
+  display: flex;
+  grid-row: 3;
+  grid-column: 1;
+  align-self: start;
+  visibility: hidden;
+}
+.plan-routes .transport-content.active {
+  visibility: visible;
+}
 
 /* Saved itineraries */
 .plan-saved {
-  margin-top: 88px;
+  margin-top: 64px;
 }
 .plan-saved .section-title {
   font-size: clamp(28px, 4vw, 36px);
@@ -3411,7 +3449,7 @@ footer {
   }
   .plan-saved,
   .plan-faq {
-    margin-top: 64px;
+    margin-top: 56px;
   }
   .trip-grid {
     grid-template-columns: 1fr;
