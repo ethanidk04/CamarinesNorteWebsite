@@ -3065,12 +3065,16 @@ footer {
   display: flex;
   flex-direction: column;
 }
-/* Step 1: roomier rows, season box always shown under the dates */
+/* Step 1: rows spread out to fill the card when there's room and close up
+   when there isn't (fixed big gaps overflowed on ~1100px screens, which
+   triggered the scroll fade over the season box) */
 .plan-card .plan-panel[data-step="1"] .form-grid {
-  row-gap: 30px;
+  flex: 1 1 auto;
+  row-gap: 16px;
+  align-content: space-evenly;
 }
 .plan-card .plan-panel[data-step="1"] .season-hint {
-  margin-top: 32px;
+  margin-top: 16px;
   padding: 14px 16px;
 }
 .season-hint--empty {

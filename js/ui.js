@@ -232,10 +232,17 @@ function initPlanStepper() {
   form.addEventListener("change", savePlanDraft);
 
   // Fade the bottom edge of a step that scrolls, until you reach the end
-  form
-    .querySelectorAll(".plan-panel")
-    .forEach((p) => p.addEventListener("scroll", updatePanelFade, { passive: true }));
+  form.querySelectorAll(".plan-panel").forEach((p) => {
+    p.addEventListener("scroll", updatePanelFade, { passive: true });
+    // The slide-in animation briefly makes the step measure taller than it
+    // is, so check again once it has finished
+    p.addEventListener("animationend", updatePanelFade);
+  });
   window.addEventListener("resize", updatePanelFade);
+  // Content can grow or shrink while you type or pick dates (season tip, chips)
+  form.addEventListener("input", updatePanelFade);
+  form.addEventListener("change", updatePanelFade);
+  form.addEventListener("click", () => requestAnimationFrame(updatePanelFade));
 
   const draft = readPlanDraft();
   if (draft) applyPlanDraft(draft);
