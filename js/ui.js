@@ -2,6 +2,7 @@ import { DESTINATIONS, FOODS, RESTOS, FESTIVALS, MUNIS } from "./data.js";
 import { ajaxPost, ajaxGet, escapeQuote } from "./utils.js";
 
 let currentTrips = [];
+let lastSavedTrip = null; // for "Book a hotel for these dates" after saving
 
 // ======================= RENDER TEMPLATES =======================
 export function renderDestCard(d, idx, showBtn = true) {
@@ -780,6 +781,7 @@ export function submitTripPlan(e) {
       if (planId) {
         showToast("Itinerary updated successfully!", "success");
       } else {
+        lastSavedTrip = data;
         document.getElementById("plan-form-wrap").classList.add("hidden");
         document.getElementById("plan-success").classList.remove("hidden");
       }
@@ -922,6 +924,15 @@ export function loadBookings() {
     if (err) {
       console.error(err);
       showToast("Error loading bookings from database.", "error");
+      // Don't leave the lists stuck on "Loading..."
+      const failed = `<div class="empty-bookings">
+        <i class="ti ti-cloud-off"></i>
+        <h3>Couldn't load your trips</h3>
+        <p>Check your connection, then try again.</p>
+        <button type="button" class="btn-primary" onclick="loadBookings()"><i class="ti ti-refresh"></i> Try again</button>
+      </div>`;
+      if (hotelsWrap) hotelsWrap.innerHTML = failed;
+      if (tripsWrap) tripsWrap.innerHTML = failed;
       return;
     }
 
@@ -930,6 +941,7 @@ export function loadBookings() {
 
     renderBookingsTable("hotels-table-wrap", data.reservations, "reservation");
     renderBookingsTable("trips-table-wrap", currentTrips, "trip");
+    updateTripCounts(data.success === false ? null : data.reservations || [], currentTrips);
   });
 }
 
@@ -953,8 +965,8 @@ export function renderBookingsTable(containerId, records, type) {
       action = `<button type="button" class="btn-primary" onclick="showPage('reserve')"><i class="ti ti-plus"></i> Book a stay</button>`;
     } else {
       title = "No saved itineraries yet";
-      body = "Trips you save with the planner above will show up here.";
-      action = "";
+      body = "Trips you save in the trip planner will show up here.";
+      action = `<button type="button" class="btn-primary" onclick="showPage('plan')"><i class="ti ti-plus"></i> Plan a trip</button>`;
     }
     el.innerHTML = `<div class="empty-bookings">
       <i class="ti ${isReservation ? "ti-calendar-off" : "ti-map-off"}"></i>
@@ -1040,8 +1052,9 @@ export function renderBookingsTable(containerId, records, type) {
               : ""
           }
           <div class="trip-card-actions">
-            <button type="button" class="btn-sm btn-sm--primary" onclick="editTripPlan(${r.id})"><i class="ti ti-edit"></i> Edit itinerary</button>
-            <button type="button" class="btn-sm btn-sm--danger" onclick="cancelBooking(${r.id}, 'trip')"><i class="ti ti-trash"></i> Delete</button>
+            <button type="button" class="btn-sm btn-sm--primary" onclick="bookHotelForTrip(${r.id})"><i class="ti ti-building"></i> Book hotel</button>
+            <button type="button" class="btn-sm" onclick="editTripPlan(${r.id})"><i class="ti ti-edit"></i> Edit</button>
+            <button type="button" class="btn-sm btn-sm--danger" onclick="cancelBooking(${r.id}, 'trip')" aria-label="Delete itinerary"><i class="ti ti-trash"></i> Delete</button>
           </div>
         </article>`;
       })
@@ -1053,6 +1066,11 @@ export function editTripPlan(id) {
   // Use == instead of === in case the database returns the ID as a string
   const trip = currentTrips.find((t) => t.id == id);
   if (!trip) return;
+
+  // Saved itineraries live on My Trips; the form is on the Plan Trip page
+  if (!document.getElementById("page-plan").classList.contains("active")) {
+    showPage("plan");
+  }
 
   // FIX: Force the form to become visible again (hides the success screen if it was open)
   document.getElementById("plan-form-wrap").classList.remove("hidden");
@@ -1100,14 +1118,69 @@ export function editTripPlan(id) {
 }
 
 export function switchBookingTab(btn, tabId) {
+  document.querySelectorAll(".trips-tab").forEach((b) => {
+    b.classList.remove("active");
+    b.setAttribute("aria-selected", "false");
+  });
   document
-    .querySelectorAll(".tab-btn")
-    .forEach((b) => b.classList.remove("active"));
-  document
-    .querySelectorAll(".tab-content")
+    .querySelectorAll("#page-bookings .tab-content")
     .forEach((c) => c.classList.remove("active"));
   btn.classList.add("active");
+  btn.setAttribute("aria-selected", "true");
   document.getElementById("tab-" + tabId).classList.add("active");
+
+  // The header button follows the tab: book a hotel, or plan a trip
+  const primary = document.getElementById("myTripsPrimaryBtn");
+  if (primary) {
+    const isTrips = tabId === "trips";
+    primary.innerHTML = isTrips
+      ? '<i class="ti ti-plus"></i> Plan a trip'
+      : '<i class="ti ti-plus"></i> Book a stay';
+    primary.onclick = () => showPage(isTrips ? "plan" : "reserve");
+  }
+}
+
+// Opens My Trips on a given tab ("hotels" or "trips")
+export function openMyTrips(tabId = "hotels") {
+  showPage("bookings");
+  const btn = document.getElementById("tabBtn-" + tabId);
+  if (btn) switchBookingTab(btn, tabId);
+}
+
+// Tab counts on My Trips + the "You have N saved itineraries" link on Plan Trip.
+// Pass null when logged out to hide them.
+function updateTripCounts(reservations, trips) {
+  const hotelsCount = document.getElementById("hotelsCount");
+  const tripsCount = document.getElementById("tripsCount");
+  const nHotels = Array.isArray(reservations) ? reservations.length : null;
+  const nTrips = Array.isArray(trips) ? trips.length : null;
+  if (hotelsCount) hotelsCount.textContent = nHotels ?? "";
+  if (tripsCount) tripsCount.textContent = nTrips ?? "";
+
+  const link = document.getElementById("planSavedLink");
+  if (link) {
+    link.classList.toggle("hidden", !nTrips);
+    document.getElementById("planSavedText").textContent = nTrips
+      ? `You have ${nTrips} saved ${nTrips === 1 ? "itinerary" : "itineraries"}.`
+      : "";
+  }
+}
+
+// Opens the hotel booking with a trip's dates and group size filled in.
+// No id = the itinerary that was just saved.
+export function bookHotelForTrip(id) {
+  const trip = id == null ? lastSavedTrip : currentTrips.find((t) => t.id == id);
+  showPage("reserve");
+  if (!trip) return;
+
+  resetForm("reserveForm", "reserve-form-wrap", "reserve-success");
+  const form = document.getElementById("reserveForm");
+  form.checkIn.value = trip.startDate || "";
+  form.checkOut.value = trip.endDate || "";
+  const travelers = Number(trip.travelers);
+  if (travelers > 0) form.guests.value = Math.min(travelers, Number(form.guests.max) || travelers);
+  updateStaySummary();
+  showToast(`Dates filled in from "${esc(trip.tripName)}"`, "success");
 }
 
 export function showToast(msg, type = "") {
@@ -1490,7 +1563,9 @@ function applyAuthState(loggedIn, user) {
       );
     }
 
+    renderBookingsTable("hotels-table-wrap", [], "reservation");
     renderBookingsTable("trips-table-wrap", [], "trip");
+    updateTripCounts(null, null);
   }
 }
 

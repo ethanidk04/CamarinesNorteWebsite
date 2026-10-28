@@ -3070,14 +3070,114 @@ footer {
   visibility: visible;
 }
 
-/* Saved itineraries */
-.plan-saved {
-  margin-top: 64px;
+/* "You have N saved itineraries → View in My Trips" under the Plan Trip heading */
+.plan-saved-link {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: -20px 0 36px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--gray);
 }
-.plan-saved .section-title {
-  font-size: clamp(28px, 4vw, 36px);
+.plan-saved-link > i {
+  font-size: 17px;
+  color: var(--coral);
+}
+.plan-saved-link button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--coral-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+.plan-saved-link button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.plan-saved-link button:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.success-actions .btn-sm {
+  padding: 10px 16px;
+}
+
+/* My Trips tabs */
+.trips-tabs {
+  display: flex;
+  gap: 4px;
   margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
 }
+.trips-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: -1px;
+  padding: 12px 16px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--light-gray);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+.trips-tab i {
+  font-size: 17px;
+}
+.trips-tab:hover {
+  color: var(--dark);
+}
+.trips-tab.active {
+  color: var(--dark);
+  border-bottom-color: var(--coral);
+}
+.trips-tab:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: -2px;
+  border-radius: 6px 6px 0 0;
+}
+.trips-tab-count {
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: #f1f5f9;
+  color: var(--gray);
+  font-size: 11px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.trips-tab-count:empty {
+  display: none;
+}
+.trips-tab.active .trips-tab-count {
+  background: var(--coral-light);
+  color: var(--coral-dark);
+}
+
+/* Saved itineraries */
 .trip-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -3202,7 +3302,7 @@ footer {
 
 .plan-faq {
   max-width: 820px;
-  margin-top: 88px;
+  margin-top: 72px;
 }
 .plan-faq-title {
   font-size: 20px;
@@ -3447,9 +3547,14 @@ footer {
   .plan-card.form-card {
     padding: 28px 20px;
   }
-  .plan-saved,
   .plan-faq {
     margin-top: 56px;
+  }
+  .trips-tab {
+    flex: 1;
+    justify-content: center;
+    padding: 12px 8px;
+    font-size: 13px;
   }
   .trip-grid {
     grid-template-columns: 1fr;

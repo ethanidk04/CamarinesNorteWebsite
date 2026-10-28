@@ -9,7 +9,7 @@ import {
   goToPlanStep, planNext, planBack, startOverPlan,
   openAuthModal, closeAuthModal, switchAuthTab, toggleAuthView, togglePassVisibility,
   toggleDropdown, closeAllDropdowns, logoutUser, updateStaySummary,
-  stepNumber, clampNumber
+  stepNumber, clampNumber, openMyTrips, bookHotelForTrip
 } from './ui.js';
 
 // ======================= EVENT LISTENERS =======================
@@ -105,6 +105,8 @@ window.showMonthTip = showMonthTip;
 window.updateStaySummary = updateStaySummary;
 window.stepNumber = stepNumber;
 window.clampNumber = clampNumber;
+window.openMyTrips = openMyTrips;
+window.bookHotelForTrip = bookHotelForTrip;
 window.showTransport = showTransport;
 window.toggleFaq = toggleFaq;
 window.submitLogin = submitLogin;

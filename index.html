@@ -73,8 +73,8 @@
             </div>
             <div class="dropdown-divider"></div>
             <button class="nav-dropdown-item" onclick="showPage('bookings')">
-              <div class="dropdown-item-title">My Bookings & Trips</div>
-              <div class="dropdown-item-desc">View and manage your reservations</div>
+              <div class="dropdown-item-title">My Trips</div>
+              <div class="dropdown-item-desc">Hotel reservations and saved itineraries</div>
             </button>
             <button class="nav-dropdown-item" onclick="showPage('plan')">
               <div class="dropdown-item-title">Custom Itinerary</div>
@@ -149,7 +149,7 @@
           <i class="ti ti-building"></i>Book Hotel
         </button>
         <button class="drawer-link hidden" id="drawerBookingsItem" onclick="showPage('bookings'); closeDrawer();">
-          <i class="ti ti-list-check"></i>My Bookings
+          <i class="ti ti-list-check"></i>My Trips
         </button>
 
         <div class="drawer-section-label">INFORMATION</div>
@@ -995,8 +995,8 @@
                 flex-wrap: wrap;
               "
             >
-              <button class="btn-primary" onclick="showPage('bookings')">
-                <i class="ti ti-list"></i> View My Bookings
+              <button class="btn-primary" onclick="openMyTrips('hotels')">
+                <i class="ti ti-list"></i> View My Trips
               </button>
               <button
                 class="btn-outline"
@@ -1032,6 +1032,13 @@
               account. Season tips and travel routes sit right beside the
               planner.
             </p>
+            <div class="plan-saved-link hidden" id="planSavedLink">
+              <i class="ti ti-map-2"></i>
+              <span id="planSavedText"></span>
+              <button type="button" onclick="openMyTrips('trips')">
+                View in My Trips <i class="ti ti-arrow-right"></i>
+              </button>
+            </div>
           </header>
 
           <div class="plan-layout">
@@ -1236,24 +1243,22 @@
             <div class="success-icon"><i class="ti ti-check"></i></div>
             <div class="success-title">Itinerary Saved!</div>
             <div class="success-sub">
-              Your custom trip plan has been saved successfully. You can view or
-              edit it in your saved itineraries below.
+              Your custom trip plan has been saved. Need somewhere to stay? We
+              can fill in the hotel booking with your trip dates.
             </div>
-            <div
-              style="
-                display: flex;
-                gap: 12px;
-                justify-content: center;
-                flex-wrap: wrap;
-              "
-            >
+            <div class="success-actions">
+              <button type="button" class="btn-primary" onclick="bookHotelForTrip()">
+                <i class="ti ti-building"></i> Book a hotel for these dates
+              </button>
+              <button type="button" class="btn-sm" onclick="openMyTrips('trips')">
+                <i class="ti ti-map-2"></i> View in My Trips
+              </button>
               <button
-                class="btn-primary"
-                onclick="
-                  resetForm('planForm', 'plan-form-wrap', 'plan-success')
-                "
+                type="button"
+                class="btn-sm"
+                onclick="resetForm('planForm', 'plan-form-wrap', 'plan-success')"
               >
-                <i class="ti ti-plus"></i> Create Another Plan
+                <i class="ti ti-plus"></i> Create another plan
               </button>
             </div>
           </div>
@@ -1344,11 +1349,6 @@
                 </div>
               </div>
             </aside>
-          </div>
-
-          <div class="plan-saved">
-            <h2 class="section-title">My Saved Itineraries</h2>
-            <div id="trips-table-wrap"></div>
           </div>
 
           <div class="plan-faq">
@@ -1481,10 +1481,9 @@
         <div class="bookings-wrap">
           <div class="bookings-head">
             <div>
-              <h1 class="section-title">My Hotel Reservations</h1>
+              <h1 class="section-title">My Trips</h1>
               <p class="section-sub">
-                Your stays in Camarines Norte. Change your dates or guests, or
-                remove a booking you no longer need.
+                Your hotel reservations and saved itineraries in one place.
               </p>
             </div>
             <div class="bookings-head-actions">
@@ -1492,17 +1491,50 @@
                 type="button"
                 class="icon-btn"
                 onclick="loadBookings()"
-                aria-label="Refresh reservations"
+                aria-label="Refresh my trips"
                 title="Refresh"
               >
                 <i class="ti ti-refresh"></i>
               </button>
-              <button type="button" class="btn-primary" onclick="showPage('reserve')">
+              <button type="button" class="btn-primary" id="myTripsPrimaryBtn" onclick="showPage('reserve')">
                 <i class="ti ti-plus"></i> Book a stay
               </button>
             </div>
           </div>
-          <div id="hotels-table-wrap"></div>
+
+          <div class="trips-tabs" role="tablist" aria-label="My trips">
+            <button
+              type="button"
+              class="trips-tab active"
+              id="tabBtn-hotels"
+              role="tab"
+              aria-selected="true"
+              aria-controls="tab-hotels"
+              onclick="switchBookingTab(this, 'hotels')"
+            >
+              <i class="ti ti-building"></i> Hotel Reservations
+              <span class="trips-tab-count" id="hotelsCount"></span>
+            </button>
+            <button
+              type="button"
+              class="trips-tab"
+              id="tabBtn-trips"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-trips"
+              onclick="switchBookingTab(this, 'trips')"
+            >
+              <i class="ti ti-map-2"></i> Itineraries
+              <span class="trips-tab-count" id="tripsCount"></span>
+            </button>
+          </div>
+
+          <div class="tab-content active" id="tab-hotels" role="tabpanel" aria-labelledby="tabBtn-hotels">
+            <div id="hotels-table-wrap"></div>
+          </div>
+          <div class="tab-content" id="tab-trips" role="tabpanel" aria-labelledby="tabBtn-trips">
+            <div id="trips-table-wrap"></div>
+          </div>
         </div>
       </section>
     </div>
