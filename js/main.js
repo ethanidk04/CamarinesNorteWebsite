@@ -8,7 +8,7 @@ import {
   openEditModal, submitUpdate, editTripPlan,
   goToPlanStep, planNext, planBack, startOverPlan,
   openAuthModal, closeAuthModal, switchAuthTab, toggleAuthView, togglePassVisibility,
-  toggleDropdown, closeAllDropdowns, logoutUser
+  toggleDropdown, closeAllDropdowns, logoutUser, updateStaySummary
 } from './ui.js';
 
 // ======================= EVENT LISTENERS =======================
@@ -101,6 +101,7 @@ window.resetForm = resetForm;
 window.loadBookings = loadBookings;
 window.switchBookingTab = switchBookingTab;
 window.showMonthTip = showMonthTip;
+window.updateStaySummary = updateStaySummary;
 window.showTransport = showTransport;
 window.toggleFaq = toggleFaq;
 window.submitLogin = submitLogin;

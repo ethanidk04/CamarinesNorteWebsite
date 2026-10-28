@@ -1868,16 +1868,70 @@ button {
   color: var(--light-gray);
 }
 .month-tip {
-  background: var(--coral);
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 76px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--gray);
   font-size: 13px;
-  margin-bottom: 24px;
-  display: none;
+  line-height: 1.55;
+}
+.month-tip > i {
+  flex: none;
+  font-size: 18px;
+  color: var(--light-gray);
+  margin-top: 1px;
 }
 .month-tip.show {
-  display: block;
+  animation: monthTipIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.month-tip-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.month-tip-head strong {
+  font-size: 14px;
+  color: var(--dark);
+}
+.month-tip-head span {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.month-tip p {
+  margin: 0;
+}
+.month-tip--peak {
+  background: var(--coral-light);
+  border-color: rgba(224, 90, 43, 0.3);
+}
+.month-tip--peak > i,
+.month-tip--peak .month-tip-head span {
+  color: var(--coral-dark);
+}
+.month-tip--shoulder {
+  background: #fffbeb;
+  border-color: rgba(217, 119, 6, 0.3);
+}
+.month-tip--shoulder > i,
+.month-tip--shoulder .month-tip-head span {
+  color: #92400e;
+}
+.month-tip--offpeak {
+  background: #f8fafc;
+}
+@keyframes monthTipIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 .transport-tabs {
   display: flex;
@@ -1908,19 +1962,68 @@ button {
   color: var(--coral);
 }
 .transport-content {
-  background: #fff;
-  border-radius: var(--radius-sm);
-  padding: 24px;
-  border: 1px solid var(--border);
   display: none;
+  flex-direction: column;
+  gap: 10px;
 }
 .transport-content.active {
-  display: block;
+  display: flex;
+}
+.route-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.route-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.route-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--dark);
+}
+.route-title i {
+  font-size: 18px;
+  color: var(--coral);
+}
+.route-time {
+  flex: none;
+  padding: 4px 9px;
+  border-radius: 99px;
+  background: rgba(26, 107, 138, 0.08);
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.route-path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray);
+}
+.route-path i {
+  font-size: 13px;
+  color: var(--light-gray);
 }
 .transport-content p {
+  margin: 0;
   font-size: 13px;
-  color: var(--gray);
-  line-height: 1.75;
+  color: var(--light-gray);
+  line-height: 1.6;
 }
 .faq-item {
   border-bottom: 1px solid var(--border);
@@ -2808,88 +2911,489 @@ footer {
   border: 3px solid var(--bg-cream); /* Optional: adds a nice border */
 }
 
-/* ===== PLAN PAGE ISOLATED STYLES ===== */
-
-/* Prep the button */
-#page-plan .month-btn {
-  position: relative;
-  overflow: visible !important;
-  transition: all 0.2s;
+/* ===== PLAN TRIP + BOOKINGS LAYOUT ===== */
+.plan-wrap,
+.bookings-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.page-head .section-sub {
+  margin-bottom: 40px;
 }
 
-/* Make the active button look seamlessly connected */
-#page-plan .month-btn.active {
-  z-index: 20;
-  background: #fff;
-  border-color: var(--coral);
-  border-bottom-color: #fff; /* Turns the bottom border white to erase the line */
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: none;
+/* Planner on the left, season + route reference on the right */
+.plan-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+.plan-card.form-card {
+  max-width: none;
+  margin: 0;
+}
+.plan-aside {
+  padding-top: 8px;
+}
+.plan-aside-block + .plan-aside-block {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.plan-aside-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 14px;
+}
+.plan-aside-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.01em;
+}
+.plan-aside-block > .plan-aside-title {
+  margin-bottom: 14px;
 }
 
-/* The expanding dropdown panel */
-#page-plan .month-tip {
-  position: absolute;
-  top: 100%; /* Start exactly at the bottom edge */
-  margin-top: -1px; /* Pull it up by exactly 1px to overlap the button's border */
-  left: -1px; /* Align perfectly with button's left border */
-  width: calc(
-    100% + 2px
-  ); /* Exact width of the button, plus its 2 side borders */
-
-  background: #fff;
-
-  /* Create borders on left, right, and bottom. NO TOP BORDER. */
-  border-left: 1px solid var(--coral);
-  border-right: 1px solid var(--coral);
-  border-bottom: 1px solid var(--coral);
-  border-top: none;
-
-  border-radius: 0 0 12px 12px; /* Bottom corners rounded to match */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  padding: 16px;
-  font-size: 13px;
-  line-height: 1.4;
-  font-weight: 500;
+.season-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--gray);
-  text-align: left;
-  z-index: 15;
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1.5px solid;
+}
+.legend-swatch.peak {
+  background: rgba(224, 90, 43, 0.15);
+  border-color: var(--coral);
+}
+.legend-swatch.shoulder {
+  background: rgba(246, 173, 85, 0.18);
+  border-color: #f6ad55;
+}
+.legend-swatch.offpeak {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
 
-  /* The Wipe-Down Animation */
-  clip-path: inset(0 0 100% 0);
-  opacity: 0;
-  pointer-events: none;
+.plan-aside .month-grid {
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 12px;
+}
+.plan-aside .month-btn {
+  font-size: 12px;
+  padding: 10px 4px;
+}
+.plan-aside .month-btn.shoulder {
+  color: #92400e;
+}
+.plan-aside .month-btn:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+.plan-aside .month-btn.active,
+.plan-aside .month-btn.active:hover {
+  color: #fff;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(18, 26, 33, 0.12);
+}
+.plan-aside .month-btn.peak.active {
+  background: var(--coral);
+  border-color: var(--coral);
+}
+.plan-aside .month-btn.shoulder.active {
+  background: #b45309;
+  border-color: #b45309;
+}
+.plan-aside .month-btn.offpeak.active {
+  background: var(--gray);
+  border-color: var(--gray);
+}
+
+.plan-aside .transport-tabs {
+  margin-bottom: 14px;
+}
+.plan-aside .transport-tab {
+  flex: 1;
+  justify-content: center;
+  padding: 9px 10px;
+}
+
+/* Saved itineraries */
+.plan-saved {
+  margin-top: 88px;
+}
+.plan-saved .section-title {
+  font-size: clamp(28px, 4vw, 36px);
+  margin-bottom: 24px;
+}
+.trip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.trip-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
   transition:
-    clip-path 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-    opacity 0.2s;
-  cursor: default;
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.trip-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+.trip-card-title {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--dark);
+  letter-spacing: -0.01em;
+}
+.booking-id {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--light-gray);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.trip-card-meta {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray);
+}
+.trip-card-meta li,
+.booking-meta span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.trip-card-meta i {
+  flex: none;
+  font-size: 16px;
+  color: var(--coral);
+}
+.trip-card-spots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.trip-spot {
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--coral-light);
+  color: var(--coral-dark);
+  font-size: 11px;
+  font-weight: 700;
+}
+.trip-spot--more {
+  background: #f1f5f9;
+  color: var(--gray);
+}
+.trip-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
 }
 
-/* When the panel drops down */
-#page-plan .month-tip.show {
-  clip-path: inset(0); /* Reveals fully */
-  opacity: 1;
-  pointer-events: all;
+/* Small record actions */
+.btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+.btn-sm:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+/* coral-dark keeps white 12px text above 4.5:1 */
+.btn-sm--primary {
+  background: var(--coral-dark);
+  border-color: var(--coral-dark);
+  color: #fff;
+}
+.btn-sm--primary:hover {
+  background: #a63c18;
+  border-color: #a63c18;
+  color: #fff;
+}
+.btn-sm--danger:hover {
+  border-color: #c53030;
+  color: #c53030;
+}
+.btn-sm:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
 }
 
-/* Ensure the old triangle pointer is removed */
-#page-plan .month-tip::before {
-  display: none;
+.plan-faq {
+  max-width: 820px;
+  margin-top: 88px;
+}
+.plan-faq-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 12px;
 }
 
-.peak-text { 
-  color: lch(59.07% 77.65 30.66);
-  margin-left: 20px;
-}       /* Red */
-.shoulder-text { 
-  color: #ffa500; 
-  margin-left: 20px;
-}   /* Orange */
-.offpeak-text { 
-  color: #ababab; 
-  margin-left: 20px;
-}    /* Grey */
+/* Reservation form */
+.stay-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(26, 107, 138, 0.07);
+  color: var(--teal);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.stay-summary i {
+  flex: none;
+  font-size: 18px;
+}
+.stay-summary strong {
+  color: var(--dark);
+}
+.stay-summary.is-error {
+  background: #fff5f5;
+  color: #c53030;
+}
+.reserve-card .form-submit {
+  margin-top: 24px;
+}
+
+/* My reservations */
+.bookings-page {
+  min-height: 60vh;
+}
+.bookings-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px 24px;
+  margin-bottom: 32px;
+}
+.bookings-head .section-sub {
+  margin-bottom: 0;
+}
+.bookings-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--gray);
+  font-size: 18px;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.icon-btn:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.booking-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "date main actions";
+  align-items: center;
+  gap: 20px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: border-color 0.2s;
+}
+.booking-item:hover {
+  border-color: rgba(224, 90, 43, 0.4);
+}
+.booking-date {
+  grid-area: date;
+  width: 60px;
+  padding: 8px 0;
+  border-radius: 12px;
+  background: var(--coral-light);
+  text-align: center;
+  line-height: 1.1;
+}
+.booking-date span {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--coral-dark);
+}
+.booking-date strong {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--dark);
+  font-variant-numeric: lining-nums;
+}
+.booking-main {
+  grid-area: main;
+  min-width: 0;
+}
+.booking-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-bottom: 6px;
+}
+.booking-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dark);
+}
+.booking-title-row .status-badge {
+  font-size: 11px;
+}
+.booking-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: 13px;
+  color: var(--gray);
+}
+.booking-meta i {
+  font-size: 15px;
+  color: var(--light-gray);
+}
+.booking-actions {
+  grid-area: actions;
+  display: flex;
+  gap: 8px;
+}
+.empty-bookings {
+  padding: 48px 20px;
+  border: 1.5px dashed var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+.empty-bookings h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.empty-bookings p {
+  font-size: 13px;
+  color: var(--gray);
+}
+.empty-bookings .btn-primary {
+  margin-top: 18px;
+}
+
+@media (max-width: 1024px) {
+  .plan-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .plan-aside {
+    padding-top: 0;
+  }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  .plan-aside .month-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .form-card,
+  .plan-card.form-card {
+    padding: 28px 20px;
+  }
+  .plan-saved,
+  .plan-faq {
+    margin-top: 64px;
+  }
+  .trip-grid {
+    grid-template-columns: 1fr;
+  }
+  .bookings-head-actions {
+    width: 100%;
+  }
+  .bookings-head-actions .btn-primary {
+    flex: 1;
+    justify-content: center;
+  }
+  .booking-item {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "date main"
+      "actions actions";
+    gap: 14px;
+    padding: 16px;
+  }
+  .booking-date {
+    align-self: start;
+  }
+  .booking-actions {
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .booking-actions .btn-sm,
+  .trip-card-actions .btn-sm {
+    flex: 1;
+    justify-content: center;
+  }
+}
 
 /* ======================= FIELD INLINE ERRORS ======================= */
 .field-error {
@@ -3040,4 +3544,4 @@ footer {
   .nav-user-pill {
     padding: 4px 6px;
   }
-}
+}

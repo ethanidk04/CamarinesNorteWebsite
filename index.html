@@ -888,26 +888,26 @@
     <div class="page" id="page-reserve">
       <div style="padding-top: 80px"></div>
       <div class="form-section zoom-in">
-        <div class="form-card">
-          <div class="section-tag" style="margin-bottom: 8px">
-            <i class="ti ti-building"></i> Hotel Reservation
-          </div>
-          <div class="form-title">Book Your Stay in Camarines Norte</div>
+        <div class="form-card reserve-card">
+          <h1 class="form-title">Book Your Stay in Camarines Norte</h1>
           <div class="form-sub">
-            Fill in the details below to reserve your hotel. All fields marked
+            Pick a hotel and your dates to reserve your room. Fields marked
             with * are required.
           </div>
           <div id="reserve-form-wrap">
-            <form id="reserveForm" onsubmit="submitReservation(event)">
-              <div class="form-section-label">Accommodation Details</div>
+            <form
+              id="reserveForm"
+              onsubmit="submitReservation(event)"
+              oninput="updateStaySummary()"
+              onchange="updateStaySummary()"
+            >
+              <div class="form-section-label">Your stay</div>
               <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label">Hotel / Resort *</label>
-                  <select class="form-input form-select" name="hotel" required>
+                <div class="form-group full">
+                  <label class="form-label" for="resHotel">Hotel / Resort *</label>
+                  <select class="form-input form-select" id="resHotel" name="hotel" required>
                     <option value="">Select Hotel</option>
-                    <option>
-                      Catherine's Bagasbas Lighthouse Resort — Daet
-                    </option>
+                    <option>Catherine's Bagasbas Lighthouse Resort — Daet</option>
                     <option>Hoogpaan Resort — Bagasbas</option>
                     <option>Bagasbas Beach Hotel — Daet</option>
                     <option>CamNorte Heritage Inn — Daet</option>
@@ -918,12 +918,8 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Room Type *</label>
-                  <select
-                    class="form-input form-select"
-                    name="roomType"
-                    required
-                  >
+                  <label class="form-label" for="resRoom">Room Type *</label>
+                  <select class="form-input form-select" id="resRoom" name="roomType" required>
                     <option value="">Select Room Type</option>
                     <option>Standard Room</option>
                     <option>Deluxe Room</option>
@@ -934,27 +930,10 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Check-In Date *</label>
+                  <label class="form-label" for="resGuests">Number of Guests *</label>
                   <input
                     class="form-input"
-                    type="date"
-                    name="checkIn"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Check-Out Date *</label>
-                  <input
-                    class="form-input"
-                    type="date"
-                    name="checkOut"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Number of Guests *</label>
-                  <input
-                    class="form-input"
+                    id="resGuests"
                     type="number"
                     name="guests"
                     min="1"
@@ -963,70 +942,24 @@
                     required
                   />
                 </div>
-              </div>
-              <div class="form-divider"></div>
-              <div class="form-section-label">Trip Preferences</div>
-              <div class="form-group full" style="margin-bottom: 16px">
-                <label class="form-label">Destinations to Visit</label>
-                <div class="check-grid">
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Bagasbas Beach"
-                    />
-                    Bagasbas Beach</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Calaguas Island"
-                    />
-                    Calaguas Island</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Mercedes Islands"
-                    />
-                    Mercedes Islands (Siete Pecados)</label
-                  >
-                  <label class="check-item"
-                    ><input type="checkbox" name="dest" value="Parola Island" />
-                    Parola Island (Pink Sand)</label
-                  >
-                  <label class="check-item"
-                    ><input type="checkbox" name="dest" value="Mt. Labo" /> Mt.
-                    Labo Trekking</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Bantayog ni Rizal"
-                    />
-                    Bantayog ni Rizal</label
-                  >
-                  <label class="check-item"
-                    ><input
-                      type="checkbox"
-                      name="dest"
-                      value="Black Nazarene"
-                    />
-                    Black Nazarene Shrine</label
-                  >
-                  <label class="check-item"
-                    ><input type="checkbox" name="dest" value="Nacali Falls" />
-                    Nacali Falls</label
-                  >
+                <div class="form-group">
+                  <label class="form-label" for="resCheckIn">Check-In Date *</label>
+                  <input class="form-input" id="resCheckIn" type="date" name="checkIn" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="resCheckOut">Check-Out Date *</label>
+                  <input class="form-input" id="resCheckOut" type="date" name="checkOut" required />
                 </div>
               </div>
+              <div class="stay-summary hidden" id="staySummary" aria-live="polite"></div>
+
+              <div class="form-divider"></div>
+              <div class="form-section-label">Anything we should know?</div>
               <div class="form-group full">
-                <label class="form-label">Special Requests / Message</label>
+                <label class="form-label" for="resMessage">Special Requests / Message</label>
                 <textarea
                   class="form-input form-textarea"
+                  id="resMessage"
                   name="message"
                   placeholder="Any special requests, dietary needs, or questions?"
                 ></textarea>
@@ -1080,103 +1013,24 @@
 
     <div class="page" id="page-plan">
       <div style="padding-top: 80px"></div>
-      <section class="section section-alt" style="padding-top: 60px">
-        <div class="section-title fade-in">
-          Plan Your Trip to Camarines Norte
-        </div>
-        <div class="slide-left" style="margin-bottom: 40px">
-          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-            <div>
-              <h3 style="font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">Best Time to Visit</h3>
-              <p style="font-size: 13px; color: var(--light-gray); margin: 0;">Click a month to reveal local travel tips.</p>
-            </div>
-            
-            <div class="season-legend">
-              <span class="legend-item peak-text"><span class="dot peak-dot"></span> Peak</span>
-              <span class="legend-item shoulder-text"><span class="dot shoulder-dot"></span> Shoulder</span>
-              <span class="legend-item offpeak-text"><span class="dot offpeak-dot"></span> Off-Peak</span>
-            </div>
-          </div>
+      <section class="section section-alt plan-page">
+        <div class="plan-wrap">
+          <header class="page-head fade-in">
+            <h1 class="section-title">Plan Your Trip to Camarines Norte</h1>
+            <p class="section-sub">
+              Draft an itinerary in four short steps and save it to your
+              account. Season tips and travel routes sit right beside the
+              planner.
+            </p>
+          </header>
 
-          <div class="month-grid">
-            <button class="month-btn peak" onclick="showMonthTip(this, 'January', 'Peak season! Excellent beach weather. Best time for island hopping and surfing at Bagasbas.')">Jan</button>
-            <button class="month-btn peak" onclick="showMonthTip(this, 'February', 'Peak season! Cool and dry. Perfect for trekking Mt. Labo and visiting heritage sites.')">Feb</button>
-            <button class="month-btn peak" onclick="showMonthTip(this, 'March', 'Peak season! Warm and sunny. Ideal for Calaguas Island and Mercedes Siete Pecados.')">Mar</button>
-            <button class="month-btn peak" onclick="showMonthTip(this, 'April', 'Peak + Bantayog Festival month! Witness the grand province-wide celebration. Book early!')">Apr</button>
-            <button class="month-btn peak" onclick="showMonthTip(this, 'May', 'Late peak season. Great weather, fewer crowds. Perfect for waterfalls and eco-tourism.')">May</button>
-            <button class="month-btn shoulder" onclick="showMonthTip(this, 'June', 'Pinyasan & Mambulawan Festivals! Some rain possible but festive atmosphere.')">Jun</button>
-            <button class="month-btn shoulder" onclick="showMonthTip(this, 'July', 'Shoulder season. Occasional rain. Kadagatan Festival in Mercedes (Aug 1-8).')">Jul</button>
-            <button class="month-btn shoulder" onclick="showMonthTip(this, 'August', 'Kadagatan Festival! Reduced hotel rates. Great for cultural tourism.')">Aug</button>
-            <button class="month-btn offpeak" onclick="showMonthTip(this, 'September', 'Busig-on Festival in Labo! Rainy season — bring rain gear. Good for indoor heritage sites.')">Sep</button>
-            <button class="month-btn offpeak" onclick="showMonthTip(this, 'October', 'Rahugan Festival in Basud (Oct 18-24). Off-peak but cultural events make it worthwhile.')">Oct</button>
-            <button class="month-btn offpeak" onclick="showMonthTip(this, 'November', 'Weather transitioning. Budget-friendly rates. Pre-Christmas quiet charm.')">Nov</button>
-            <button class="month-btn peak" onclick="showMonthTip(this, 'December', 'Peak season begins! Christmas festivities, great beach weather, festive province.')">Dec</button>
-          </div>
-          
-          <div class="month-tip" id="month-tip">
-            <i class="ti ti-info-circle"></i> <span>Select a month above to see travel recommendations.</span>
-          </div>
-        </div>
-
-        <!-- HOW TO GET THERE SECTION -->
-         <h3 class="fade-in" style="font-size: 18px; font-weight: 800; color: var(--dark); margin-top: 150px; margin-bottom: 16px;">How to Get There</h3>
-
-        <div class="transport-tabs fade-in">
-          <button class="transport-tab active" onclick="showTransport(this, 'air')"><i class="ti ti-plane"></i> By Air</button>
-          <button class="transport-tab" onclick="showTransport(this, 'land')"><i class="ti ti-bus"></i> By Land</button>
-          <button class="transport-tab" onclick="showTransport(this, 'sea')"><i class="ti ti-ship"></i> By Sea</button>
-        </div>
-
-        <!-- Air Route Cards -->
-        <div class="transport-content active fade-in" id="transport-air">
-          <div class="route-card">
-            <div class="route-header">
-              <div class="route-title"><i class="ti ti-plane-arrival"></i> Fly via Naga City</div>
-              <div class="route-time">3-4 Hours</div>
-            </div>
-            <div class="route-path">Manila (MNL) <i class="ti ti-arrow-right"></i> Naga Airport (WNP) <i class="ti ti-arrow-right"></i> Daet</div>
-            <p>The fastest route. Take a 1-hour flight to Naga Airport in Camarines Sur, then catch a passenger van or bus directly to Daet (approx. 2 hours).</p>
-          </div>
-        </div>
-
-        <!-- Land Route Cards -->
-        <div class="transport-content fade-in" id="transport-land">
-          <div class="route-card">
-            <div class="route-header">
-              <div class="route-title"><i class="ti ti-bus"></i> Direct Bus from Manila</div>
-              <div class="route-time">7-9 Hours</div>
-            </div>
-            <div class="route-path">Cubao / Pasay <i class="ti ti-arrow-right"></i> Daet Terminal</div>
-            <p>Multiple bus companies (Peñafrancia, Isarog, DLTB) operate daily trips. We recommend taking an overnight sleeper bus for maximum comfort.</p>
-          </div>
-          
-          <div class="route-card" style="margin-top: 12px;">
-            <div class="route-header">
-              <div class="route-title"><i class="ti ti-car"></i> Drive from Naga City</div>
-              <div class="route-time">1.5-2 Hours</div>
-            </div>
-            <div class="route-path">Naga City <i class="ti ti-arrow-right"></i> Daet</div>
-            <p>Vans and buses depart regularly from the Naga City Bus Terminal to Daet throughout the day.</p>
-          </div>
-        </div>
-
-        <!-- Sea Route Cards -->
-        <div class="transport-content fade-in" id="transport-sea">
-          <div class="route-card">
-            <div class="route-header">
-              <div class="route-title"><i class="ti ti-speedboat"></i> Island Hopping Access</div>
-              <div class="route-time">Variable</div>
-            </div>
-            <p>There is no direct passenger ferry from Manila. Sea travel is strictly for local island hopping (Calaguas, Siete Pecados, Parola Island). Coordinate with local boat operators at Mercedes Fish Port or Vinzons jump-off points.</p>
-          </div>
-        </div>
-
-        <div class="form-card zoom-in" style="margin-top: 60px;">
-          <div class="form-title">Draft Your Custom Trip</div>
-          <div class="form-sub">
-            Create and save a personal itinerary for your upcoming adventure in
-            Camarines Norte.
-          </div>
+          <div class="plan-layout">
+            <div class="form-card plan-card fade-in">
+              <h2 class="form-title">Draft Your Custom Trip</h2>
+              <div class="form-sub">
+                Start with your dates and we'll tell you which season you're
+                travelling in.
+              </div>
           <div id="plan-form-wrap">
             <form id="planForm" onsubmit="submitTripPlan(event)" novalidate>
               <input type="hidden" name="planId" id="planId" value="" />
@@ -1382,24 +1236,102 @@
               </button>
             </div>
           </div>
-        </div>
+            </div>
 
-        <div style="margin-top: 60px">
-          <div class="section-title">My Saved Itineraries</div>
-          <div id="trips-table-wrap"></div>
-        </div>
+            <aside class="plan-aside fade-in" aria-label="Travel tips">
+              <div class="plan-aside-block">
+                <div class="plan-aside-head">
+                  <h3 class="plan-aside-title">Best time to visit</h3>
+                  <div class="season-legend">
+                    <span class="legend-item"><span class="legend-swatch peak"></span>Peak</span>
+                    <span class="legend-item"><span class="legend-swatch shoulder"></span>Shoulder</span>
+                    <span class="legend-item"><span class="legend-swatch offpeak"></span>Off-peak</span>
+                  </div>
+                </div>
+                <div class="month-grid">
+                  <button type="button" class="month-btn peak" aria-pressed="false" onclick="showMonthTip(this, 'January', 'Peak season! Excellent beach weather. Best time for island hopping and surfing at Bagasbas.')">Jan</button>
+                  <button type="button" class="month-btn peak" aria-pressed="false" onclick="showMonthTip(this, 'February', 'Peak season! Cool and dry. Perfect for trekking Mt. Labo and visiting heritage sites.')">Feb</button>
+                  <button type="button" class="month-btn peak" aria-pressed="false" onclick="showMonthTip(this, 'March', 'Peak season! Warm and sunny. Ideal for Calaguas Island and Mercedes Siete Pecados.')">Mar</button>
+                  <button type="button" class="month-btn peak" aria-pressed="false" onclick="showMonthTip(this, 'April', 'Peak + Bantayog Festival month! Witness the grand province-wide celebration. Book early!')">Apr</button>
+                  <button type="button" class="month-btn peak" aria-pressed="false" onclick="showMonthTip(this, 'May', 'Late peak season. Great weather, fewer crowds. Perfect for waterfalls and eco-tourism.')">May</button>
+                  <button type="button" class="month-btn shoulder" aria-pressed="false" onclick="showMonthTip(this, 'June', 'Pinyasan &amp; Mambulawan Festivals! Some rain possible but festive atmosphere.')">Jun</button>
+                  <button type="button" class="month-btn shoulder" aria-pressed="false" onclick="showMonthTip(this, 'July', 'Shoulder season. Occasional rain. Kadagatan Festival in Mercedes (Aug 1-8).')">Jul</button>
+                  <button type="button" class="month-btn shoulder" aria-pressed="false" onclick="showMonthTip(this, 'August', 'Kadagatan Festival! Reduced hotel rates. Great for cultural tourism.')">Aug</button>
+                  <button type="button" class="month-btn offpeak" aria-pressed="false" onclick="showMonthTip(this, 'September', 'Busig-on Festival in Labo! Rainy season — bring rain gear. Good for indoor heritage sites.')">Sep</button>
+                  <button type="button" class="month-btn offpeak" aria-pressed="false" onclick="showMonthTip(this, 'October', 'Rahugan Festival in Basud (Oct 18-24). Off-peak but cultural events make it worthwhile.')">Oct</button>
+                  <button type="button" class="month-btn offpeak" aria-pressed="false" onclick="showMonthTip(this, 'November', 'Weather transitioning. Budget-friendly rates. Pre-Christmas quiet charm.')">Nov</button>
+                  <button type="button" class="month-btn peak" aria-pressed="false" onclick="showMonthTip(this, 'December', 'Peak season begins! Christmas festivities, great beach weather, festive province.')">Dec</button>
+                </div>
+                <div class="month-tip" id="month-tip" aria-live="polite">
+                  <i class="ti ti-info-circle"></i>
+                  <span>Pick a month to see local travel tips.</span>
+                </div>
+              </div>
 
-        <div class="slide-right" style="margin-top: 40px; margin-bottom: 40px">
-          <h3
-            style="
-              font-size: 16px;
-              font-weight: 800;
-              color: var(--dark);
-              margin-bottom: 16px;
-            "
-          >
-            Frequently Asked Questions
-          </h3>
+              <div class="plan-aside-block">
+                <h3 class="plan-aside-title">How to get there</h3>
+                <div class="transport-tabs" role="tablist">
+                  <button type="button" class="transport-tab active" onclick="showTransport(this, 'air')"><i class="ti ti-plane"></i> By Air</button>
+                  <button type="button" class="transport-tab" onclick="showTransport(this, 'land')"><i class="ti ti-bus"></i> By Land</button>
+                  <button type="button" class="transport-tab" onclick="showTransport(this, 'sea')"><i class="ti ti-ship"></i> By Sea</button>
+                </div>
+
+                <div class="transport-content active" id="transport-air">
+                  <div class="route-card">
+                    <div class="route-header">
+                      <div class="route-title"><i class="ti ti-plane-arrival"></i> Fly via Naga City</div>
+                      <div class="route-time">3–4 hrs</div>
+                    </div>
+                    <div class="route-path">
+                      <span>Manila (MNL)</span><i class="ti ti-arrow-right"></i><span>Naga (WNP)</span><i class="ti ti-arrow-right"></i><span>Daet</span>
+                    </div>
+                    <p>The fastest route. Take a 1-hour flight to Naga Airport in Camarines Sur, then catch a passenger van or bus directly to Daet (approx. 2 hours).</p>
+                  </div>
+                </div>
+
+                <div class="transport-content" id="transport-land">
+                  <div class="route-card">
+                    <div class="route-header">
+                      <div class="route-title"><i class="ti ti-bus"></i> Direct bus from Manila</div>
+                      <div class="route-time">7–9 hrs</div>
+                    </div>
+                    <div class="route-path">
+                      <span>Cubao / Pasay</span><i class="ti ti-arrow-right"></i><span>Daet Terminal</span>
+                    </div>
+                    <p>Multiple bus companies (Peñafrancia, Isarog, DLTB) operate daily trips. We recommend taking an overnight sleeper bus for maximum comfort.</p>
+                  </div>
+                  <div class="route-card">
+                    <div class="route-header">
+                      <div class="route-title"><i class="ti ti-car"></i> Drive from Naga City</div>
+                      <div class="route-time">1.5–2 hrs</div>
+                    </div>
+                    <div class="route-path">
+                      <span>Naga City</span><i class="ti ti-arrow-right"></i><span>Daet</span>
+                    </div>
+                    <p>Vans and buses depart regularly from the Naga City Bus Terminal to Daet throughout the day.</p>
+                  </div>
+                </div>
+
+                <div class="transport-content" id="transport-sea">
+                  <div class="route-card">
+                    <div class="route-header">
+                      <div class="route-title"><i class="ti ti-speedboat"></i> Island hopping access</div>
+                      <div class="route-time">Varies</div>
+                    </div>
+                    <p>There is no direct passenger ferry from Manila. Sea travel is strictly for local island hopping (Calaguas, Siete Pecados, Parola Island). Coordinate with local boat operators at Mercedes Fish Port or Vinzons jump-off points.</p>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <div class="plan-saved">
+            <h2 class="section-title">My Saved Itineraries</h2>
+            <div id="trips-table-wrap"></div>
+          </div>
+
+          <div class="plan-faq">
+            <h2 class="plan-faq-title">Frequently Asked Questions</h2>
           <div class="faq-item" onclick="toggleFaq(this)">
             <div class="faq-q">
               Is Camarines Norte safe to visit? <i class="ti ti-plus"></i>
@@ -1517,35 +1449,40 @@
               </p>
             </div>
           </div>
+          </div>
         </div>
-
       </section>
     </div>
 
     <div class="page" id="page-bookings">
       <div style="padding-top: 80px"></div>
-      <section class="section fade-in" style="padding-top: 60px">
-        <div class="section-title">My Hotel Reservations</div>
-        <p class="section-sub">
-          View and manage your official accommodation bookings here.
-        </p>
-        <div
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-          "
-        >
-          <button
-            class="btn-primary"
-            style="padding: 10px 20px; font-size: 13px"
-            onclick="loadBookings()"
-          >
-            <i class="ti ti-refresh"></i> Refresh Records
-          </button>
+      <section class="section bookings-page fade-in">
+        <div class="bookings-wrap">
+          <div class="bookings-head">
+            <div>
+              <h1 class="section-title">My Hotel Reservations</h1>
+              <p class="section-sub">
+                Your stays in Camarines Norte. Change your dates or guests, or
+                remove a booking you no longer need.
+              </p>
+            </div>
+            <div class="bookings-head-actions">
+              <button
+                type="button"
+                class="icon-btn"
+                onclick="loadBookings()"
+                aria-label="Refresh reservations"
+                title="Refresh"
+              >
+                <i class="ti ti-refresh"></i>
+              </button>
+              <button type="button" class="btn-primary" onclick="showPage('reserve')">
+                <i class="ti ti-plus"></i> Book a stay
+              </button>
+            </div>
+          </div>
+          <div id="hotels-table-wrap"></div>
         </div>
-        <div id="hotels-table-wrap"></div>
       </section>
     </div>
 

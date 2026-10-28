@@ -636,29 +636,41 @@ export function observeFadeIns() {
     .forEach((el) => obs.observe(el));
 }
 
+const MONTH_TIP_DEFAULT =
+  '<i class="ti ti-info-circle"></i><span>Pick a month to see local travel tips.</span>';
+
 export function showMonthTip(btn, month, tip) {
   const t = document.getElementById("month-tip");
-  const allBtns = Array.from(document.querySelectorAll(".month-btn"));
-  const index = allBtns.indexOf(btn);
   const isActive = btn.classList.contains("active");
 
   // Reset all
-  document
-    .querySelectorAll(".month-btn")
-    .forEach((b) => b.classList.remove("active"));
-  t.classList.remove("show", "overlap-mode", "stretch-mode");
+  document.querySelectorAll(".month-btn").forEach((b) => {
+    b.classList.remove("active");
+    b.setAttribute("aria-pressed", "false");
+  });
+  t.className = "month-tip";
 
-  if (isActive) return;
+  // Clicking the open month again closes it
+  if (isActive) {
+    t.innerHTML = MONTH_TIP_DEFAULT;
+    return;
+  }
 
-  t.innerHTML = tip;
+  const season = btn.classList.contains("peak")
+    ? "peak"
+    : btn.classList.contains("shoulder")
+      ? "shoulder"
+      : "offpeak";
+  const seasonLabel = { peak: "Peak", shoulder: "Shoulder", offpeak: "Off-peak" }[season];
 
-  const mode = index < 6 ? "overlap-mode" : "stretch-mode";
-  t.classList.add(mode);
-
-  btn.appendChild(t);
   btn.classList.add("active");
-
-  setTimeout(() => t.classList.add("show"), 10);
+  btn.setAttribute("aria-pressed", "true");
+  t.classList.add("show", "month-tip--" + season);
+  t.innerHTML = `<i class="ti ti-calendar-event"></i>
+    <div>
+      <div class="month-tip-head"><strong>${month}</strong><span>${seasonLabel} season</span></div>
+      <p>${tip}</p>
+    </div>`;
 }
 
 export function showTransport(btn, id) {
@@ -811,6 +823,68 @@ export function resetForm(formId, wrapId, successId) {
   document.getElementById(wrapId).classList.remove("hidden");
   document.getElementById(successId).classList.add("hidden");
   if (formId === "planForm") goToPlanStep(1, false);
+  if (formId === "reserveForm") updateStaySummary();
+}
+
+// ======================= DATE / TEXT HELPERS =======================
+// Parses "YYYY-MM-DD" as a local date (new Date("2026-12-20") would be UTC)
+function parseISODate(s) {
+  const [y, m, d] = String(s || "").split("-").map(Number);
+  return y && m && d ? new Date(y, m - 1, d) : null;
+}
+
+function nightsBetween(a, b) {
+  return Math.round((b - a) / 86400000);
+}
+
+function formatRange(a, b) {
+  const short = { month: "short", day: "numeric" };
+  const full = { month: "short", day: "numeric", year: "numeric" };
+  if (a.getFullYear() === b.getFullYear()) {
+    return `${a.toLocaleDateString("en-US", short)} – ${b.toLocaleDateString("en-US", full)}`;
+  }
+  return `${a.toLocaleDateString("en-US", full)} – ${b.toLocaleDateString("en-US", full)}`;
+}
+
+function plural(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+
+function esc(s) {
+  return String(s ?? "").replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+  );
+}
+
+// Live "3 nights · Dec 20 – Dec 23, 2026 · 2 guests" line under the reservation fields
+export function updateStaySummary() {
+  const form = document.getElementById("reserveForm");
+  const box = document.getElementById("staySummary");
+  if (!form || !box) return;
+
+  const checkIn = parseISODate(form.checkIn.value);
+  const checkOut = parseISODate(form.checkOut.value);
+  if (!checkIn || !checkOut) {
+    box.className = "stay-summary hidden";
+    return;
+  }
+
+  const nights = nightsBetween(checkIn, checkOut);
+  if (nights < 1) {
+    box.className = "stay-summary is-error";
+    box.innerHTML =
+      '<i class="ti ti-alert-circle"></i><span>Check-out needs to be at least one day after check-in.</span>';
+    return;
+  }
+
+  const guests = Number(form.guests.value);
+  const parts = [`<strong>${plural(nights, "night")}</strong>`, formatRange(checkIn, checkOut)];
+  if (guests > 0) parts.push(plural(guests, "guest"));
+  if (form.roomType.value) parts.push(esc(form.roomType.value));
+
+  box.className = "stay-summary";
+  box.innerHTML = `<i class="ti ti-moon"></i><span>${parts.join(" · ")}</span>`;
 }
 
 export function loadBookings() {
@@ -843,52 +917,115 @@ export function renderBookingsTable(containerId, records, type) {
   const el = document.getElementById(containerId);
   if (!el) return;
 
+  const isReservation = type === "reservation";
+
   if (!records || records.length === 0 || records.success === false) {
-    el.innerHTML = `<div class="empty-bookings" style="text-align:center; padding: 40px 20px;">
-      <i class="ti ${type === "reservation" ? "ti-calendar-off" : "ti-map-off"}" style="font-size: 48px; color: var(--light-gray); margin-bottom: 16px;"></i>
-      <div style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:4px;">No ${type === "reservation" ? "Hotel Reservations" : "Saved Itineraries"} Found</div>
-      <p style="font-size:13px; color: var(--gray);">Please log in or create one to view records.</p>
+    let title, body, action;
+    if (!isLoggedIn) {
+      title = isReservation ? "Log in to see your reservations" : "Log in to save your trips";
+      body = isReservation
+        ? "Your hotel bookings are saved to your account."
+        : "Saved itineraries are kept in your account so you can edit them later.";
+      action = `<button type="button" class="btn-primary" onclick="openAuthModal()"><i class="ti ti-login"></i> Log in</button>`;
+    } else if (isReservation) {
+      title = "No reservations yet";
+      body = "When you book a hotel, it will show up here.";
+      action = `<button type="button" class="btn-primary" onclick="showPage('reserve')"><i class="ti ti-plus"></i> Book a stay</button>`;
+    } else {
+      title = "No saved itineraries yet";
+      body = "Trips you save with the planner above will show up here.";
+      action = "";
+    }
+    el.innerHTML = `<div class="empty-bookings">
+      <i class="ti ${isReservation ? "ti-calendar-off" : "ti-map-off"}"></i>
+      <h3>${title}</h3>
+      <p>${body}</p>
+      ${action}
     </div>`;
     return;
   }
 
-  if (type === "reservation") {
-    el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
-      <thead><tr><th>Booking ID</th><th>Guest Name</th><th>Hotel</th><th>Check-In</th><th>Check-Out</th><th>Status</th><th>Actions</th></tr></thead>
-      <tbody>${records
-        .map(
-          (r) => `<tr>
-        <td style="font-weight:700;color:var(--coral);">${r.transactionId}</td>
-        <td>${r.firstName} ${r.lastName}</td>
-        <td>${r.hotel}</td><td>${r.checkIn}</td><td>${r.checkOut}</td>
-        <td><span class="status-badge status-confirmed">${r.status || "Confirmed"}</span></td>
-        <td>
-          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="openEditModal(${r.id}, 'reservation', '${r.checkIn}', '${r.checkOut}', '${r.guests}')"><i class="ti ti-edit"></i> Edit</button>
-          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'reservation')"><i class="ti ti-trash"></i> Delete</button>
-        </td>
-      </tr>`,
-        )
-        .join("")}</tbody>
-    </table></div>`;
+  if (isReservation) {
+    el.innerHTML = `<div class="booking-list">${records
+      .map((r) => {
+        const checkIn = parseISODate(r.checkIn);
+        const checkOut = parseISODate(r.checkOut);
+        const nights = checkIn && checkOut ? nightsBetween(checkIn, checkOut) : 0;
+        const dates =
+          checkIn && checkOut
+            ? formatRange(checkIn, checkOut)
+            : `${esc(r.checkIn)} – ${esc(r.checkOut)}`;
+        const guests = Number(r.guests);
+        const status = r.status || "Confirmed";
+        const statusClass = status === "Confirmed" ? "status-confirmed" : "status-pending";
+
+        return `<article class="booking-item">
+          <div class="booking-date" aria-hidden="true">
+            <span>${checkIn ? checkIn.toLocaleDateString("en-US", { month: "short" }) : "—"}</span>
+            <strong>${checkIn ? checkIn.getDate() : ""}</strong>
+          </div>
+          <div class="booking-main">
+            <div class="booking-title-row">
+              <h3 class="booking-title">${esc(r.hotel)}</h3>
+              <span class="status-badge ${statusClass}">${esc(status)}</span>
+            </div>
+            <div class="booking-meta">
+              <span><i class="ti ti-calendar"></i>${dates}${nights > 0 ? ` · ${plural(nights, "night")}` : ""}</span>
+              ${r.roomType ? `<span><i class="ti ti-bed"></i>${esc(r.roomType)}</span>` : ""}
+              ${guests > 0 ? `<span><i class="ti ti-users"></i>${plural(guests, "guest")}</span>` : ""}
+            </div>
+            <div class="booking-id">${esc(r.transactionId)}</div>
+          </div>
+          <div class="booking-actions">
+            <button type="button" class="btn-sm btn-sm--primary" onclick="openEditModal(${r.id}, 'reservation', '${r.checkIn}', '${r.checkOut}', '${r.guests}')"><i class="ti ti-edit"></i> Edit</button>
+            <button type="button" class="btn-sm btn-sm--danger" onclick="cancelBooking(${r.id}, 'reservation')"><i class="ti ti-trash"></i> Delete</button>
+          </div>
+        </article>`;
+      })
+      .join("")}</div>`;
   } else {
-    el.innerHTML = `<div class="bookings-table-wrap"><table class="bookings-table">
-      <thead><tr><th>Plan ID</th><th>Trip Name</th><th>Dates</th><th>Travelers</th><th>Actions</th></tr></thead>
-      <tbody>${records
-        .map(
-          (r) => `<tr>
-        <td style="font-weight:700;color:var(--coral);">${r.transactionId}</td>
-        <td><strong>${r.tripName}</strong></td>
-        <td>${r.startDate} to ${r.endDate}</td>
-        <td>${r.travelers} Pax</td>
-        <td>
-          <!-- NEW: Calls editTripPlan instead of the modal -->
-          <button class="filter-btn active" style="padding:4px 10px; font-size:11px; margin-right:4px;" onclick="editTripPlan(${r.id})"><i class="ti ti-edit"></i> Edit Itinerary</button>
-          <button class="filter-btn" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${r.id}, 'trip')"><i class="ti ti-trash"></i> Delete Plan</button>
-        </td>
-      </tr>`,
-        )
-        .join("")}</tbody>
-    </table></div>`;
+    el.innerHTML = `<div class="trip-grid">${records
+      .map((r) => {
+        const start = parseISODate(r.startDate);
+        const end = parseISODate(r.endDate);
+        const days = start && end ? nightsBetween(start, end) + 1 : 0;
+        const dates =
+          start && end ? formatRange(start, end) : `${esc(r.startDate)} – ${esc(r.endDate)}`;
+        const travelers = Number(r.travelers);
+        const spots = r.touristSpots ? r.touristSpots.split(", ").filter(Boolean) : [];
+        const shownSpots = spots.slice(0, 3);
+        // "Mid-Range (₱3,000–₱7,000/day)" -> "Mid-Range"
+        const budget = r.budget ? String(r.budget).split(" (")[0] : "";
+
+        return `<article class="trip-card">
+          <div>
+            <h3 class="trip-card-title">${esc(r.tripName)}</h3>
+            <div class="booking-id">${esc(r.transactionId)}</div>
+          </div>
+          <ul class="trip-card-meta">
+            <li><i class="ti ti-calendar"></i>${dates}${days > 0 ? ` · ${plural(days, "day")}` : ""}</li>
+            ${r.destination ? `<li><i class="ti ti-map-pin"></i>${esc(r.destination)}</li>` : ""}
+            ${travelers > 0 ? `<li><i class="ti ti-users"></i>${plural(travelers, "traveler")}</li>` : ""}
+            ${budget ? `<li><i class="ti ti-wallet"></i>${esc(budget)}</li>` : ""}
+          </ul>
+          ${
+            spots.length
+              ? `<div class="trip-card-spots">${shownSpots
+                  .map((s) => `<span class="trip-spot">${esc(s)}</span>`)
+                  .join("")}${
+                  spots.length > shownSpots.length
+                    ? `<span class="trip-spot trip-spot--more">+${spots.length - shownSpots.length} more</span>`
+                    : ""
+                }</div>`
+              : ""
+          }
+          <div class="trip-card-actions">
+            <button type="button" class="btn-sm btn-sm--primary" onclick="editTripPlan(${r.id})"><i class="ti ti-edit"></i> Edit itinerary</button>
+            <button type="button" class="btn-sm btn-sm--danger" onclick="cancelBooking(${r.id}, 'trip')"><i class="ti ti-trash"></i> Delete</button>
+          </div>
+        </article>`;
+      })
+      .join("")}</div>`;
   }
 }
 
