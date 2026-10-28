@@ -2,6 +2,7 @@ import { DESTINATIONS, FOODS, RESTOS, FESTIVALS, MUNIS } from "./data.js";
 import { ajaxPost, ajaxGet, escapeQuote } from "./utils.js";
 
 let currentTrips = [];
+let currentReservations = [];
 let lastSavedTrip = null; // for "Book a hotel for these dates" after saving
 
 // ======================= RENDER TEMPLATES =======================
@@ -938,6 +939,7 @@ export function loadBookings() {
 
     // Save trips globally so we can edit them
     currentTrips = data.tripplans || [];
+    currentReservations = Array.isArray(data.reservations) ? data.reservations : [];
 
     renderBookingsTable("hotels-table-wrap", data.reservations, "reservation");
     renderBookingsTable("trips-table-wrap", currentTrips, "trip");
@@ -991,7 +993,7 @@ export function renderBookingsTable(containerId, records, type) {
         const status = r.status || "Confirmed";
         const statusClass = status === "Confirmed" ? "status-confirmed" : "status-pending";
 
-        return `<article class="booking-item">
+        return `<article class="booking-item" data-record="reservation-${r.id}">
           <div class="booking-date" aria-hidden="true">
             <span>${checkIn ? checkIn.toLocaleDateString("en-US", { month: "short" }) : "—"}</span>
             <strong>${checkIn ? checkIn.getDate() : ""}</strong>
@@ -1029,7 +1031,7 @@ export function renderBookingsTable(containerId, records, type) {
         // "Mid-Range (₱3,000–₱7,000/day)" -> "Mid-Range"
         const budget = r.budget ? String(r.budget).split(" (")[0] : "";
 
-        return `<article class="trip-card">
+        return `<article class="trip-card" data-record="trip-${r.id}">
           <div>
             <h3 class="trip-card-title">${esc(r.tripName)}</h3>
             <div class="booking-id">${esc(r.transactionId)}</div>
@@ -1454,21 +1456,123 @@ export function submitRegister(e) {
   });
 }
 
-export function cancelBooking(id, targetType) {
-  if (!confirm(`Are you sure you want to cancel this ${targetType}?`)) return;
+// ======================= DELETE CONFIRMATION =======================
+let pendingDelete = null; // { id, targetType } while the dialog is open
+let deleteReturnFocus = null;
+let deleteBusy = false;
 
-  ajaxPost(
-    "api/delete_entry.php",
-    { id: id, target: targetType },
-    (err, res) => {
-      if (res && res.success) {
-        showToast("Canceled successfully!", "success");
-        loadBookings(); // Refresh the table to remove the deleted row
-      } else {
-        showToast(res ? res.message : "Failed to cancel", "error");
-      }
-    },
-  );
+const DELETE_COPY = {
+  reservation: {
+    title: "Delete this reservation?",
+    body: "This removes the hotel booking from your account. It can't be undone.",
+    confirm: "Delete reservation",
+    done: "Reservation deleted.",
+  },
+  trip: {
+    title: "Delete this itinerary?",
+    body: "This removes the trip plan from your account. It can't be undone. Hotel reservations you made for this trip are not affected.",
+    confirm: "Delete itinerary",
+    done: "Itinerary deleted.",
+  },
+};
+
+// Opens the confirmation dialog (name kept because the cards already call it)
+export function cancelBooking(id, targetType) {
+  const isTrip = targetType === "trip";
+  const copy = DELETE_COPY[isTrip ? "trip" : "reservation"];
+  const record = (isTrip ? currentTrips : currentReservations).find((r) => r.id == id);
+
+  pendingDelete = { id, targetType };
+  deleteReturnFocus = document.activeElement;
+
+  document.getElementById("deleteTitle").textContent = copy.title;
+  document.getElementById("deleteBody").textContent = copy.body;
+  document.getElementById("deleteConfirmBtn").innerHTML =
+    `<i class="ti ti-trash"></i> ${copy.confirm}`;
+
+  // Show exactly what is about to be deleted
+  const item = document.getElementById("deleteItem");
+  if (record) {
+    const start = parseISODate(isTrip ? record.startDate : record.checkIn);
+    const end = parseISODate(isTrip ? record.endDate : record.checkOut);
+    const dates = start && end ? formatRange(start, end) : "";
+    const length =
+      start && end
+        ? isTrip
+          ? plural(nightsBetween(start, end) + 1, "day")
+          : plural(nightsBetween(start, end), "night")
+        : "";
+    item.innerHTML = `<i class="ti ${isTrip ? "ti-map-2" : "ti-building"}"></i>
+      <div>
+        <div class="delete-modal-item-title">${esc(isTrip ? record.tripName : record.hotel)}</div>
+        <div class="delete-modal-item-meta">${[dates, length].filter(Boolean).join(" · ")}</div>
+        <div class="booking-id">${esc(record.transactionId)}</div>
+      </div>`;
+    item.classList.remove("hidden");
+  } else {
+    item.classList.add("hidden");
+  }
+
+  document.getElementById("deleteModal").classList.add("show");
+  // The safe choice gets focus, so a stray Enter doesn't delete anything
+  setTimeout(() => document.getElementById("deleteKeepBtn").focus(), 50);
+}
+
+export function closeDeleteModal() {
+  if (deleteBusy) return;
+  const modal = document.getElementById("deleteModal");
+  if (!modal || !modal.classList.contains("show")) return;
+  modal.classList.remove("show");
+  pendingDelete = null;
+
+  // Back to the button that opened it, or the active tab if that card is gone
+  const back =
+    deleteReturnFocus && deleteReturnFocus.isConnected
+      ? deleteReturnFocus
+      : document.querySelector(".trips-tab.active");
+  if (back) back.focus();
+}
+
+// Keeps Tab inside the dialog while it is open
+export function trapDeleteFocus(e) {
+  if (e.key !== "Tab") return;
+  const buttons = [
+    document.getElementById("deleteKeepBtn"),
+    document.getElementById("deleteConfirmBtn"),
+  ];
+  const i = buttons.indexOf(document.activeElement);
+  e.preventDefault();
+  buttons[(i + (e.shiftKey ? buttons.length - 1 : 1)) % buttons.length].focus();
+}
+
+export function confirmDelete() {
+  if (!pendingDelete || deleteBusy) return;
+  const { id, targetType } = pendingDelete;
+  const copy = DELETE_COPY[targetType === "trip" ? "trip" : "reservation"];
+  const btn = document.getElementById("deleteConfirmBtn");
+
+  deleteBusy = true;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Deleting...';
+
+  ajaxPost("api/delete_entry.php", { id: id, target: targetType }, (err, res) => {
+    deleteBusy = false;
+    btn.disabled = false;
+    btn.innerHTML = `<i class="ti ti-trash"></i> ${copy.confirm}`;
+
+    if (res && res.success) {
+      deleteReturnFocus = null; // its card is about to disappear
+      closeDeleteModal();
+      showToast(copy.done, "success");
+      // Let the card fade out before the list re-renders
+      const card = document.querySelector(`[data-record="${targetType}-${id}"]`);
+      if (card) card.classList.add("is-removing");
+      setTimeout(loadBookings, card ? 260 : 0);
+    } else {
+      // Keep the dialog open so they can try again
+      showToast(res && res.message ? res.message : "Couldn't delete. Please try again.", "error");
+    }
+  });
 }
 
 let isLoggedIn = false;

@@ -1788,6 +1788,28 @@
       </div>
     </div>
 
+    <!-- Delete confirmation (hotel reservations and itineraries) -->
+    <div class="modal-overlay" id="deleteModal" onclick="if (event.target === this) closeDeleteModal()">
+      <div
+        class="modal delete-modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="deleteTitle"
+        aria-describedby="deleteBody"
+        onkeydown="trapDeleteFocus(event)"
+      >
+        <h2 class="delete-modal-title" id="deleteTitle"></h2>
+        <p class="delete-modal-body" id="deleteBody"></p>
+        <div class="delete-modal-item" id="deleteItem"></div>
+        <div class="delete-modal-actions">
+          <button type="button" class="btn-sm" id="deleteKeepBtn" onclick="closeDeleteModal()">
+            Keep it
+          </button>
+          <button type="button" class="btn-danger" id="deleteConfirmBtn" onclick="confirmDelete()"></button>
+        </div>
+      </div>
+    </div>
+
     <!-- User Friendly Auth Modal (Sign In & Register) -->
     <div class="modal-overlay" id="authModal" onclick="if (event.target === this) closeAuthModal()">
       <div class="modal modal-wrap" style="max-width: 440px; padding: 28px 24px">

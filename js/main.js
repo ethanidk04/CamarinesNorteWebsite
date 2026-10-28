@@ -9,7 +9,8 @@ import {
   goToPlanStep, planNext, planBack, startOverPlan,
   openAuthModal, closeAuthModal, switchAuthTab, toggleAuthView, togglePassVisibility,
   toggleDropdown, closeAllDropdowns, logoutUser, updateStaySummary,
-  stepNumber, clampNumber, openMyTrips, bookHotelForTrip
+  stepNumber, clampNumber, openMyTrips, bookHotelForTrip,
+  closeDeleteModal, confirmDelete, trapDeleteFocus
 } from './ui.js';
 
 // ======================= EVENT LISTENERS =======================
@@ -34,6 +35,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeAllDropdowns();
     closeAuthModal();
+    closeDeleteModal();
     const destModal = document.getElementById("destModal");
     if (destModal) destModal.classList.remove("show");
     const editModal = document.getElementById("editModal");
@@ -107,6 +109,9 @@ window.stepNumber = stepNumber;
 window.clampNumber = clampNumber;
 window.openMyTrips = openMyTrips;
 window.bookHotelForTrip = bookHotelForTrip;
+window.closeDeleteModal = closeDeleteModal;
+window.confirmDelete = confirmDelete;
+window.trapDeleteFocus = trapDeleteFocus;
 window.showTransport = showTransport;
 window.toggleFaq = toggleFaq;
 window.submitLogin = submitLogin;
