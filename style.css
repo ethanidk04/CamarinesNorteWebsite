@@ -1824,51 +1824,74 @@ button {
   gap: 40px;
   align-items: start;
 }
+/* Intro: heading + copy beside the photo, vertically centred so neither column leaves a gap */
+.about-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+}
+.about-intro-text p {
+  font-size: 15px;
+  color: var(--gray);
+  line-height: 1.8;
+  max-width: 60ch;
+}
+.about-intro-text p + p {
+  margin-top: 16px;
+}
+.about-intro-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Culture cards: equal height, same anatomy */
+.culture-grid {
+  align-items: stretch;
+}
 .culture-card {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow);
-  padding: 24px;
+  padding: 28px;
   border: 1px solid var(--border);
 }
 .culture-title {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 800;
   color: var(--dark);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.culture-title i {
-  color: var(--coral);
+  margin-bottom: 12px;
 }
 .culture-desc {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--gray);
   line-height: 1.7;
 }
 .culture-list {
   list-style: none;
-  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+}
+.culture-desc + .culture-list {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
 }
 .culture-list li {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--gray);
-  display: flex;
-  align-items: start;
-  gap: 6px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
-.culture-list li::before {
-  content: "•";
-  color: var(--coral);
-  font-size: 16px;
-  line-height: 1;
-  flex-shrink: 0;
+.culture-list strong {
+  color: var(--dark);
 }
 
 /* ===== PLAN PAGE ===== */
@@ -2585,8 +2608,15 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
   .two-col,
+  .about-intro,
   .contact-grid {
     grid-template-columns: 1fr;
+  }
+  .about-intro {
+    gap: 28px;
+  }
+  .culture-grid {
+    gap: 20px;
   }
   .heroes-grid {
     grid-template-columns: 1fr 1fr;
