@@ -167,7 +167,12 @@ function updateSeasonHint(form) {
   if (!hint || !text) return;
   const start = form.startDate.value;
   const end   = form.endDate.value;
-  if (!start || !end) { hint.classList.add("hidden"); return; }
+  // Always visible (keeps step 1's height steady); a prompt until both dates are set
+  if (!start || !end) {
+    hint.className = "season-hint season-hint--empty";
+    text.textContent = "Pick your dates to see which season you'll be travelling in.";
+    return;
+  }
   const month = new Date(start + "T00:00:00").getMonth(); // 0-indexed
   const { season, label, tip } = MONTH_SEASONS[month];
   hint.className = "season-hint season-hint--" + season;
@@ -225,6 +230,12 @@ function initPlanStepper() {
   // Keep the draft in the browser so nothing is lost on reload or login
   form.addEventListener("input", savePlanDraft);
   form.addEventListener("change", savePlanDraft);
+
+  // Fade the bottom edge of a step that scrolls, until you reach the end
+  form
+    .querySelectorAll(".plan-panel")
+    .forEach((p) => p.addEventListener("scroll", updatePanelFade, { passive: true }));
+  window.addEventListener("resize", updatePanelFade);
 
   const draft = readPlanDraft();
   if (draft) applyPlanDraft(draft);
@@ -307,6 +318,7 @@ function applyPlanDraft(draft) {
     chip.classList.toggle("selected", selectedSpots.includes(chip.dataset.name));
   });
   updateSpotCount();
+  updateSeasonHint(form);
   goToPlanStep(draft.step || 1, false);
 }
 
@@ -338,6 +350,7 @@ function clearPlanForm() {
     .forEach((c) => c.classList.remove("selected"));
   document.getElementById("touristSpotsInput").value = "";
   updateSpotCount();
+  updateSeasonHint(form);
   document.getElementById("planBtn").innerHTML = PLAN_SAVE_LABEL;
   goToPlanStep(1, false);
 
@@ -370,6 +383,14 @@ function firstInvalidPlanField(step) {
   );
 }
 
+function updatePanelFade() {
+  document.querySelectorAll("#planForm .plan-panel").forEach((p) => {
+    const more =
+      p.classList.contains("active") && p.scrollTop + p.clientHeight < p.scrollHeight - 2;
+    p.classList.toggle("has-more", more);
+  });
+}
+
 // interactive = false: a silent jump (restore/reset) with no scrolling or error bubbles
 export function goToPlanStep(target, interactive = true) {
   const form = document.getElementById("planForm");
@@ -398,6 +419,8 @@ export function goToPlanStep(target, interactive = true) {
   document.getElementById("planBtn").classList.toggle("hidden", !isLast);
 
   if (isLast) renderPlanReview();
+  form.querySelector(".plan-panel.active").scrollTop = 0;
+  updatePanelFade();
 
   // Keep the top of the form in view when the step height changes
   const card = form.closest(".form-card");
@@ -829,7 +852,10 @@ export function resetForm(formId, wrapId, successId) {
   document.getElementById(formId).reset();
   document.getElementById(wrapId).classList.remove("hidden");
   document.getElementById(successId).classList.add("hidden");
-  if (formId === "planForm") goToPlanStep(1, false);
+  if (formId === "planForm") {
+    updateSeasonHint(document.getElementById("planForm"));
+    goToPlanStep(1, false);
+  }
   if (formId === "reserveForm") updateStaySummary();
 }
 
@@ -1105,6 +1131,7 @@ export function editTripPlan(id) {
     }
   });
   updateSpotCount();
+  updateSeasonHint(form);
   goToPlanStep(1, false);
 
   // Change button text to reflect an update

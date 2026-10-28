@@ -3059,6 +3059,91 @@ footer {
   margin-top: auto;
   padding-top: 24px;
 }
+/* The open step fills the card, so short steps don't leave a gap above Next */
+.plan-card .plan-panel.active {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+/* Step 1: roomier rows, season box always shown under the dates */
+.plan-card .plan-panel[data-step="1"] .form-grid {
+  row-gap: 30px;
+}
+.plan-card .plan-panel[data-step="1"] .season-hint {
+  margin-top: 32px;
+  padding: 14px 16px;
+}
+.season-hint--empty {
+  background: #f8fafc;
+  color: var(--light-gray);
+  border: 1px dashed #cbd5e1;
+}
+.season-hint--empty i {
+  color: var(--light-gray);
+}
+/* Step 3: the notes box takes the remaining height */
+.plan-card .plan-panel[data-step="3"] .form-grid {
+  flex: 1;
+  grid-template-rows: auto 1fr;
+}
+.plan-card .plan-panel[data-step="3"] .form-group.full .form-textarea {
+  flex: 1;
+}
+
+/* Desktop: the card is exactly as tall as the sidebar on every step.
+   contain: size stops the card's content from setting its height (the grid
+   row, i.e. the sidebar, does); a step with more content scrolls inside. */
+@media (min-width: 1025px) {
+  .plan-card.form-card {
+    contain: size;
+  }
+  .plan-card #plan-form-wrap,
+  .plan-card #planForm,
+  .plan-card .plan-panel.active {
+    min-height: 0;
+  }
+  .plan-card .plan-panel.active {
+    overflow-y: auto;
+    /* room so focus rings and the scrollbar don't sit on the content */
+    margin: 0 -8px;
+    padding: 2px 8px;
+  }
+  /* Step 2: one scroll area (the panel), not a list scrolling inside it */
+  .plan-card .plan-panel .spots-chip-container {
+    max-height: none;
+    overflow: visible;
+  }
+  /* Soft fade at the bottom while there's more to scroll to (set by JS) */
+  .plan-card .plan-panel.has-more {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 48px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 48px), transparent);
+  }
+}
+
+/* Review (step 4): compact enough to fit the card in most cases */
+.plan-card .plan-review-block {
+  padding: 10px 16px;
+  margin-bottom: 8px;
+}
+.plan-card .plan-review-block:last-child {
+  margin-bottom: 0;
+}
+.plan-card .plan-review-head {
+  margin-bottom: 2px;
+}
+.plan-card .plan-panel[data-step="4"] .form-section-label {
+  margin-bottom: 8px;
+}
+.plan-card .plan-review-row {
+  padding: 2px 0;
+}
+.plan-card .plan-review-chips .spot-chip {
+  padding: 4px 10px;
+  font-size: 12px;
+  background: var(--coral-light);
+  border-color: rgba(224, 90, 43, 0.25);
+  color: var(--coral-dark);
+}
 .plan-aside {
   padding-top: 8px;
 }
