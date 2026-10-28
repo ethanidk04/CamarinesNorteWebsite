@@ -2065,44 +2065,117 @@ button {
   color: var(--light-gray);
   line-height: 1.6;
 }
+/* One white panel, thin dividers; the open question gets a warm tint */
+.faq-list {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
 .faq-item {
-  border-bottom: 1px solid var(--border);
+  transition: background 0.25s;
+}
+.faq-item + .faq-item {
+  border-top: 1px solid var(--border);
+}
+.faq-item.open {
+  background: #fbf6f2;
+}
+.faq-heading {
+  margin: 0;
+  font-size: inherit;
 }
 .faq-q {
-  padding: 16px 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
-  font-size: 14px;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 15px;
   font-weight: 700;
+  line-height: 1.4;
   color: var(--dark);
-  transition: color 0.2s;
+  cursor: pointer;
 }
-.faq-q:hover {
-  color: var(--coral);
+.faq-q:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: -4px;
+  border-radius: 12px;
 }
-.faq-q i {
-  transition: transform 0.3s;
-  color: var(--coral);
-  font-size: 16px;
+.faq-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  color: var(--gray);
+  font-size: 15px;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
 }
-.faq-item.open .faq-q i {
+.faq-q:hover .faq-icon {
+  border-color: var(--coral);
+  color: var(--coral-dark);
+}
+/* Plus turns into × only once the answer is actually open */
+.faq-item.open .faq-icon {
   transform: rotate(45deg);
+  background: var(--coral-dark);
+  border-color: var(--coral-dark);
+  color: #fff;
 }
+/* 0fr -> 1fr animates to the answer's real height, however long it is */
 .faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .faq-item.open .faq-a {
-  max-height: 200px;
+  grid-template-rows: 1fr;
 }
-.faq-a p {
-  padding: 0 0 16px;
-  font-size: 13px;
-  color: var(--gray);
+.faq-a-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+.faq-a-body {
+  max-width: 68ch;
+  padding: 0 70px 22px 24px;
+  font-size: 14px;
   line-height: 1.7;
+  color: var(--gray);
+}
+.faq-a-body ul {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  list-style: none;
+}
+.faq-a-body li {
+  position: relative;
+  padding-left: 18px;
+}
+.faq-a-body li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.68em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--coral);
+}
+.faq-a-body strong {
+  color: var(--dark);
 }
 
 /* ===== CONTACT PAGE ===== */
@@ -2644,9 +2717,6 @@ footer {
 }
 .h-chip:hover {
   transform: translateY(-3px) scale(1.03);
-}
-.faq-q:hover .ti-plus {
-  transform: rotate(45deg);
 }
 .scroll-top:active {
   transform: scale(0.9);
@@ -3431,15 +3501,56 @@ footer {
   outline-offset: 2px;
 }
 
+/* FAQ: heading row (title + contact prompt) above the questions.
+   Full width of the page, so it lines up with the planner and sidebar above */
 .plan-faq {
-  max-width: 820px;
   margin-top: 72px;
 }
-.plan-faq-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--dark);
-  margin-bottom: 12px;
+.plan-faq-intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-bottom: 24px;
+}
+.plan-faq-intro .section-title {
+  flex-basis: 100%;
+  font-size: clamp(28px, 4vw, 36px);
+  margin-bottom: 0;
+}
+.plan-faq-sub {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--gray);
+}
+.plan-faq-contact {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  color: var(--gray);
+  text-align: left;
+}
+.plan-faq-contact span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--coral-dark);
+}
+.plan-faq-contact:hover span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.plan-faq-contact:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* Reservation form */
@@ -3680,6 +3791,13 @@ footer {
   }
   .plan-faq {
     margin-top: 56px;
+  }
+  .faq-q {
+    padding: 16px 18px;
+    font-size: 14px;
+  }
+  .faq-a-body {
+    padding: 0 18px 18px;
   }
   .trips-tab {
     flex: 1;

@@ -147,18 +147,18 @@ function updateSpotCount() {
 
 // ======================= SEASON HINT =======================
 const MONTH_SEASONS = [
-  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Excellent beach weather — ideal for island hopping & surfing." },
-  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Cool & dry — great for trekking and heritage sites." },
-  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Warm & sunny — perfect for Calaguas and Siete Pecados." },
-  { season: "peak",     label: "Peak Season 🎉",  icon: "🎊", tip: "Bantayog Festival month! Book early — it fills up fast." },
-  { season: "peak",     label: "Peak Season",     icon: "🌞", tip: "Late peak with fewer crowds — great for waterfalls & eco-tourism." },
-  { season: "shoulder", label: "Shoulder Season", icon: "🌤", tip: "Pinyasan Festival! Some rain possible but still festive." },
-  { season: "shoulder", label: "Shoulder Season", icon: "🌤", tip: "Occasional rain. Kadagatan Festival coming up in August." },
-  { season: "shoulder", label: "Shoulder Season", icon: "🌤", tip: "Kadagatan Festival! Reduced hotel rates — good for cultural tourism." },
-  { season: "off-peak", label: "Off-Peak Season", icon: "🌧", tip: "Busig-on Festival in Labo. Rainy season — bring rain gear." },
-  { season: "off-peak", label: "Off-Peak Season", icon: "🌧", tip: "Rahugan Festival in Basud (Oct 18-24). Budget-friendly travel." },
-  { season: "off-peak", label: "Off-Peak Season", icon: "🌥", tip: "Quiet charm and budget rates before the Christmas rush." },
-  { season: "peak",     label: "Peak Season 🎄",  icon: "🌟", tip: "Christmas festivities begin! Great beach weather returns." },
+  { season: "peak",     label: "Peak Season",     tip: "Excellent beach weather — ideal for island hopping & surfing." },
+  { season: "peak",     label: "Peak Season",     tip: "Cool & dry — great for trekking and heritage sites." },
+  { season: "peak",     label: "Peak Season",     tip: "Warm & sunny — perfect for Calaguas and Siete Pecados." },
+  { season: "peak",     label: "Peak Season",     tip: "Bantayog Festival month! Book early — it fills up fast." },
+  { season: "peak",     label: "Peak Season",     tip: "Late peak with fewer crowds — great for waterfalls & eco-tourism." },
+  { season: "shoulder", label: "Shoulder Season", tip: "Pinyasan Festival! Some rain possible but still festive." },
+  { season: "shoulder", label: "Shoulder Season", tip: "Occasional rain. Kadagatan Festival coming up in August." },
+  { season: "shoulder", label: "Shoulder Season", tip: "Kadagatan Festival! Reduced hotel rates — good for cultural tourism." },
+  { season: "off-peak", label: "Off-Peak Season", tip: "Busig-on Festival in Labo. Rainy season — bring rain gear." },
+  { season: "off-peak", label: "Off-Peak Season", tip: "Rahugan Festival in Basud (Oct 18-24). Budget-friendly travel." },
+  { season: "off-peak", label: "Off-Peak Season", tip: "Quiet charm and budget rates before the Christmas rush." },
+  { season: "peak",     label: "Peak Season",     tip: "Christmas festivities begin! Great beach weather returns." },
 ];
 
 function updateSeasonHint(form) {
@@ -169,9 +169,9 @@ function updateSeasonHint(form) {
   const end   = form.endDate.value;
   if (!start || !end) { hint.classList.add("hidden"); return; }
   const month = new Date(start + "T00:00:00").getMonth(); // 0-indexed
-  const { season, label, icon, tip } = MONTH_SEASONS[month];
+  const { season, label, tip } = MONTH_SEASONS[month];
   hint.className = "season-hint season-hint--" + season;
-  text.innerHTML = `<strong>${icon} ${label}</strong> — ${tip}`;
+  text.innerHTML = `<strong>${label}</strong> — ${tip}`;
 }
 
 function buildNotesDraft(form) {
@@ -456,7 +456,7 @@ function renderPlanReview() {
           "Dates",
           `${fmtDate(start)} to ${fmtDate(end)} (${days} ${days === 1 ? "day" : "days"})`,
         ) +
-        row("Travelers", escapeHtml(form.travelers.value) + " Pax"),
+        row("Travelers", plural(Number(form.travelers.value) || 1, "traveler")),
     ) +
     block(
       "Attractions",
@@ -689,7 +689,9 @@ export function showTransport(btn, id) {
 }
 
 export function toggleFaq(item) {
-  item.classList.toggle("open");
+  const open = item.classList.toggle("open");
+  const btn = item.querySelector(".faq-q");
+  if (btn) btn.setAttribute("aria-expanded", String(open));
 }
 
 // ======================= FORMS & SUBMISSIONS =======================
@@ -1194,7 +1196,14 @@ export function showToast(msg, type = "") {
 }
 
 export function setMinDates() {
-  const today = new Date().toISOString().split("T")[0];
+  // Local date, not toISOString() (UTC): in the Philippines (UTC+8) that
+  // returns yesterday's date until 8 AM
+  const now = new Date();
+  const today = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0"),
+  ].join("-");
   document
     .querySelectorAll('input[type="date"]')
     .forEach((i) => i.setAttribute("min", today));
@@ -1273,12 +1282,18 @@ export function submitLogin(e) {
 }
 
 function onLoginSuccess() {
+  // Read this before closeAuthModal(), which resets it
+  const resumePlanSave = pendingPlanSave;
+
   showToast("Logged in successfully!", "success");
   closeAuthModal();
+  // The server just confirmed the login; don't wait for the session check
+  // below, or the resumed save would see "logged out" and reopen the popup
+  isLoggedIn = true;
   checkAuthAndLockForms();
 
   // Logged in from the Save popup: stay on the page and finish saving the trip
-  if (pendingPlanSave) {
+  if (resumePlanSave) {
     document.getElementById("planForm").requestSubmit();
     return;
   }
